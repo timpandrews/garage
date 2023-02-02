@@ -1,7 +1,7 @@
 from django import forms
 
 
-class AddRide(forms.Form):
+class AddNewRide(forms.Form):
     title = forms.CharField(max_length=200)
-    text = forms.TextField()
+    text = forms.CharField(widget=forms.Textarea)
 
