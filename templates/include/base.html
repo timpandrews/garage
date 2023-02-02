@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Cyclist's Garage</title>
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+</head>
+<body>
+
+    <div class="bg"></div>
+
+    <h1>The Cyclist's Garage</h1>
+    {% include "include/links.html" %}
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

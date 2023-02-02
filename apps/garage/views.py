@@ -6,4 +6,4 @@ def landing(request):
 
 
 def add_ride(request):
-    return render(request, 'garage/landing.html', {})
+    return render(request, 'garage/add_new.html', {})
