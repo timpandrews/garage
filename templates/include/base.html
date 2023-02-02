@@ -3,7 +3,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>The Cyclist's Garage</title>
+    <title>
+        {% block page_title %}{% endblock %}
+        {% block site_title %}The Cyclist's Garage{% endblock %}
+    </title>
     <link rel="stylesheet" href="{% static 'css/landing.css' %}">
 </head>
 <body>
