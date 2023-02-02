@@ -1,4 +1,3 @@
-{% load static %}
 body, html {
     height: 100%;
     margin: 0;
@@ -18,6 +17,11 @@ body, html {
   }
 
   h1 {
-      text-align: center;
-      color: #0070BA;
+    text-align: center;
+    color: #0070BA;
+  }
+
+  .links {
+    text-align: center;
+    color:cornflowerblue;
   }
