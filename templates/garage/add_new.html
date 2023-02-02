@@ -9,7 +9,7 @@
     <form method="post" action="/add">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit", name="save">Add New</button>
+        <button type="submit", name="save" autofocus>Add New</button>
     </form>
 
 {% endblock %}
