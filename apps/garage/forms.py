@@ -1,7 +1,9 @@
-from django import forms
+from django.forms import ModelForm
+from .models import Doc
 
+class AddNewRide(ModelForm):
 
-class AddNewRide(forms.Form):
-    title = forms.CharField(max_length=200)
-    text = forms.CharField(widget=forms.Textarea)
+    class Meta:
+        model = Doc
+        fields = "__all__"
 
