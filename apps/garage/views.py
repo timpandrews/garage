@@ -13,13 +13,8 @@ def add_ride(response):
         form = AddNewRide(response.POST)
         if form.is_valid():
             print(form.cleaned_data)
-            title = form.cleaned_data["title"]
-            extra = form.cleaned_data["extra_field"]
-
-            data = {}
-            data["extra"] = extra
-            print(data)
-            
+            title = "ride"
+            data = form.cleaned_data
             ride = Doc(title=title, data=data)
             ride.save()
 
@@ -31,3 +26,10 @@ def add_ride(response):
             "form":form,
         }
         return render(response, 'garage/add_new.html', context)
+
+
+def get_data_dict(clean_data):
+    print("get data dict")
+    print(clean_data)
+
+    return {}
