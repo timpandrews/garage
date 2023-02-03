@@ -4,8 +4,9 @@ from django.shortcuts import render
 from .models import Doc
 from .forms import AddNewRide
 
+
 def landing(response):
-    return render(response, 'garage/landing.html', {})
+    return render(response, "garage/landing.html", {})
 
 
 def add_ride(response):
@@ -14,8 +15,9 @@ def add_ride(response):
         if form.is_valid():
             print(form.cleaned_data)
             title = "ride"
+            user_id = 1 # placeholder for user table
             data = form.cleaned_data
-            ride = Doc(title=title, data=data)
+            ride = Doc(title=title, user_id=user_id, data=data)
             ride.save()
 
             return HttpResponseRedirect("/")
@@ -23,6 +25,6 @@ def add_ride(response):
     else:
         form = AddNewRide()
         context = {
-            "form":form,
+            "form": form,
         }
-        return render(response, 'garage/add_new.html', context)
+        return render(response, "garage/add_new.html", context)
