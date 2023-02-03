@@ -26,10 +26,3 @@ def add_ride(response):
             "form":form,
         }
         return render(response, 'garage/add_new.html', context)
-
-
-def get_data_dict(clean_data):
-    print("get data dict")
-    print(clean_data)
-
-    return {}
