@@ -6,6 +6,11 @@ Cyclist's Garage
 * route
 * equipment
 * notes
+
+* date
+* start_time
+* end_time
+  
 * distance
 * time
 * elevation
