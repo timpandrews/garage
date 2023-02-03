@@ -9,6 +9,15 @@ def landing(response):
     return render(response, "garage/landing.html", {})
 
 
+def latest(response):
+    ride = Doc.objects.filter(data_type="ride").values("data").last()
+    ride = ride["data"]
+    context = {
+        "ride": ride,
+    }
+    return render(response, "garage/latest.html", context)
+
+
 def add_ride(response):
     if response.method == "POST":
         form = AddNewRide(response.POST)

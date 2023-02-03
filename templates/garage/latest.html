@@ -1,0 +1,18 @@
+{% extends 'include/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block page_title %}Latest Ride - {% endblock %}
+
+{% block content %}
+
+    <h3>Latest Ride</h3>
+    <table>
+        {% for k, v in ride.items %}
+            <tr>
+                <td>{{ k }}</td>
+                <td>{{ v }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
