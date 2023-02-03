@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .models import Doc
@@ -13,8 +14,13 @@ def add_ride(response):
         if form.is_valid():
             print(form.cleaned_data)
             title = form.cleaned_data["title"]
-            text = form.cleaned_data["text"]
-            ride = Doc(title=title, text=text)
+            extra = form.cleaned_data["extra_field"]
+
+            data = {}
+            data["extra"] = extra
+            print(data)
+            
+            ride = Doc(title=title, data=data)
             ride.save()
 
             return HttpResponseRedirect("/")
