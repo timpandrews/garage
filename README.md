@@ -10,9 +10,9 @@ Cyclist's Garage
 * date
 * start_time
 * end_time
-  
+
 * distance
-* time
+* duration
 * elevation
 * weighted_power_avg
 * total_work
