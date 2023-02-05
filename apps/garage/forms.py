@@ -13,7 +13,9 @@ class AddNewRide(ModelForm):
     )
     notes = forms.CharField(label="Notes", max_length=200, initial="Notes")
     distance = forms.FloatField(label="Distance", min_value=0, initial=12.3)
-    duration = forms.DurationField(label="Ride Duration", initial="1:2:3")
+    duration = forms.DurationField(
+        label="Ride Duration", initial="1:2:3", help_text="h:m:s"
+    )
     elevation = forms.IntegerField(label="Elevation Gained", min_value=0, initial=123)
     weighted_power_avg = forms.IntegerField(label="Weighted Power Average", min_value=0, initial=123)
     total_work = forms.IntegerField(label="Total Work", min_value=0, initial=123)
@@ -29,12 +31,4 @@ class AddNewRide(ModelForm):
 
     class Meta:
         model = Doc
-        fields = [
-            "ride_title",
-            "route",
-            "equipment",
-            "notes",
-            "distance",
-            "duration",
-            "calories",
-        ]
+        exclude = ["user_id", "data_type", "data"]

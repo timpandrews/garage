@@ -24,10 +24,10 @@ def add_ride(response):
         if form.is_valid():
             print(form.cleaned_data)
             title = "ride"
-            user_id = 1 # placeholder for user table
+            user_id = 1  # placeholder for user table
             data = form.cleaned_data
             data["duration"] = data["duration"].total_seconds()
-            ride = Doc(title=title, user_id=user_id, data=data)
+            ride = Doc(data_type="ride", user_id=user_id, data=data)
             ride.save()
 
             return HttpResponseRedirect("/")

@@ -7,10 +7,12 @@
 
     <h3>Add New Ride</h3>
 
-    <form method="post" action="/add">
+    <form method="post" action="/add" class="card p-3 mt-5">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button type="submit", name="save" autofocus>Add New</button>
+        <div>
+            <button type="submit", name="save" class="btn btn-primary mt-auto" autofocus>Add New</button>
+        </div>
     </form>
 
 {% endblock %}
