@@ -1,8 +1,10 @@
 from datetime import timedelta
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from .models import Doc
+
 from .forms import AddNewRide
+from .models import Doc
 
 
 def landing(response):

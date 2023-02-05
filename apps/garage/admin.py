@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from .models import Doc
+
 
 class DocAdmin(admin.ModelAdmin):
     fields = ("user_id", "data_type", "data")
