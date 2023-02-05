@@ -1,0 +1,35 @@
+{% extends 'include/base.html' %}{% load static %}
+
+{% block content %}
+
+<div class="container d-flex mt-5" style="width: 90%;">
+    <div class="col">
+        <h1 class="text-center">My Rides</h1>
+        <table class="table table-striped mt-5">
+            <thead>
+                <tr>
+                    <th class="" scope="col" nowrap>Data Type</th>
+                    <th class="" scope="col">Data</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ride in ride_list %}
+                    <tr>
+                        <td class="ml-5  text-center"><a href="{% url 'rides:ride_detail' ride.id %}">{{ride.data_type}}</a></td>
+                        <td class="">{{ride.data}}</td>
+                        <td><a href="{% url 'rides:ride_update' ride.id %} ">Update</a></td>
+                        <td><a href="{% url 'rides:ride_delete' ride.id %}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary btn-lg my-5">Add New</a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

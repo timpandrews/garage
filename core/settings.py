@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # local apps
     "apps.garage",
+    "apps.rides",
     # 3rd party apps
     "django_bootstrap5"
 ]
