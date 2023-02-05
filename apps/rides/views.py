@@ -16,9 +16,10 @@ class RideListView(RideBaseView, ListView):
     """View to list all rides.
     Use the 'ride_list' variable in the template
     to access all Ride objects"""
-    queryset = Doc.objects.all().order_by('id')
+    queryset = Doc.objects.filter(data_type="ride").order_by('-id')
     template_name = "rides/ride_list.html"
-    context_object_name = 'ride_list'
+    context_object_name = 'rides'
+    paginate_by = 5
 
 
 class RideDetailView(RideBaseView, DetailView):
