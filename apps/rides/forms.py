@@ -6,7 +6,7 @@ from apps.garage.models import Doc
 
 class AddNewRide(ModelForm):
     ride_title = forms.CharField(
-        label="Ride Title", max_length=200
+        label="Ride Title", max_length=200, initial="Ride Title Test"
     )
     route = forms.CharField(label="Route", max_length=200, initial="Route Info")
     equipment = forms.CharField(

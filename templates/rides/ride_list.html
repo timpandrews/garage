@@ -8,6 +8,7 @@
         <table class="table table-striped mt-5">
             <thead>
                 <tr>
+                    <th class="" scope="col">ID</th>
                     <th class="" scope="col" nowrap>Data Type</th>
                     <th class="" scope="col">Data</th>
                     <th></th>
@@ -17,6 +18,7 @@
             <tbody>
                 {% for ride in rides %}
                     <tr>
+                        <td class="ml-5  text-center"><a href="{% url 'rides:ride_detail' ride.id %}">{{ride.id}}</a></td>
                         <td class="ml-5  text-center"><a href="{% url 'rides:ride_detail' ride.id %}">{{ride.data_type}}</a></td>
                         <td class="">{{ride.data}}</td>
                         <td><a href="{% url 'rides:ride_update' ride.id %} ">Update</a></td>

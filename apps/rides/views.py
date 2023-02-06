@@ -32,7 +32,6 @@ class RideDetailView(RideBaseView, DetailView):
     the specific ride here and in the Views below"""
     fields = '__all__'
     template_name = "rides/ride_detail.html"
-    extra_context = {"extra": Doc.objects.filter(id=10)}
 
 
 class RideCreateView(RideBaseView, CreateView):
@@ -48,7 +47,6 @@ class RideCreateView(RideBaseView, CreateView):
         data["duration"] = data["duration"].total_seconds()
         self.object = Doc(data_type="ride", user_id=user_id, data=data)
         self.object.save()
-        # self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -60,10 +58,20 @@ class RideUpdateView(RideBaseView, UpdateView):
     template_name = "rides/ride_form.html"
 
     def get_initial(self):
-        return { 'ride_title': 'foo', 'route': 'bar' }
+        ride = self.get_object()
+        print(ride.data)
+        return ride.data
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        print("******here******")
+        user_id = 1  # placeholder for user table
+        data = form.cleaned_data
+        data["duration"] = data["duration"].total_seconds()
+        self.object = Doc(data_type="ride", user_id=user_id, data=data)
+        self.object.save()
 
-
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class RideDeleteView(RideBaseView, DeleteView):
