@@ -3,8 +3,9 @@
 
 {% block content %}
 
-<div class="container d-flex justify-content-center mt-5" style="width: 25%;">
-    <div class="col mt-5">
+<div class="container d-flex justify-content-center mt-2" style="width: 25%;">
+    <div class="col mt-2">
+        <h1 class="text-center">Add/Edit Ride</h1>
         <form action="" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
