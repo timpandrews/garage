@@ -7,8 +7,8 @@ from .forms import AddNewRide
 from .models import Doc
 
 
-def landing(response):
-    return render(response, "garage/landing.html", {})
+def home(response):
+    return render(response, "garage/home.html", {})
 
 
 def latest(response):
