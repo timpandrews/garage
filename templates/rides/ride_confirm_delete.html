@@ -15,10 +15,10 @@
         <form action="" method="POST">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary me-2 mt-2">
-                <i class="lni lni-trash-can"></i> Confirm
+                <i class="bi bi-trash me-2"></i>Confirm
             </button>
             <button type="submit" class="btn btn-danger mt-2" onclick="window.location='{% url 'rides:all' %}'; return false;">
-                <i class="lni lni-cross-circle"></i> Cancel
+                <i class="bi bi-x-circle me-2"></i>Cancel
             </button>
         </form>
     </div>

@@ -23,9 +23,9 @@
                         <td class="ml-5">{{ride.data_type}}</td>
                         <td class="" style="width:60%">{{ride.data}}</td>
                         <td nowrap>
-                            <a class="me-2" href="{% url 'rides:ride_detail' ride.id %}"><i class="lni lni-magnifier w3-xlarge w3-text-deep-purple"></i></a>
-                            <a class="me-2" href="{% url 'rides:ride_update' ride.id %}"><i class="lni lni-pencil w3-xlarge w3-text-deep-purple"></i></a>
-                            <a href="{% url 'rides:ride_delete' ride.id %}"><i class="lni lni-trash-can w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'rides:ride_detail' ride.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'rides:ride_update' ride.id %}"><i class="bi bi-pencil w3-xlarge w3-text-deep-purple"></i></a>
+                            <a href="{% url 'rides:ride_delete' ride.id %}"><i class="bi bi-trash w3-xlarge w3-text-deep-purple"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -70,7 +70,7 @@
         </nav>
         <div class="d-flex justify-content-center">
             <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary my-2">
-                <i class="lni lni-plus"></i> Add New
+                <i class="bi bi-plus-square me-2"></i>Add New
             </a>
         </div>
     </div>

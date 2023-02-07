@@ -17,7 +17,7 @@
             {% bootstrap_form form %}
             <div class="container d-flex justify-content-center" style="width: 10%;">
                 <button type="submit" class="btn btn-primary me-2 text-nowrap">
-                    <i class="lni lni-save"></i>
+                    <i class="bi bi-save me-2"></i>
                     {% if "create" in request.path %}
                         Save
                     {% elif "update" in request.path %}
@@ -27,7 +27,7 @@
                     {% endif %}
                 </button>
                 <button type="submit" class="btn btn-danger text-nowrap" onclick="window.location='{% url 'rides:all' %}'; return false;">
-                    <i class="lni lni-cross-circle"></i> Cancel
+                    <i class="bi bi-x-circle me-2"></i>Cancel
                 </button>
             </div>
         </form>
