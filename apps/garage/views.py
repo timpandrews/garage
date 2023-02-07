@@ -1,26 +1,11 @@
-from datetime import timedelta
-
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from .forms import AddNewRide
 from .models import Doc
 
 
 def home(response):
     return render(response, "garage/home.html", {})
-
-
-def latest(response):
-    ride = Doc.objects.filter(data_type="ride").values("data").last()
-    ride = ride["data"]
-    context = {
-        "ride": ride,
-    }
-    return render(response, "garage/latest.html", context)
-
-
-def add_ride(response):
     if response.method == "POST":
         form = AddNewRide(response.POST)
         if form.is_valid():
