@@ -25,9 +25,7 @@ class RideListView(RideBaseView, ListView, LoginRequiredMixin):
     paginate_by = 5
 
     def get_queryset(self):
-        # original qs
-        qs = super().get_queryset()
-        # filter by a variable captured from url, for example
+        qs = super().get_queryset() # get original qs
         return qs.filter(data_type="ride", user=self.request.user)
 
 class RideDetailView(RideBaseView, DetailView, LoginRequiredMixin):
@@ -72,5 +70,4 @@ class RideUpdateView(RideBaseView, UpdateView, LoginRequiredMixin):
 
 
 class RideDeleteView(RideBaseView, DeleteView, LoginRequiredMixin):
-    """View to delete a ride"""
     template_name = "rides/ride_confirm_delete.html"
