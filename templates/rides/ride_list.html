@@ -9,20 +9,26 @@
             <thead>
                 <tr>
                     <th class="" scope="col">ID</th>
+                    <th class="" scope="col">User ID</th>
                     <th class="" scope="col" nowrap>Data Type</th>
                     <th class="" scope="col">Data</th>
-                    <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for ride in rides %}
                     <tr>
-                        <td class="ml-5  text-center"><a href="{% url 'rides:ride_detail' ride.id %}">{{ride.id}}</a></td>
-                        <td class="ml-5  text-center"><a href="{% url 'rides:ride_detail' ride.id %}">{{ride.data_type}}</a></td>
-                        <td class="">{{ride.data}}</td>
-                        <td><a href="{% url 'rides:ride_update' ride.id %} ">Update</a></td>
-                        <td><a href="{% url 'rides:ride_delete' ride.id %}">Delete</a></td>
+                        <td class="ml-5">{{ride.id}}</td>
+                        <td class="ml-5">{{ride.user}}</td>
+                        <td class="ml-5">{{ride.data_type}}</td>
+                        <td class="" style="width:60%">{{ride.data}}</td>
+                        <td>
+                            <a href="{% url 'rides:ride_detail' ride.id %}">View</a>
+                            &nbsp;
+                            <a href="{% url 'rides:ride_update' ride.id %} ">Update</a>
+                            &nbsp;
+                            <a href="{% url 'rides:ride_delete' ride.id %}">Delete</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
