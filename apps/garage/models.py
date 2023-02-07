@@ -1,8 +1,9 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
 class Doc(models.Model):
-    user_id = models.IntegerField(default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     data_type = models.CharField(max_length = 200)
     data = models.JSONField()
 
