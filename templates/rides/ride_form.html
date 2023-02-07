@@ -5,13 +5,30 @@
 
 <div class="container d-flex justify-content-center mt-2" style="width: 25%;">
     <div class="col mt-2">
-        <h1 class="text-center">Add/Edit Ride</h1>
+        {% if "create" in request.path %}
+            <h2 class="text-center">Add Ride</h2>
+        {% elif "update" in request.path%}
+            <h2 class="text-center">Edit Ride</h2>
+        {% else %}
+            <h2 class="text-center">Add/Edit Ride</h2>
+        {% endif %}
         <form action="" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
             <div class="container d-flex justify-content-center" style="width: 10%;">
-                <input type="submit" class="btn btn-primary btn-lg" value="Submit" style="margin-right: 30px; margin-top: 30px;">
-                <input type="submit" class="btn btn-danger btn-lg" style="margin-top: 30px;" onclick="window.location='{% url 'rides:all' %}'; return false;" value="Cancel">
+                <button type="submit" class="btn btn-primary me-2 text-nowrap">
+                    <i class="bi bi-save me-2"></i>
+                    {% if "create" in request.path %}
+                        Save
+                    {% elif "update" in request.path %}
+                        Update
+                    {% else %}
+                        Submit
+                    {% endif %}
+                </button>
+                <button type="submit" class="btn btn-danger text-nowrap" onclick="window.location='{% url 'rides:all' %}'; return false;">
+                    <i class="bi bi-x-circle me-2"></i>Cancel
+                </button>
             </div>
         </form>
     </div>

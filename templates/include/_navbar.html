@@ -8,29 +8,40 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse " id="navbar">
                 <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
-                    <li class="nav-item" id="home">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item" id="Rides">
-                        <a class="nav-link" href="/rides">Rides</a>
-                    </li>
+                    {% if "rides" in request.path %}
+                        <li class="nav-item" id="home">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item active fw-bolder" id="Rides">
+                            <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item active fw-bolder" id="home">
+                            <a class="nav-link w3-text-light-blue" href="/">Home</a>
+                        </li>
+                        <li class="nav-item" id="Rides">
+                            <a class="nav-link" href="/rides">Rides</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                     {% if user.is_authenticated %}
-                        <li class="nav-item" >
-                            <a class="nav-link" href="#">
+                        <li class="nav-item">
+                            <a class="nav-link w3-text-black w3-large" href="#">
+                                <i class="bi bi-person-circle"></i>
                                 {{ user }}({{ user.id}})
                             </a>
                         </li>
                         <li class="nav-item" >
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-box-arrow-in-left"></i>Logout</a>
                         </li>
                     {% else %}
                         <li class="nav-item" >
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i>Login</a>
                         </li>
                     {% endif %}
                 </ul>

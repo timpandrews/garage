@@ -34,3 +34,5 @@ Cyclist's Garage
 [Django Cheat Sheet - (Eric the Coder)](https://dev.to/ericchapman/my-beloved-django-cheat-sheet-2056)
 
 [Classy Class-Based Views (cheatsheet) ](https://ccbv.co.uk/)
+
+[Font Awesome v5 Docs](https://fontawesome.com/v5/docs/web/setup/host-font-awesome-yourself)

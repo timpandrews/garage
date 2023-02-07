@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "apps.garage",
     "apps.rides",
     # 3rd party apps
-    "django_bootstrap5"
+    "django_bootstrap5",
 ]
 
 MIDDLEWARE = [
