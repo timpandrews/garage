@@ -5,11 +5,11 @@
 <!-- ### Debug : See all Context Variables ### -->
 <!--<textarea rows=10 onclick="this.focus();this.select()" style="width: 100%;"> {% debug %} </textarea> -->
 
-<div class="container mt-5" style="width: 70%;">
+<div class="container" style="width: 70%;">
     <div class="col">
-        <h1 class="text-center">Ride Details</h1>
+        <h2 class="text-center">Ride Details</h2>
         <div class="d-flex justify-content-center">
-            <table class="table table-striped mt-5" style="width: 80%">
+            <table class="table table-striped" style="width: 80%">
                 <thead>
                     <tr>
                         <th scope="col"></th>
@@ -37,7 +37,9 @@
             </table>
         </div>
         <div class="d-flex justify-content-center">
-            <a href="{% url 'rides:all' %}" class="d-block btn btn-primary btn-lg my-5" autofocus>BACK</a>
+            <a href="{% url 'rides:all' %}" class="d-block btn btn-primary" autofocus>
+                <i class="lni lni-backward"></i>
+            </a>
         </div>
     </div>
 </div>

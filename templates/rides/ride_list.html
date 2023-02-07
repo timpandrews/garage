@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<div class="container d-flex mt-2" style="width: 90%;">
+<div class="container d-flex mt-2">
     <div class="col">
-        <h1 class="text-center">Rides</h1>
+        <h2 class="text-center">Rides</h2>
         <table class="table table-striped mt-2">
             <thead>
                 <tr>
@@ -22,12 +22,10 @@
                         <td class="ml-5">{{ride.user}}</td>
                         <td class="ml-5">{{ride.data_type}}</td>
                         <td class="" style="width:60%">{{ride.data}}</td>
-                        <td>
-                            <a href="{% url 'rides:ride_detail' ride.id %}">View</a>
-                            &nbsp;
-                            <a href="{% url 'rides:ride_update' ride.id %} ">Update</a>
-                            &nbsp;
-                            <a href="{% url 'rides:ride_delete' ride.id %}">Delete</a>
+                        <td nowrap>
+                            <a class="me-2" href="{% url 'rides:ride_detail' ride.id %}"><i class="lni lni-magnifier w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'rides:ride_update' ride.id %}"><i class="lni lni-pencil w3-xlarge w3-text-deep-purple"></i></a>
+                            <a href="{% url 'rides:ride_delete' ride.id %}"><i class="lni lni-trash-can w3-xlarge w3-text-deep-purple"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -71,7 +69,9 @@
             {% endif %}
         </nav>
         <div class="d-flex justify-content-center">
-            <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary btn-lg my-2">Add New</a>
+            <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary my-2">
+                <i class="lni lni-plus"></i> Add New
+            </a>
         </div>
     </div>
 </div>
