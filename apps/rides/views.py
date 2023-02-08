@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -17,20 +19,32 @@ class RideBaseView(View):
 
 
 class RideListView(RideBaseView, ListView, LoginRequiredMixin):
-    print('*******')
     fields = '__all__'
-    # queryset = Doc.objects.filter(user=self.request.user).order_by('-id')
     template_name = "rides/ride_list.html"
     context_object_name = 'rides'
     paginate_by = 5
 
     def get_queryset(self):
-        qs = super().get_queryset() # get original qs
-        return qs.filter(data_type="ride", user=self.request.user)
+        rides = self.model.objects.order_by('-id').filter(
+            data_type="ride", user=self.request.user)
+
+        for ride in rides:
+            ride.data = clean_data_for_display(ride.data)
+
+        return rides
+
 
 class RideDetailView(RideBaseView, DetailView, LoginRequiredMixin):
     fields = '__all__'
     template_name = "rides/ride_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) # Get original context
+        data = context["object"].data
+        context["object"].data = clean_data_for_display(data)
+        print(context["object"].data["duration"])
+
+        return context
 
 
 class RideCreateView(RideBaseView, CreateView, LoginRequiredMixin):
@@ -41,7 +55,7 @@ class RideCreateView(RideBaseView, CreateView, LoginRequiredMixin):
         self.object = form.save(commit=False)
         user = self.request.user
         data = form.cleaned_data
-        data["duration"] = data["duration"].total_seconds()
+        data = clean_data_for_db(data)
         self.object = Doc(data_type="ride", user=user, data=data)
         self.object.save()
 
@@ -55,14 +69,13 @@ class RideUpdateView(RideBaseView, UpdateView, LoginRequiredMixin):
 
     def get_initial(self):
         ride = self.get_object()
+        ride.data = clean_data_for_display(ride.data)
         return ride.data
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         data = form.cleaned_data
-        # print('*******')
-        # doc_id = self.get_object().id
-        data["duration"] = data["duration"].total_seconds()
+        data = clean_data_for_db(data)
         self.object.data = data
         self.object.save()
 
@@ -71,3 +84,17 @@ class RideUpdateView(RideBaseView, UpdateView, LoginRequiredMixin):
 
 class RideDeleteView(RideBaseView, DeleteView, LoginRequiredMixin):
     template_name = "rides/ride_confirm_delete.html"
+
+
+def clean_data_for_db(data):
+    # convert H:M:S duration field to total seconds
+    data["duration"] = data["duration"].total_seconds()
+
+    return data
+
+
+def clean_data_for_display(data):
+    # convert duration field from seconds to H:M:S format
+    data["duration"] = str(timedelta(seconds=data["duration"]))
+
+    return data
