@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
@@ -69,7 +69,7 @@ class RideUpdateView(RideBaseView, UpdateView, LoginRequiredMixin):
 
     def get_initial(self):
         ride = self.get_object()
-        ride.data = clean_data_for_display(ride.data)
+        ride.data = clean_data_for_edit(ride.data)
         return ride.data
 
     def form_valid(self, form):
@@ -89,6 +89,9 @@ class RideDeleteView(RideBaseView, DeleteView, LoginRequiredMixin):
 def clean_data_for_db(data):
     # convert H:M:S duration field to total seconds
     data["duration"] = data["duration"].total_seconds()
+    # convert datetime object to string to stor in JSON
+    data["start"] = data["start"].strftime("%m/%d/%Y %H:%M:%S")
+    # print(data)
 
     return data
 
@@ -96,5 +99,14 @@ def clean_data_for_db(data):
 def clean_data_for_display(data):
     # convert duration field from seconds to H:M:S format
     data["duration"] = str(timedelta(seconds=data["duration"]))
+
+    return data
+
+
+def clean_data_for_edit(data):
+    # convert duration field from seconds to H:M:S format
+    data["duration"] = str(timedelta(seconds=data["duration"]))
+    # convert datetime string to datetime object for datetime formfield
+    data["start"] = datetime.strptime(data["start"], '%m/%d/%Y %H:%M:%S')
 
     return data

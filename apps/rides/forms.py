@@ -5,6 +5,9 @@ from apps.garage.models import Doc
 
 
 class AddNewRide(ModelForm):
+    start = forms.DateTimeField(
+        label="Start Time/Day", help_text="%Y-%m-%d%H:%M:%S", initial="2023-02-09 11:02:00"
+    )
     ride_title = forms.CharField(
         label="Ride Title", max_length=200, initial="Ride Title Test"
     )
