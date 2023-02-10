@@ -22,9 +22,12 @@
 </head>
 <body>
 
-    <div class="bg"></div>
+    {% if request.path == "/" %}
+        <div class="bg"></div>
+    {% else %}
+        <div class="bg-small"></div>
+    {% endif %}
 
-    <h1>The Cyclist's Garage</h1>
     {% include "include/_navbar.html" %}
 
     <div class="container">
