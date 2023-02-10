@@ -18,7 +18,7 @@ class RideBaseView(View):
     success_url = reverse_lazy('rides:all') # TODO rename to all_rides
 
 
-class RideListView(RideBaseView, ListView, LoginRequiredMixin):
+class RideListView(LoginRequiredMixin, RideBaseView, ListView):
     fields = '__all__'
     template_name = "rides/ride_list.html"
     context_object_name = 'rides'
@@ -34,7 +34,7 @@ class RideListView(RideBaseView, ListView, LoginRequiredMixin):
         return rides
 
 
-class RideDetailView(RideBaseView, DetailView, LoginRequiredMixin):
+class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):
     fields = '__all__'
     template_name = "rides/ride_detail.html"
 
@@ -47,7 +47,7 @@ class RideDetailView(RideBaseView, DetailView, LoginRequiredMixin):
         return context
 
 
-class RideCreateView(RideBaseView, CreateView, LoginRequiredMixin):
+class RideCreateView(LoginRequiredMixin, RideBaseView, CreateView):
     template_name = "rides/ride_form.html"
     form_class = AddNewRide
 
@@ -62,7 +62,7 @@ class RideCreateView(RideBaseView, CreateView, LoginRequiredMixin):
         return redirect(self.get_success_url())
 
 
-class RideUpdateView(RideBaseView, UpdateView, LoginRequiredMixin):
+class RideUpdateView(LoginRequiredMixin, RideBaseView, UpdateView):
     form_class = AddNewRide
     # fields = "__all__"
     template_name = "rides/ride_form.html"
@@ -82,7 +82,7 @@ class RideUpdateView(RideBaseView, UpdateView, LoginRequiredMixin):
         return redirect(self.get_success_url())
 
 
-class RideDeleteView(RideBaseView, DeleteView, LoginRequiredMixin):
+class RideDeleteView(LoginRequiredMixin, RideBaseView, DeleteView):
     template_name = "rides/ride_confirm_delete.html"
 
 
