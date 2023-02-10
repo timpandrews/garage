@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # local apps
     "apps.garage",
     "apps.rides",
+    "apps.dashboard",
     # 3rd party apps
     "django_bootstrap5",
 ]

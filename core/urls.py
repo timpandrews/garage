@@ -6,4 +6,5 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path('', include('apps.garage.urls')),
     path('', include('apps.rides.urls')),
+    path('', include('apps.dashboard.urls')),
 ]
