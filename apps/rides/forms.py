@@ -6,20 +6,21 @@ from apps.garage.models import Doc
 
 class AddNewRide(ModelForm):
     start = forms.DateTimeField(
-        label="Start Time/Day", help_text="%Y-%m-%d%H:%M:%S", initial="2023-02-09 11:02:00"
-    )
+        label="Start Time/Day", help_text="%Y-%m-%d%H:%M:%S",
+        initial="2023-02-09 11:02:00",)
     ride_title = forms.CharField(
-        label="Ride Title", max_length=200, initial="Ride Title Test"
-    )
-    route = forms.CharField(label="Route", max_length=200, initial="Route Info")
+        label="Ride Title", max_length=200, initial="Ride Title Test",
+        required=False,)
+    route = forms.CharField(
+        label="Route", max_length=200, initial="Route Info",required=False)
     equipment = forms.CharField(
-        label="Equipment", max_length=200, initial="Info about your bike, trainer, etc."
-    )
-    notes = forms.CharField(label="Notes", max_length=200, initial="Notes")
+        label="Equipment", max_length=200,
+        initial="Info about your bike, trainer, etc.", required=False,)
+    notes = forms.CharField(
+        label="Notes", max_length=200, initial="Notes", required=False)
     distance = forms.FloatField(label="Distance", min_value=0, initial=12.3)
     duration = forms.DurationField(
-        label="Ride Duration", initial="1:2:3", help_text="h:m:s"
-    )
+        label="Ride Duration", initial="1:2:3", help_text="h:m:s")
     elevation = forms.IntegerField(label="Elevation Gained", min_value=0, initial=123)
     weighted_power_avg = forms.IntegerField(label="Weighted Power Average", min_value=0, initial=123)
     total_work = forms.IntegerField(label="Total Work", min_value=0, initial=123)
