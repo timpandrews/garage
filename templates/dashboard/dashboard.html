@@ -1,6 +1,40 @@
 {% extends 'include/base.html' %}{% load static %}
 
 {% block content %}
+<!--{{ context }}-->
 <h1>Dashboard</h1>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            <i class="bi bi-bicycle me-2"></i>This Week
+        </h5>
+        <p class="card-text">{{ context.week.start|date:'D, M dS' }} - {{ context.week.end|date:'D, M dS' }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Rides</th>
+                    <th scope="col">Distance</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Elevation</th>
+                    <th scope="col">Calories</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ context.week.rides }}</td>
+                    <td>{{ context.week.distance }} kms</td>
+                    <td>{{ context.week.time }}</td>
+                    <td>{{ context.week.elevation }}</td>
+                    <td>{{ context.week.calories }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="card">
+            km chart
+        </div>
+    </div>
+</div>
 
 {% endblock %}
