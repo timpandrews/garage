@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 def rides_serializer(rides):
     """ Takes queryset obj of rides with normal sql fields & sql jsonb field
-        Will create a dictionary of each ride pull individual values from the
+        Will create a dictionary of each ride & pull individual values from the
         jsonb field
         Will then create and return a list of dictionaries
         ** converts the start str to datetime obj
@@ -33,9 +33,8 @@ def rides_serializer(rides):
     return(rides_list)
 
 
-def get_week_range():
-    today = date.today()
-    week_start = today + relativedelta(weekday=MO(-1))
+def get_week_range(compare_to_day=date.today()):
+    week_start = compare_to_day + relativedelta(weekday=MO(-1))
     week_start = week_start.strftime("%Y-%m-%d %H:%M:%S")
     week_start = datetime.strptime(week_start, "%Y-%m-%d %H:%M:%S")
 
@@ -46,6 +45,15 @@ def get_week_range():
         "end": week_end,
     }
     return(week_range)
+
+
+def get_week_ranges(weeks):
+    week_ranges = []
+    for x in range(weeks):
+        compare_to_day = date.today() - timedelta(days = (7*x))
+        week_ranges.append(get_week_range(compare_to_day))
+
+    return week_ranges
 
 
 def get_weekly_rides(week_range, user):
@@ -81,3 +89,25 @@ def get_weekly_sums(weekly_rides):
     sums["elevation"] = elevation
     sums["calories"] = calories
     return(sums)
+
+
+def get_distance_history(user):
+    week_ranges = get_week_ranges(15)
+    distance_history = []
+    for week_range in week_ranges:
+        weekly_rides = get_weekly_rides(week_range, user)
+        weekly_sums = get_weekly_sums(weekly_rides)
+        distance_history.append(weekly_sums["distance"])
+
+    return (week_ranges, distance_history)
+
+
+def convert_ranges_to_str(input_ranges):
+    output_ranges = []
+    for range in input_ranges:
+        start = str(range["start"].strftime("%d %b"))
+        end = str(range["end"].strftime("%d %b"))
+        range_str = start + " to " + end
+
+        output_ranges.append(range_str)
+    return output_ranges

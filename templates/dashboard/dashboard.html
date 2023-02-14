@@ -1,7 +1,7 @@
 {% extends 'include/base.html' %}{% load static %}
 
 {% block content %}
-<!--{{ context }}-->
+{% comment %} {{ context }} {% endcomment %}
 <h1>Dashboard</h1>
 
 
@@ -31,10 +31,40 @@
                 </tr>
             </tbody>
         </table>
-        <div class="card">
-            km chart
+        <div class="card bg-light">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ context.labels|safe }},
+            datasets: [{
+                label: 'Distence(km) by week',
+                data: {{ context.data|safe }},
+                borderWidth: 1
+            }]
+        },
+        options: {
+            animation: false,
+            plugins: {
+                legend: {display: true},
+                tooltip: {enabled: true}
+            },
+            scales: {
+                y: {beginAtZero: true}
+            }
+        }
+    });
+</script>
 
 {% endblock %}

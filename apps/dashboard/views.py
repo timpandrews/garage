@@ -1,6 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .helper import get_week_range, get_weekly_rides, get_weekly_sums
+from .helper import (
+    get_week_range,
+    get_weekly_rides,
+    get_weekly_sums,
+    get_distance_history,
+    convert_ranges_to_str,
+)
 
 @login_required
 def dashboard(request):
@@ -17,8 +23,15 @@ def dashboard(request):
     week["elevation"] = weekly_sums["elevation"]
     week["calories"] = weekly_sums["calories"]
 
+    week_ranges, distance_history = get_distance_history(user)
+    labels = convert_ranges_to_str(week_ranges)
+    labels = labels[::-1]
+    data = distance_history[::-1]
+
     context = {
-        "week": week
+        "week": week,
+        "labels": labels,
+        "data": data,
     }
 
     return render(request, "dashboard/dashboard.html", {'context': context})
