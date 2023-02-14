@@ -6,7 +6,3 @@ from .models import Doc
 
 def landing(response):
     return render(response, "garage/landing.html", {})
-
-
-def dashboard(response):
-    return render(response, "garage/dashboard.html", {})
