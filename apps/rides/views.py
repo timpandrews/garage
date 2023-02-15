@@ -56,7 +56,13 @@ class RideCreateView(LoginRequiredMixin, RideBaseView, CreateView):
         user = self.request.user
         data = form.cleaned_data
         data = clean_data_for_db(data)
-        self.object = Doc(data_type="ride", user=user, data=data)
+        data_date = data["start"]
+        data_date = datetime.strptime(data_date, '%m/%d/%Y %H:%M:%S')
+        self.object = Doc(
+            data_type="ride",
+            data_date=data_date,
+            user=user,
+            data=data)
         self.object.save()
 
         return redirect(self.get_success_url())
@@ -76,6 +82,9 @@ class RideUpdateView(LoginRequiredMixin, RideBaseView, UpdateView):
         self.object = form.save(commit=False)
         data = form.cleaned_data
         data = clean_data_for_db(data)
+        data_date = data["start"]
+        data_date = datetime.strptime(data_date, '%m/%d/%Y %H:%M:%S')
+        self.object.date_date = data_date
         self.object.data = data
         self.object.save()
 

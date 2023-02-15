@@ -120,9 +120,12 @@ def format_save_data_db(user_id, ride):
         data["calories"] = ride["calories"]
     json.dumps(data)
 
+    data_date = data["start"]
+    data_date = datetime.strptime(data_date, '%m/%d/%Y %H:%M:%S')
     r = Doc(
         user_id = user_id,
         data_type = "ride",
+        data_date = data_date,
         data = data,
         created = datetime.now(),
         updated = datetime.now()
