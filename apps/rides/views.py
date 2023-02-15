@@ -22,7 +22,7 @@ class RideListView(LoginRequiredMixin, RideBaseView, ListView):
     fields = '__all__'
     template_name = "rides/ride_list.html"
     context_object_name = 'rides'
-    paginate_by = 5
+    paginate_by = 20
 
     def get_queryset(self):
         rides = self.model.objects.order_by('-id').filter(
@@ -98,6 +98,7 @@ def clean_data_for_db(data):
 
 def clean_data_for_display(data):
     # convert duration field from seconds to H:M:S format
+    print(data["duration"], type(data["duration"]))
     data["duration"] = str(timedelta(seconds=data["duration"]))
 
     return data

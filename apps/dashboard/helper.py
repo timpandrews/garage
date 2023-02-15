@@ -1,7 +1,9 @@
-from datetime import date
-from dateutil.relativedelta import relativedelta, MO
+import json
+from datetime import date, datetime, timedelta
+
+from dateutil.relativedelta import MO, relativedelta
+
 from apps.garage.models import Doc
-from datetime import datetime, timedelta
 
 
 def rides_serializer(rides):
@@ -14,6 +16,7 @@ def rides_serializer(rides):
     Args:
         rides (): queryset of rides
     """
+
     rides_list = []
     for ride in rides:
         ride_dict = {}
@@ -22,8 +25,12 @@ def rides_serializer(rides):
         ride_dict["data_type"] = ride.data_type
         ride_dict["created"] = ride.created
         ride_dict["updated"] = ride.updated
+        if isinstance(ride.data, str):
+            ride.data = json.loads(ride.data)
         for k, v in ride.data.items():
             if k == "start":
+                print(v)
+                # try 
                 v = datetime.strptime(v, "%m/%d/%Y %H:%M:%S")
                 ride_dict[k] = v
             else:
@@ -61,7 +68,6 @@ def get_weekly_rides(week_range, user):
 
     weekly_rides = []
     for ride in user_rides:
-        print("ride['start']", ride["start"], type(ride["start"]))
         if week_range["start"] <= ride["start"] <= week_range["end"]:
             # in range
             weekly_rides.append(ride)
