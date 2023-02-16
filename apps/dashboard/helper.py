@@ -29,8 +29,6 @@ def rides_serializer(rides):
             ride.data = json.loads(ride.data)
         for k, v in ride.data.items():
             if k == "start":
-                print(v)
-                # try 
                 v = datetime.strptime(v, "%m/%d/%Y %H:%M:%S")
                 ride_dict[k] = v
             else:
@@ -64,13 +62,15 @@ def get_week_ranges(weeks):
 
 
 def get_weekly_rides(week_range, user):
-    user_rides = rides_serializer(Doc.objects.filter(user = user, data_type = "ride"))
+    user_rides = rides_serializer(Doc.objects.filter(
+        user = user,
+        data_type = "ride",
+        data_date__range=[week_range["start"], week_range["end"]]
+        ))
 
     weekly_rides = []
     for ride in user_rides:
-        if week_range["start"] <= ride["start"] <= week_range["end"]:
-            # in range
-            weekly_rides.append(ride)
+        weekly_rides.append(ride)
 
     return(weekly_rides)
 
@@ -98,7 +98,7 @@ def get_weekly_sums(weekly_rides):
 
 
 def get_distance_history(user):
-    week_ranges = get_week_ranges(15)
+    week_ranges = get_week_ranges(12)
     distance_history = []
     for week_range in week_ranges:
         weekly_rides = get_weekly_rides(week_range, user)

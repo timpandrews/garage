@@ -42,7 +42,6 @@ class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):
         context = super().get_context_data(**kwargs) # Get original context
         data = context["object"].data
         context["object"].data = clean_data_for_display(data)
-        print(context["object"].data["duration"])
 
         return context
 
@@ -100,14 +99,12 @@ def clean_data_for_db(data):
     data["duration"] = data["duration"].total_seconds()
     # convert datetime object to string to stor in JSON
     data["start"] = data["start"].strftime("%m/%d/%Y %H:%M:%S")
-    # print(data)
 
     return data
 
 
 def clean_data_for_display(data):
     # convert duration field from seconds to H:M:S format
-    print(data["duration"], type(data["duration"]))
     data["duration"] = str(timedelta(seconds=data["duration"]))
 
     return data
