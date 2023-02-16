@@ -33,6 +33,29 @@ class RideListView(LoginRequiredMixin, RideBaseView, ListView):
 
         return rides
 
+    def get_context_data(self, **kwargs):
+        total_rides = Doc.objects.filter(user=self.request.user).count()
+        earliest_ride = Doc.objects.filter(user=self.request.user).earliest()
+        earliest_date = earliest_ride.data_date.strftime("%B %Y")
+        data = super().get_context_data(**kwargs)
+        data["total_rides"] = total_rides
+        data["first_ride"] = earliest_date
+        return data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):
     fields = '__all__'

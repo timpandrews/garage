@@ -10,6 +10,8 @@ class Doc(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        get_latest_by = "data_date"
 
     def __str__(self):
         return self.data_type
