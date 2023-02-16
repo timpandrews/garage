@@ -8,24 +8,12 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse " id="navbar">
                 <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
+                    {% include "include/_dashboard.html" %}
                     {% if "rides" in request.path %}
-                        <li class="nav-item" id="dashboard">
-                            <a class="nav-link" href="/dashboard">Dashboard</a>
-                        </li>
                         <li class="nav-item active fw-bolder" id="Rides">
                             <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
                         </li>
-                    {% elif "dashboard" in request.path %}
-                        <li class="nav-item active fw-bolder" id="dashboard">
-                            <a class="nav-link w3-text-light-blue" href="/dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item" id="Rides">
-                            <a class="nav-link" href="/rides">Rides</a>
-                        </li>
                     {% else %}
-                        <li class="nav-include/base.html" id="dashboard">
-                            <a class="nav-link" href="/dashboard">Dashboard</a>
-                        </li>
                         <li class="nav-item" id="Rides">
                             <a class="nav-link" href="/rides">Rides</a>
                         </li>

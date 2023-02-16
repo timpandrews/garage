@@ -37,7 +37,18 @@ def dashboard(request):
     return render(request, "dashboard/dashboard.html", {'context': context})
 
 
+def db_month(request):
 
+    context = {}
+
+    return render(request, "dashboard/month.html", {'context': context})
+
+
+def db_year(request):
+
+    context = {}
+
+    return render(request, "dashboard/year.html", {'context': context})
 
 
 
