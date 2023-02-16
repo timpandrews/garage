@@ -26,7 +26,7 @@ class RideListView(LoginRequiredMixin, RideBaseView, ListView):
 
     def get_queryset(self):
         rides = self.model.objects.order_by('-id').filter(
-            data_type="ride", user=self.request.user)
+            data_type="ride", user=self.request.user, active=True)
 
         for ride in rides:
             ride.data = clean_data_for_display(ride.data)
@@ -34,27 +34,13 @@ class RideListView(LoginRequiredMixin, RideBaseView, ListView):
         return rides
 
     def get_context_data(self, **kwargs):
-        total_rides = Doc.objects.filter(user=self.request.user).count()
-        earliest_ride = Doc.objects.filter(user=self.request.user).earliest()
+        total_rides = Doc.objects.filter(user=self.request.user, active=True).count()
+        earliest_ride = Doc.objects.filter(user=self.request.user, active=True).earliest()
         earliest_date = earliest_ride.data_date.strftime("%B %Y")
         data = super().get_context_data(**kwargs)
         data["total_rides"] = total_rides
         data["first_ride"] = earliest_date
         return data
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):

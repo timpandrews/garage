@@ -36,4 +36,4 @@ class AddNewRide(ModelForm):
 
     class Meta:
         model = Doc
-        exclude = ["user", "data_type", "data_date", "data"]
+        exclude = ["user", "data_type", "data_date", "data", "active"]

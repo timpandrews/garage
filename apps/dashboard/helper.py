@@ -65,7 +65,8 @@ def get_weekly_rides(week_range, user):
     user_rides = rides_serializer(Doc.objects.filter(
         user = user,
         data_type = "ride",
-        data_date__range=[week_range["start"], week_range["end"]]
+        data_date__range=[week_range["start"], week_range["end"]],
+        active = True,
         ))
 
     weekly_rides = []
