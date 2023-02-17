@@ -30,8 +30,30 @@
                         <td>{{ object.data_type }}</td>
                     </tr>
                     <tr>
+                        <td>data_date</td>
+                        <td>{{ object.data_date }}</td>
+                    </tr>
+                    <tr>
                         <td>data</td>
                         <td>{{ object.data }}</td>
+                    </tr>
+                    <tr>
+                        <td>created</td>
+                        <td>{{ object.created }}</td>
+                    </tr>
+                    <tr>
+                        <td>updated</td>
+                        <td>{{ object.updated }}</td>
+                    </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>
+                            {% if object.active %}
+                                <input type="checkbox" checked>
+                            {% else %}
+                                <input type="checkbox">
+                            {% endif %}
+                        </td>
                     </tr>
                 </tbody>
             </table>
