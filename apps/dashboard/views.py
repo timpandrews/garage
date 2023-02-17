@@ -1,12 +1,17 @@
+import datetime
+from itertools import cycle
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.shortcuts import render
-from .helper import (
-    get_week_range,
-    get_weekly_rides,
-    get_weekly_sums,
-    get_distance_history,
-    convert_ranges_to_str,
-)
+from django.views.generic.base import TemplateView
+
+from apps.garage.models import Doc
+
+from .helper import (convert_ranges_to_str, get_distance_history,
+                     get_week_range, get_weekly_rides, get_weekly_sums)
+
 
 @login_required
 def dashboard(request):
@@ -44,13 +49,37 @@ def db_month(request):
     return render(request, "dashboard/month.html", {'context': context})
 
 
-def db_year(request):
+class db_year(LoginRequiredMixin, TemplateView):
+    colors = ["#827BC5","#7D8B96","#15807C","#332F32","#C8C1BB","#AB4738","#5B5963"]
+    colors_iterator = cycle(colors)
+    template_name = "dashboard/year.html"
 
-    context = {}
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    return render(request, "dashboard/year.html", {'context': context})
+        earliest_ride = Doc.objects.filter(user=self.request.user, active=True).earliest()
+        start = int(earliest_ride.data_date.strftime("%Y"))
+        current = datetime.date.today().year
 
+        years = []
+        milage = []
+        bgColor = []
+        for year in range(start, current+1):
+            years.append(year)
+            bgColor.append(next(self.colors_iterator))
 
+            # get yearly milage
+            miles_this_year = 0
+            rides = Doc.objects.filter(
+                user=self.request.user,
+                data_date__year=year,
+                active=True)
+            for ride in rides:
+                miles_this_year += ride.data["distance"]
+            milage.append(round(miles_this_year))
 
-
-
+        context["labels"] = years
+        context["data"] = milage
+        context["bgColor"] = bgColor
+        context["chart_title"] = "Distance (KM) by Year"
+        return context

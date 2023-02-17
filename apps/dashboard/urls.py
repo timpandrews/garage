@@ -7,5 +7,5 @@ from . import views
 urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("dashboard/month", views.db_month, name="db_month"),
-    path("dashboard/year", views.db_year, name="db_year"),
+    path("dashboard/year", views.db_year.as_view(), name="db_year"),
 ]

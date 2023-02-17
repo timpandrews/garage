@@ -1,7 +1,7 @@
 {% extends 'include/base.html' %}{% load static %}
 
 {% block content %}
-{% comment %} {{ context }} {% endcomment %}
+{{ context }}
 <h1>Dashboard</h1>
 <p>
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -15,9 +15,43 @@
             <h5 class="card-title">
                 <i class="bi bi-bicycle me-2"></i>Year to Year Comparison
             </h5>
-            <p class="card-text"></p>
+            <p class="card-text">{{ test }}</p>
+            <div class="card bg-light">
+                <div>
+                    <canvas id="year_chart"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById("year_chart");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: "Distence(km) by Year",
+                data: {{ data|safe }},
+                backgroundColor: {{ bgColor|safe }},
+                borderWidth: 2
+            }]
+        },
+        options: {
+            animation: false,
+            plugins: {
+                legend: {display: true},
+                tooltip: {enabled: true}
+            },
+            scales: {
+                y: {beginAtZero: true}
+            }
+        }
+    });
+</script>
 
 {% endblock %}
