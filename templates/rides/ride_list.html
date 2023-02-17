@@ -10,6 +10,11 @@
                 ({{ total_rides }} rides starting from {{ first_ride }})
             </span>
         </h2>
+        <div class="d-flex justify-content-centerd">
+            <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary my-2 mx-auto">
+                <i class="bi bi-plus-square me-2"></i>Add New
+            </a>
+        </div>
 
         <table class="table table-striped mt-2">
             <thead>
