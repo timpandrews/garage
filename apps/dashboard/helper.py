@@ -88,7 +88,7 @@ def get_weekly_sums(weekly_rides):
         elevation += ride["elevation"]
         calories += ride["calories"]
 
-    sums["distance"] = distance
+    sums["distance"] = round(distance)
     time_str = str(timedelta(seconds=time))
     time_parts = time_str.split(':')
     time_str = time_parts[0] + 'h ' + time_parts[1] + 'm ' + time_parts[2] + 's '
