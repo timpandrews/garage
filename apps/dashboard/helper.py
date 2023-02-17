@@ -118,3 +118,33 @@ def convert_ranges_to_str(input_ranges):
 
         output_ranges.append(range_str)
     return output_ranges
+
+
+def get_color(colors, index):
+    """
+    loops through list of colors if in returning next color, when you
+    reach the end it will then start back at the begining.  Unlike
+    the itertools.cycle() function this function always starts with
+    colors[0]
+
+    Args:
+        colors (list): list of colors to be used
+        index (int): position index (may be greater then number of colors)
+
+    Returns:
+        str: color code ie #827BC5
+    """
+    print(colors)
+    num_items = len(colors)
+    color_found = False
+
+    while not color_found:
+        if index <= num_items -1:
+            color = colors[index]
+            print(index, color)
+            color_found = True
+        else:
+            index = index - num_items
+            color_found = False
+
+    return color

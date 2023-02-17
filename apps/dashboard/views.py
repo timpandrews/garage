@@ -1,5 +1,4 @@
 import datetime
-from itertools import cycle
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,7 +8,7 @@ from django.views.generic.base import TemplateView
 
 from apps.garage.models import Doc
 
-from .helper import (convert_ranges_to_str, get_distance_history,
+from .helper import (convert_ranges_to_str, get_color, get_distance_history,
                      get_week_range, get_weekly_rides, get_weekly_sums)
 
 
@@ -51,7 +50,6 @@ def db_month(request):
 
 class db_year(LoginRequiredMixin, TemplateView):
     colors = ["#827BC5","#7D8B96","#15807C","#332F32","#C8C1BB","#AB4738","#5B5963"]
-    colors_iterator = cycle(colors)
     template_name = "dashboard/year.html"
 
     def get_context_data(self, **kwargs):
@@ -64,9 +62,10 @@ class db_year(LoginRequiredMixin, TemplateView):
         years = []
         milage = []
         bgColor = []
-        for year in range(start, current+1):
+
+        for i, year in enumerate(range(start, current+1)):
             years.append(year)
-            bgColor.append(next(self.colors_iterator))
+            bgColor.append(get_color(self.colors, i))
 
             # get yearly milage
             miles_this_year = 0
