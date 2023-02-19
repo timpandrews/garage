@@ -41,11 +41,8 @@ def dashboard(request):
     return render(request, "dashboard/dashboard.html", {'context': context})
 
 
-def db_month(request):
-
-    context = {}
-
-    return render(request, "dashboard/month.html", {'context': context})
+class db_month(LoginRequiredMixin, TemplateView):
+    template_name = "dashboard/month.html"
 
 
 class db_year(LoginRequiredMixin, TemplateView):
