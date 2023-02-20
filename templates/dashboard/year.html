@@ -1,7 +1,7 @@
 {% extends 'include/base.html' %}{% load static %}
 
 {% block content %}
-{{ context }}
+{% comment %} {{ context }} {% endcomment %}
 <h1>Dashboard</h1>
 <p>
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -15,7 +15,7 @@
             <h5 class="card-title">
                 <i class="bi bi-bicycle me-2"></i>Year to Year Comparison
             </h5>
-            <p class="card-text">{{ test }}</p>
+            <p class="card-text"></p>
             <div class="card bg-light">
                 <div>
                     <canvas id="year_chart"></canvas>
