@@ -35,7 +35,7 @@ A website to track rides and various health points.  Track your health & fitness
 ## Milestones
  - Intial Dev
  - Publish Online with Intial Dev Features
- - MVP, Buy me a cofee stage
+ - MVP, Buy me a coffee stage
  - MVP+, Introductory Pricing
  - Version 1.0, Introductory Price
  - Full Price
@@ -59,7 +59,7 @@ A website to track rides and various health points.  Track your health & fitness
  - Intial steps at marketing.  Goal is to attract a small group of early adopters
  - Allow users to signup.
  - Price = $Free
- - Incourage users to "buy me a cup of cofee"
+ - Incourage users to "buy me a cup of coffee"
  - Build in basic billing system
 
 ### Milestone - MVP +
