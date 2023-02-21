@@ -134,14 +134,12 @@ def get_color(colors, index):
     Returns:
         str: color code ie #827BC5
     """
-    print(colors)
     num_items = len(colors)
     color_found = False
 
     while not color_found:
         if index <= num_items -1:
             color = colors[index]
-            print(index, color)
             color_found = True
         else:
             index = index - num_items
