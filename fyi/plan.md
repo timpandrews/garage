@@ -55,6 +55,7 @@ A website to track rides and various health points.  Track your health & fitness
 ### Milestone - MVP
  - Minimal Viable Product
  - All basic features working
+ - Work on Brand (register domain, etc.)
  - Still a few rough edges
  - Intial steps at marketing.  Goal is to attract a small group of early adopters
  - Allow users to signup.
