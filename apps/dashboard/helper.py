@@ -146,3 +146,13 @@ def get_color(colors, index):
             color_found = False
 
     return color
+
+
+def get_last_day_of_month(any_day):
+    # The day 28 exists in every month. 4 days later, it's always next month
+    next_month = any_day.replace(day=28) + timedelta(days=4)
+    # subtracting the number of the current day brings us back one month
+    last_day = next_month - timedelta(days=next_month.day)
+    last_day = last_day.day
+
+    return last_day

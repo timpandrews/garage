@@ -1,13 +1,25 @@
-{% extends 'include/base.html' %}{% load static %}
+{% extends 'include/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-{% comment %} {{ context }} {% endcomment %}
+
 <h1>Dashboard</h1>
-<p>
-    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+
+<form action="" method="post" class="mb-2">
+    {% csrf_token %}
+    <button class="btn btn-primary btn-sm me-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         <i class="bi bi-arrows-collapse me-2"></i>Month
     </button>
-</p>
+    {% for field in context.form %}
+        {{ field.label_tag }}
+        {{ field }}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-sm btn-secondary text-nowrap mb-2">
+        <i class="bi bi-check2-circle me-2"></i></i>Select
+    </button>
+</form>
 
 <div class="collapse show" id="collapseExample">
     <div class="card">
@@ -33,11 +45,11 @@
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: {{ labels|safe }},
+            labels: {{ context.labels|safe }},
             datasets: [{
                 label: "Distence(km) by Month",
-                data: {{ data|safe }},
-                backgroundColor: {{ bgColor|safe }},
+                data: {{ context.data|safe }},
+                backgroundColor: {{ context.bgColor|safe }},
                 borderWidth: 2
             }]
         },
@@ -53,5 +65,7 @@
         }
     });
 </script>
+
+{% comment %} {% debug %} {% endcomment %}
 
 {% endblock %}
