@@ -1,6 +1,7 @@
 import datetime
 from datetime import timedelta, timezone
-
+from tzlocal import get_localzone
+import pytz
 from dateutil import rrule
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -54,7 +55,10 @@ def db_month(request):
             end_year = form.cleaned_data["end_year"]
             range_override = True
     else:
-        form = DBMonthForm(initial={'end_year': datetime.datetime.now().year})
+        form = DBMonthForm(initial={
+            'start_year': datetime.datetime.now().year - 5,
+            'end_year': datetime.datetime.now().year
+        })
         range_override = False
 
     colors = ["#827BC5","#7D8B96","#15807C","#332F32","#C8C1BB","#AB4738","#5B5963"]
@@ -62,9 +66,14 @@ def db_month(request):
     earliest_ride = Doc.objects.filter(user=request.user, active=True).earliest()
     start_date = earliest_ride.data_date
     first_date = start_date.replace(day=1)
+
+    # if first_date is more then 5 years ago, change first_date to 5 years ago
+    # too keep chart from having too much data to view easily
+    if first_date.year < datetime.datetime.now().year - 5:
+        tz = get_localzone()
+        first_date = tz.localize(datetime.datetime(datetime.datetime.now().year - 5, 1, 1))
+
     last_date = datetime.datetime.now(timezone.utc)
-    print("first_date", first_date, type(first_date))
-    print("last_date", last_date, type(last_date))
 
     month_year = []
     milage = []
