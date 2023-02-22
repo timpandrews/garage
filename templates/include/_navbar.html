@@ -39,16 +39,13 @@
                             <a class="nav-link" href="/trophies">Trophies</a>
                         </li>
                     {% endif %}
-                    <!-- Admin Page -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <!-- Profile & Login/Logout Pages-->
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link w3-text-black w3-large" href="#">
-                                <i class="bi bi-person-circle"></i>
+                                <i class="bi bi-person-bounding-box"></i>
                                 {{ user }}({{ user.id}})
                             </a>
                         </li>
@@ -58,6 +55,15 @@
                     {% else %}
                         <li class="nav-item" >
                             <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+                        </li>
+                    {% endif %}
+                    <!-- Admin Page -->
+                    {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">
+                                <i class="bi bi-tools"></i>
+                                Admin
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
