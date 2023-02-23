@@ -4,4 +4,27 @@
 
 <h1>Kudos</h1>
 
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            <i class="bi bi-trophy me-2"></i>Weekly Kudos
+        </h5>
+        <p class="card-text">
+            These are the Kudos you have earned this week.  Kudos are available to place
+            in your Trophy Page and the end of the week.
+        </p>
+        <div class="card bg-light">
+            <span>
+                Kudos for Rides: {{ context.weekly_kudos.ride_kudos_num }}
+                {% for kudo in context.weekly_kudos.ride_kudos_list %}
+                    <i class="bi bi-trophy me-2"></i>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+</div>
+
+{% comment %} <br><br>
+{{ context.weekly_kudos }} {% endcomment %}
+
 {% endblock %}
