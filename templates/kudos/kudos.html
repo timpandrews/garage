@@ -4,22 +4,57 @@
 
 <h1>Kudos</h1>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">
-            <i class="bi bi-trophy me-2"></i>Weekly Kudos
-        </h5>
-        <p class="card-text">
-            These are the Kudos you have earned so far this week.  Kudos are available
-            to place in your Trophy Page and the end of the week.
-        </p>
-        <div class="card bg-light">
-            <span>
-                Kudos for Rides: {{ context.weekly_kudos.ride_kudos_num }}
-                {% for kudo in context.weekly_kudos.ride_kudos_list %}
-                    <i class="bi bi-trophy me-2"></i>
-                {% endfor %}
-            </span>
+<!-- Weekly Kudos -->
+<p>
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWeekly" aria-expanded="false" aria-controls="collapseWeekly">
+        <i class="bi bi-arrows-collapse me-2"></i>Weekly Kudos
+    </button>
+</p>
+
+<div class="collapse show mb-5" id="collapseWeekly">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="bi bi-trophy me-2"></i>Weekly Kudos
+            </h5>
+            <p class="card-text">
+                These are the Kudos you have earned so far this week.  Kudos are available
+                to place in your Trophy Page and the end of the week.
+            </p>
+            <div class="card bg-light">
+                <span>
+                    Kudos for Rides: {{ context.weekly_kudos.ride_kudos_num }}
+                    {% for kudo in context.weekly_kudos.ride_kudos_list %}
+                        <i class="bi bi-trophy me-2"></i>
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kudos Ready to be Placed -->
+<p>
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWeeklyKudos" aria-expanded="false" aria-controls="collapseWeekly">
+        <i class="bi bi-arrows-collapse me-2"></i>Kudos Ready to be Placed
+    </button>
+</p>
+
+<div class="collapse show" id="collapse">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="bi bi-trophy-fill me-2"></i></i>Kudos Ready to be Placed
+            </h5>
+            <p class="card-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempor
+                nisl et sapien lobortis fringilla. Proin at elit sit amet mauris feugiat
+                laoreet. Sed molestie justo tortor. Morbi ut lacus mauris. Praesent vel
+                tempor dolor, ac varius neque. Mauris faucibus pulvinar egestas.
+            </p>
+            <div class="card bg-light">
+                
+            </div>
         </div>
     </div>
 </div>
