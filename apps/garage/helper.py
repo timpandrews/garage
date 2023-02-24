@@ -5,9 +5,6 @@ from apps.garage.models import Doc
 
 
 def get_date_ranges(today, user):
-    print("today:", today, type(today))
-    print("user:", user)
-
     week_start = today - timedelta(days=today.weekday())
     week_end = week_start + timedelta(days=6)
 

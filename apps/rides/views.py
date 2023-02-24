@@ -78,7 +78,6 @@ class RideCreateView(LoginRequiredMixin, RideBaseView, CreateView):
 
 class RideUpdateView(LoginRequiredMixin, RideBaseView, UpdateView):
     form_class = AddNewRide
-    # fields = "__all__"
     template_name = "rides/ride_form.html"
 
     def get_initial(self):
