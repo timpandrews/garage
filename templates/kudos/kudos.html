@@ -53,7 +53,9 @@
                 tempor dolor, ac varius neque. Mauris faucibus pulvinar egestas.
             </p>
             <div class="card bg-light">
-                
+                {% for kudo in context.kudos_rtbp %}
+                    {{ kudo.key }}
+                {% endfor %}
             </div>
         </div>
     </div>

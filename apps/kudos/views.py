@@ -3,26 +3,28 @@ from datetime import date
 from django.shortcuts import render
 
 from apps.garage.helper import *
+from apps.garage.models import Kudos
 
 
 def kudos(request):
+    update_kudos(request.user)
     date_ranges = get_date_ranges(date.today(), request.user)
 
     weekly_kudos = get_weekly_kudos(
         request.user, date_ranges["week_start"], date_ranges["week_end"])
-    # monthly_kudos = get_monthly_kudos()
-    # yearly_kudos = get_yearly_kudos()
-    # lifetime_kudos = get_lifetime_kudos()
+
+    kudos_rtbp = get_kudos_rtbp(request.user)
 
     context = {
-
         "weekly_kudos": weekly_kudos,
+        "kudos_rtbp": kudos_rtbp,
     }
 
     return render(request, "kudos/kudos.html", {'context': context})
 
 
 def trophies(request):
+    update_kudos(request.user)
     context = {}
 
     return render(request, "kudos/trophies.html", {'context': context})
@@ -53,3 +55,18 @@ def get_weekly_kudos(user, start, end):
     weekly_kudos["end"] = end
 
     return weekly_kudos
+
+
+def get_kudos_rtbp(user):
+    """
+    Get Kudos Ready To Be Places (rtbp)
+    """
+    kudos = Kudos.objects.filter(user = user, active = True, placed = False)
+
+    return kudos
+
+
+def update_kudos(user, date_limit="2023-02-13"):
+    print("update kudos")
+
+    return None
