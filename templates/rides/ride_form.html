@@ -12,6 +12,7 @@
         {% else %}
             <h2 class="text-center">Add/Edit Ride</h2>
         {% endif %}
+        {{ form.media }}
         <form action="" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
