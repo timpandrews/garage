@@ -1,11 +1,13 @@
 from datetime import date
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from apps.garage.helper import *
 from apps.garage.models import Kudos
 
 
+@login_required
 def kudos(request):
     update_kudos(request.user)
     date_ranges = get_date_ranges(date.today(), request.user)
@@ -23,6 +25,7 @@ def kudos(request):
     return render(request, "kudos/kudos.html", {'context': context})
 
 
+@login_required
 def trophies(request):
     update_kudos(request.user)
     context = {}
