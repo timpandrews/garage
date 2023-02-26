@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from apps.garage.helper import *
-from apps.garage.models import Kudos
+from apps.garage.models import Doc, Kudos
 
 
 @login_required
@@ -13,7 +13,8 @@ def kudos(request):
     date_ranges = get_date_ranges(date.today(), request.user)
 
     weekly_kudos = get_weekly_kudos(
-        request.user, date_ranges["week_start"], date_ranges["week_end"])
+        request.user, date_ranges["week_start"], date_ranges["week_end"]
+    )
 
     kudos_rtbp = get_kudos_rtbp(request.user)
 
@@ -22,7 +23,7 @@ def kudos(request):
         "kudos_rtbp": kudos_rtbp,
     }
 
-    return render(request, "kudos/kudos.html", {'context': context})
+    return render(request, "kudos/kudos.html", {"context": context})
 
 
 @login_required
@@ -30,7 +31,7 @@ def trophies(request):
     update_kudos(request.user)
     context = {}
 
-    return render(request, "kudos/trophies.html", {'context': context})
+    return render(request, "kudos/trophies.html", {"context": context})
 
 
 def get_weekly_kudos(user, start, end):
@@ -64,12 +65,22 @@ def get_kudos_rtbp(user):
     """
     Get Kudos Ready To Be Places (rtbp)
     """
-    kudos = Kudos.objects.filter(user = user, active = True, placed = False)
+    kudos = Kudos.objects.filter(user=user, active=True, placed=False)
 
     return kudos
 
 
 def update_kudos(user, date_limit="2023-02-13"):
     print("update kudos")
+    week_start = get_date_ranges(date.today(), user)["week_start"]
+    # el_act = eligible activities (rides, hps, etc. from DOC model)
+    el_act = Doc.objects.filter(user=user, kudosed=False, doc_date__lt=week_start)
+    print(week_start)
+    print(len(el_act))
+    for act in el_act:
+        if act.doc_type == "ride":
+            print("ride")
+        elif act.doc_type == "hp":
+            print("hp")
 
     return None

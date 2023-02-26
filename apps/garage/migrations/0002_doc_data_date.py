@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name="doc",
-            name="data_date",
+            name="doc_date",
             field=models.DateTimeField(default="2012-01-01 12:00:00"),
             preserve_default=False,
         ),

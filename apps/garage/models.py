@@ -12,8 +12,8 @@ KUDOS_TYPES = (
 
 class Doc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    data_type = models.CharField(max_length = 200)
-    data_date = models.DateTimeField()
+    doc_type = models.CharField(max_length = 200)
+    doc_date = models.DateTimeField()
     data = models.JSONField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -21,10 +21,10 @@ class Doc(models.Model):
     kudosed = models.BooleanField(default=False)
 
     class Meta:
-        get_latest_by = "data_date"
+        get_latest_by = "doc_date"
 
     def __str__(self):
-        return self.data_type
+        return self.doc_type
 
 
 class Kudos(models.Model):

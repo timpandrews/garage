@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("data_type", models.CharField(max_length=200)),
+                ("doc_type", models.CharField(max_length=200)),
                 ("data", models.JSONField()),
                 ("created", models.DateTimeField(auto_now_add=True)),
                 ("updated", models.DateTimeField(auto_now=True)),

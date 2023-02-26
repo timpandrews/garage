@@ -9,8 +9,8 @@ class DocAdmin(admin.ModelAdmin):
             "fields": [
                 "id",
                 "user",
-                "data_type",
-                "data_date",
+                "doc_type",
+                "doc_date",
                 "data",
                 "created",
                 "updated",
@@ -24,17 +24,17 @@ class DocAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
-        "data_type",
-        "data_date",
+        "doc_type",
+        "doc_date",
         "data",
         "created",
         "updated",
         "active",
         "kudosed",
     )
-    list_display_links = ("id", "user", "data_type")
+    list_display_links = ("id", "user", "doc_type")
     list_editable = ("active", "kudosed",)
-    list_filter = ("user", "data_type")
+    list_filter = ("user", "doc_type")
 admin.site.register(Doc, DocAdmin)
 
 

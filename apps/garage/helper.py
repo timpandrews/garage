@@ -17,7 +17,7 @@ def get_date_ranges(today, user):
     year_end = date(today.year, 12, 31)
 
     earliest_ride = Doc.objects.filter(user=user, active=True).earliest()
-    start_date = earliest_ride.data_date
+    start_date = earliest_ride.doc_date
     lifetime_start = date(start_date.year, start_date.month, start_date.day)
     lifetime_end = year_end
 
@@ -51,7 +51,7 @@ def rides_serializer(rides_qs):
         ride_dict = {}
         ride_dict["id"] = ride.id
         ride_dict["user"] = ride.user
-        ride_dict["data_type"] = ride.data_type
+        ride_dict["doc_type"] = ride.doc_type
         ride_dict["created"] = ride.created
         ride_dict["updated"] = ride.updated
         if isinstance(ride.data, str):
@@ -70,8 +70,8 @@ def rides_serializer(rides_qs):
 def get_rides_in_range(user, start, end):
     rides = rides_serializer(Doc.objects.filter(
         user = user,
-        data_type = "ride",
-        data_date__range=[start, end],
+        doc_type = "ride",
+        doc_date__range=[start, end],
         active = True,
         ))
 

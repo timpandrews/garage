@@ -27,7 +27,7 @@ def build_ride_dict(row):
     ride["strava_id"] = row[0]
 
     start = row[1]
-    start = datetime.strptime(start, '%b %d, %Y, %H:%M:%S %p')
+    start = datetime.strptime(start, "%b %d, %Y, %H:%M:%S %p")
     start = start.strftime("%m-%d-%Y %H:%M:%S")
     ride["start"] = start
 
@@ -70,7 +70,6 @@ def build_ride_dict(row):
         ride["hr_avg"] = round(float(row[31]))
     except:
         pass
-
 
     try:
         ride["power_avg"] = round(float(row[33]))
@@ -120,30 +119,30 @@ def format_save_data_db(user_id, ride):
         data["calories"] = ride["calories"]
     json.dumps(data)
 
-    data_date = data["start"]
-    data_date = datetime.strptime(data_date, '%m/%d/%Y %H:%M:%S')
+    doc_date = data["start"]
+    doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
     r = Doc(
-        user_id = user_id,
-        data_type = "ride",
-        data_date = data_date,
-        data = data,
-        created = datetime.now(),
-        updated = datetime.now()
+        user_id=user_id,
+        doc_type="ride",
+        doc_date=doc_date,
+        data=data,
+        created=datetime.now(),
+        updated=datetime.now(),
     )
     r.save()
 
 
 class Command(BaseCommand):
-    help = 'Bulk Import from Strava Files'
+    help = "Bulk Import from Strava Files"
 
     def add_arguments(self, parser):
-        parser.add_argument('file_name', nargs='+', type=str)
-        parser.add_argument('user_id', nargs='+', type=int)
+        parser.add_argument("file_name", nargs="+", type=str)
+        parser.add_argument("user_id", nargs="+", type=int)
 
     def handle(self, *args, **options):
-        user_id = options['user_id'][0]
-        os.chdir('data')
-        fn = options['file_name'][0]
+        user_id = options["user_id"][0]
+        os.chdir("data")
+        fn = options["file_name"][0]
 
         rides = []
         with open(fn) as file_obj:
@@ -153,16 +152,10 @@ class Command(BaseCommand):
             for i, row in enumerate(reader_obj):
                 ride = build_ride_dict(row)
                 rides.append(ride)
-                print('.', end='')
+                print(".", end="")
 
         print("\nSave to db:")
         for ride in rides:
             format_save_data_db(user_id, ride)
-            print('.', end='')
+            print(".", end="")
         print("\n")
-
-
-
-
-
-
