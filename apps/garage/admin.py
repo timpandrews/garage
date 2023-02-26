@@ -20,7 +20,7 @@ class DocAdmin(admin.ModelAdmin):
             }
         ),
     ]
-    readonly_fields = ("created", "updated")
+    readonly_fields = ("id", "created", "updated")
     list_display = (
         "id",
         "user",
@@ -33,6 +33,7 @@ class DocAdmin(admin.ModelAdmin):
         "kudosed",
     )
     list_display_links = ("id", "user", "data_type")
+    list_editable = ("active", "kudosed",)
 admin.site.register(Doc, DocAdmin)
 
 
@@ -41,8 +42,8 @@ class KudosAdmin(admin.ModelAdmin):
         ("Fieldset", {
             "fields": [
                 "hex",
-                "user",
                 "key",
+                "user",
                 "type",
                 "data",
                 "created",

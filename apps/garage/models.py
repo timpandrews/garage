@@ -28,9 +28,9 @@ class Doc(models.Model):
 
 
 class Kudos(models.Model):
-    hex = models.CharField(max_length=8, blank=True)
+    hex = models.CharField(max_length=8, blank=True) # value set in signals.create_hexkey()
+    key = models.CharField(max_length=20, blank=True) # value set in signals.create_hexkey()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    key = models.CharField(max_length=20) # value set in signals.create_hexkey()
     type = models.CharField(max_length=20, choices=KUDOS_TYPES,)
     data = models.JSONField(blank=True, default=dict)
     created = models.DateTimeField(auto_now_add=True)
