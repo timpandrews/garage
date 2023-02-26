@@ -14,7 +14,8 @@ class DocAdmin(admin.ModelAdmin):
                 "data",
                 "created",
                 "updated",
-                "active"
+                "active",
+                "kudosed",
                 ]
             }
         ),
@@ -29,6 +30,7 @@ class DocAdmin(admin.ModelAdmin):
         "created",
         "updated",
         "active",
+        "kudosed",
     )
     list_display_links = ("id", "user", "data_type")
 admin.site.register(Doc, DocAdmin)
@@ -38,6 +40,7 @@ class KudosAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Fieldset", {
             "fields": [
+                "hex",
                 "user",
                 "key",
                 "type",
@@ -53,6 +56,7 @@ class KudosAdmin(admin.ModelAdmin):
     readonly_fields = ("created", "updated")
     list_display = (
         "id",
+        "hex",
         "key",
         "user",
         "type",
@@ -62,6 +66,6 @@ class KudosAdmin(admin.ModelAdmin):
         "active",
         "placed",
     )
-    list_display_links = ("id", "key")
+    list_display_links = ("id", "hex", "key")
 
 admin.site.register(Kudos, KudosAdmin)
