@@ -50,9 +50,13 @@
                 {% lorem %}
             </p>
             <div class="card bg-light">
-                {% for kudo in context.kudos_rtbp %}
-                    {{ kudo.key }}
-                {% endfor %}
+                <span>
+                    {% for kudo in context.kudos_rtbp %}
+                        <button type="button" class="btn btn-secondary btn-sm m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ kudo.data.desc }}">
+                            <i class="bi bi-trophy"></i>
+                        </button>
+                    {% endfor %}
+                </span>
             </div>
         </div>
     </div>

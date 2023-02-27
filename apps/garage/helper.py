@@ -1,20 +1,23 @@
 import calendar
+import time
 from datetime import date, datetime, timedelta
 
 from apps.garage.models import Doc
 
 
-def get_date_ranges(today, user):
-    week_start = today - timedelta(days=today.weekday())
+def get_date_ranges(input_date, user):
+    week_start = input_date - timedelta(days=input_date.weekday())
     week_end = week_start + timedelta(days=6)
 
-    month_start = date(today.year, today.month, 1)
+    month_start = date(input_date.year, input_date.month, 1)
     month_end =date(
-        today.year, today.month, calendar.monthrange(today.year, today.month)[1]
+        input_date.year,
+        input_date.month,
+        calendar.monthrange(input_date.year, input_date.month)[1]
     )
 
-    year_start = date(today.year, 1, 1)
-    year_end = date(today.year, 12, 31)
+    year_start = date(input_date.year, 1, 1)
+    year_end = date(input_date.year, 12, 31)
 
     earliest_ride = Doc.objects.filter(user=user, active=True).earliest()
     start_date = earliest_ride.doc_date
