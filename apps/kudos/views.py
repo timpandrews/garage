@@ -26,14 +26,6 @@ def kudos(request):
     return render(request, "kudos/kudos.html", {"context": context})
 
 
-@login_required
-def trophies(request):
-    update_kudos(request.user)
-    context = {}
-
-    return render(request, "kudos/trophies.html", {"context": context})
-
-
 def get_weekly_kudos(user, start, end):
     # print("get_weekly_kudos")
     rides = get_rides_in_range(user, start, end)
