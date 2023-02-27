@@ -26,15 +26,15 @@ class DocAdmin(admin.ModelAdmin):
         "user",
         "doc_type",
         "doc_date",
+        "kudosed",
         "data",
         "created",
         "updated",
         "active",
-        "kudosed",
     )
     list_display_links = ("id", "user", "doc_type")
     list_editable = ("active", "kudosed",)
-    list_filter = ("user", "doc_type")
+    list_filter = ("user", "doc_type", "kudosed")
 admin.site.register(Doc, DocAdmin)
 
 
