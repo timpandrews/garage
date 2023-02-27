@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "apps.rides",
     "apps.dashboard",
     "apps.kudos",
+    "apps.trophies",
     # 3rd party apps
     "django_bootstrap5",
 ]
