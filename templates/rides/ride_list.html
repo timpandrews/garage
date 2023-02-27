@@ -21,7 +21,7 @@
                 <tr>
                     <th class="" scope="col">ID</th>
                     <th class="" scope="col">User ID</th>
-                    <th class="" scope="col" nowrap>Data Type</th>
+                    <th class="" scope="col" nowrap>Doc Type</th>
                     <th class="" scope="col">Data</th>
                     <th></th>
                 </tr>
@@ -31,7 +31,7 @@
                     <tr>
                         <td class="ml-5">{{ride.id}}</td>
                         <td class="ml-5">{{ride.user}}</td>
-                        <td class="ml-5">{{ride.data_type}}</td>
+                        <td class="ml-5">{{ride.doc_type}}</td>
                         <td class="" style="width:60%">{{ride.data}}</td>
                         <td nowrap>
                             <a class="me-2" href="{% url 'rides:ride_detail' ride.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>

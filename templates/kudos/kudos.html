@@ -1,0 +1,68 @@
+{% extends 'include/base.html' %}{% load static %}
+
+{% block content %}
+
+<h1>Kudos</h1>
+
+<!-- Weekly Kudos -->
+<p>
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWeekly" aria-expanded="false" aria-controls="collapseWeekly">
+        <i class="bi bi-arrows-collapse me-2"></i>Weekly Kudos
+    </button>
+</p>
+
+<div class="collapse show mb-5" id="collapseWeekly">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="bi bi-trophy me-2"></i>Weekly Kudos
+            </h5>
+            <p class="card-text">
+                These are the Kudos you have earned so far this week.  Kudos are available
+                to place in your Trophy Page and the end of the week.
+            </p>
+            <div class="card bg-light">
+                <span>
+                    Kudos for Rides: {{ context.weekly_kudos.ride_kudos_num }}
+                    {% for kudo in context.weekly_kudos.ride_kudos_list %}
+                        <i class="bi bi-trophy me-2"></i>
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kudos Ready to be Placed -->
+<p>
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWeeklyKudos" aria-expanded="false" aria-controls="collapseWeekly">
+        <i class="bi bi-arrows-collapse me-2"></i>Kudos Ready to be Placed
+    </button>
+</p>
+
+<div class="collapse show" id="collapse">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="bi bi-trophy-fill me-2"></i></i>Kudos Ready to be Placed
+            </h5>
+            <p class="card-text">
+                {% lorem %}
+            </p>
+            <div class="card bg-light">
+                <span>
+                    {% for kudo in context.kudos_rtbp %}
+                        <button type="button" class="btn btn-secondary btn-sm m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ kudo.data.desc }}">
+                            <i class="bi bi-trophy"></i>
+                        </button>
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} <br><br>
+{{ context.weekly_kudos }} {% endcomment %}
+
+{% endblock %}

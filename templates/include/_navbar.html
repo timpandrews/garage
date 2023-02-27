@@ -9,6 +9,7 @@
             <div class="collapse navbar-collapse " id="navbar">
                 <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
                     {% include "include/_dashboard.html" %}
+                    <!-- Rides -->
                     {% if "rides" in request.path %}
                         <li class="nav-item active fw-bolder" id="Rides">
                             <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
@@ -18,15 +19,33 @@
                             <a class="nav-link" href="/rides">Rides</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin</a>
-                    </li>
+                    <!-- Kudos Page -->
+                    {% if "kudos" in request.path %}
+                        <li class="nav-item active fw-bolder" id="kudos">
+                            <a class="nav-link w3-text-light-blue" href="/kudos">Kudos</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" id="kudos">
+                            <a class="nav-link" href="/kudos">Kudos</a>
+                        </li>
+                    {% endif %}
+                    <!-- Trophies Page -->
+                    {% if "trophies" in request.path %}
+                        <li class="nav-item active fw-bolder" id="trophies">
+                            <a class="nav-link w3-text-light-blue" href="/trophies">Trophies</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" id="Rides">
+                            <a class="nav-link" href="/trophies">Trophies</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <!-- Profile & Login/Logout Pages-->
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link w3-text-black w3-large" href="#">
-                                <i class="bi bi-person-circle"></i>
+                                <i class="bi bi-person-bounding-box"></i>
                                 {{ user }}({{ user.id}})
                             </a>
                         </li>
@@ -36,6 +55,15 @@
                     {% else %}
                         <li class="nav-item" >
                             <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+                        </li>
+                    {% endif %}
+                    <!-- Admin Page -->
+                    {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">
+                                <i class="bi bi-tools"></i>
+                                Admin
+                            </a>
                         </li>
                     {% endif %}
                 </ul>

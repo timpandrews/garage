@@ -11,9 +11,15 @@ from django.views.generic import FormView, TemplateView
 from apps.garage.models import Doc
 
 from .forms import DBMonthForm
-from .helper import (convert_ranges_to_str, get_color, get_distance_history,
-                     get_last_day_of_month, get_week_range, get_weekly_rides,
-                     get_weekly_sums)
+from .helper import (
+    convert_ranges_to_str,
+    get_color,
+    get_distance_history,
+    get_last_day_of_month,
+    get_week_range,
+    get_weekly_rides,
+    get_weekly_sums,
+)
 
 
 @login_required
@@ -42,36 +48,47 @@ def dashboard(request):
         "data": data,
     }
 
-    return render(request, "dashboard/dashboard.html", {'context': context})
+    return render(request, "dashboard/dashboard.html", {"context": context})
 
 
 @login_required
 def db_month(request):
-
-    if request.method == 'POST':
+    if request.method == "POST":
         form = DBMonthForm(request.POST)
         if form.is_valid():
             start_year = form.cleaned_data["start_year"]
             end_year = form.cleaned_data["end_year"]
             range_override = True
     else:
-        form = DBMonthForm(initial={
-            'start_year': datetime.datetime.now().year - 5,
-            'end_year': datetime.datetime.now().year
-        })
+        form = DBMonthForm(
+            initial={
+                "start_year": datetime.datetime.now().year - 5,
+                "end_year": datetime.datetime.now().year,
+            }
+        )
         range_override = False
 
-    colors = ["#827BC5","#7D8B96","#15807C","#332F32","#C8C1BB","#AB4738","#5B5963"]
+    colors = [
+        "#827BC5",
+        "#7D8B96",
+        "#15807C",
+        "#332F32",
+        "#C8C1BB",
+        "#AB4738",
+        "#5B5963",
+    ]
 
     earliest_ride = Doc.objects.filter(user=request.user, active=True).earliest()
-    start_date = earliest_ride.data_date
+    start_date = earliest_ride.doc_date
     first_date = start_date.replace(day=1)
 
     # if first_date is more then 5 years ago, change first_date to 5 years ago
     # too keep chart from having too much data to view easily
     if first_date.year < datetime.datetime.now().year - 5:
         tz = get_localzone()
-        first_date = tz.localize(datetime.datetime(datetime.datetime.now().year - 5, 1, 1))
+        first_date = tz.localize(
+            datetime.datetime(datetime.datetime.now().year - 5, 1, 1)
+        )
 
     last_date = datetime.datetime.now(timezone.utc)
 
@@ -90,15 +107,16 @@ def db_month(request):
         if current_year == end_year:
             current_month = datetime.datetime.now().month
             current_month_end_day = get_last_day_of_month(datetime.datetime.now())
-            last_date = datetime.datetime(end_year, current_month, current_month_end_day)
+            last_date = datetime.datetime(
+                end_year, current_month, current_month_end_day
+            )
         else:
             last_date = datetime.datetime(end_year, 12, 31)
 
-
     for dt in rrule.rrule(rrule.MONTHLY, dtstart=first_date, until=last_date):
-        year = str(dt.strftime('%Y'))
-        month = str(dt.strftime('%m'))
-        month_year_str = str(dt.strftime('%b %Y'))
+        year = str(dt.strftime("%Y"))
+        month = str(dt.strftime("%m"))
+        month_year_str = str(dt.strftime("%b %Y"))
         month_year.append(month_year_str)
 
         # get new color for columns for each new year
@@ -110,10 +128,8 @@ def db_month(request):
         # get monthly milage
         miles_this_year = 0
         rides = Doc.objects.filter(
-            user=request.user,
-            data_date__year=year,
-            data_date__month=month,
-            active=True)
+            user=request.user, doc_date__year=year, doc_date__month=month, active=True
+        )
         for ride in rides:
             miles_this_year += ride.data["distance"]
         milage.append(round(miles_this_year))
@@ -126,34 +142,43 @@ def db_month(request):
         "chart_title": "Distance (KM) by Month",
     }
 
-    return render(request, "dashboard/month.html", {'context': context})
+    return render(request, "dashboard/month.html", {"context": context})
 
 
 class db_year(LoginRequiredMixin, TemplateView):
-    colors = ["#827BC5","#7D8B96","#15807C","#332F32","#C8C1BB","#AB4738","#5B5963"]
+    colors = [
+        "#827BC5",
+        "#7D8B96",
+        "#15807C",
+        "#332F32",
+        "#C8C1BB",
+        "#AB4738",
+        "#5B5963",
+    ]
     template_name = "dashboard/year.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        earliest_ride = Doc.objects.filter(user=self.request.user, active=True).earliest()
-        start = int(earliest_ride.data_date.strftime("%Y"))
+        earliest_ride = Doc.objects.filter(
+            user=self.request.user, active=True
+        ).earliest()
+        start = int(earliest_ride.doc_date.strftime("%Y"))
         current = datetime.date.today().year
 
         years = []
         milage = []
         bgColor = []
 
-        for i, year in enumerate(range(start, current+1)):
+        for i, year in enumerate(range(start, current + 1)):
             years.append(year)
             bgColor.append(get_color(self.colors, i))
 
             # get yearly milage
             miles_this_year = 0
             rides = Doc.objects.filter(
-                user=self.request.user,
-                data_date__year=year,
-                active=True)
+                user=self.request.user, doc_date__year=year, active=True
+            )
             for ride in rides:
                 miles_this_year += ride.data["distance"]
             milage.append(round(miles_this_year))
