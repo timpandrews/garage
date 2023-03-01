@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Doc, Kudos
+from .models import Doc, Kudos, Profile
 
 
 class DocAdmin(admin.ModelAdmin):
@@ -69,5 +69,9 @@ class KudosAdmin(admin.ModelAdmin):
         "placed",
     )
     list_display_links = ("id", "hex", "key")
-
 admin.site.register(Kudos, KudosAdmin)
+
+
+class ProfileAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Profile, ProfileAdmin)

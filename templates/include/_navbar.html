@@ -44,7 +44,7 @@
                     <!-- Profile & Login/Logout Pages-->
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link w3-text-black w3-large" href="#">
+                            <a class="nav-link w3-text-black w3-large" href="{% url 'profile' user.id %}">
                                 <i class="bi bi-person-bounding-box"></i>
                                 {{ user }}({{ user.id}})
                             </a>
