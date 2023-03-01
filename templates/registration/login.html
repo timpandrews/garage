@@ -7,11 +7,28 @@
     <h2>Log In</h2>
     <form method="post">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% bootstrap_field form.username %}
+        {% bootstrap_field form.password addon_after="<i class='bi bi-eye-slash' id='togglePassword' onclick='togglePassword()''></i>"%}
+
         <button type="submit" class="btn btn-primary">
             <i class="bi bi-box-arrow-in-right me-2"></i>Log In
         </button>
     </form>
 </div>
+
+<script>
+    // Toggle between password & cleartext for password field
+    function togglePassword() {
+        var field = document.getElementById("id_password");
+        var icon = document.getElementById("togglePassword")
+        if (field.type === "password") {
+            field.type = "text";
+            icon.className = "bi bi-eye";
+        } else {
+            field.type = "password";
+            icon.className = "bi bi-eye-slash";
+        }
+    }
+</script
 
 {% endblock %}
