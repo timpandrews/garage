@@ -1,0 +1,24 @@
+{% extends 'include/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+    <h2>Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary text-nowrap">
+            <i class="bi bi-save me-2"></i>Update
+        </button>
+        <button type="submit" class="btn btn-success text-nowrap" onclick="window.location='{% url 'change_password' %}'; return false;">
+            <i class="bi bi-key me-2"></i>Change Password
+        </button>
+        <buatton type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'landing' %}'; return false;">
+            <i class="bi bi-x-circle me-2"></i>Cancel
+        </buatton>
+        <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'logout' %}'; return false;">
+            <i class="bi bi-box-arrow-in-left me-2"></i>Logout
+        </button>
+    </form>
+{% endblock content %}

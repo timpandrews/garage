@@ -1,14 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import signals
-from django.dispatch import receiver
+
 
 KUDOS_TYPES = (
     ("App", "app"), # Application Kudos
     ("Rides", "rides"),
     ("HP", "hp"), # health points
 )
-
 
 class Doc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -43,3 +41,12 @@ class Kudos(models.Model):
 
     def __str__(self):
         return self.key
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_confirmed = models.BooleanField(default=False)
+    test = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.user.username

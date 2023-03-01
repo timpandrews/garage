@@ -1,0 +1,49 @@
+{% extends 'include/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Signup{% endblock title %}
+
+{% block content %}
+    <h2>Signup</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        {% bootstrap_field form.username %}
+        {% bootstrap_field form.first_name %}
+        {% bootstrap_field form.last_name %}
+        {% bootstrap_field form.email %}
+        {% bootstrap_field form.password1 addon_after="<i class='bi bi-eye-slash' id='togglePassword1' onclick='togglePassword1()''></i>" %}
+        {% bootstrap_field form.password2 addon_after="<i class='bi bi-eye-slash' id='togglePassword2' onclick='togglePassword2()''></i>" %}
+
+        <button type="submit" class="btn btn-primary text-nowrap" >
+            Register
+        </button>
+    </form>
+
+<script>
+    // Toggle between password & cleartext for password field
+    function togglePassword1() {
+        var field = document.getElementById("id_password1");
+        var icon = document.getElementById("togglePassword1")
+        if (field.type === "password") {
+            field.type = "text";
+            icon.className = "bi bi-eye";
+        } else {
+            field.type = "password";
+            icon.className = "bi bi-eye-slash";
+        }
+    }
+
+    function togglePassword2() {
+        var field = document.getElementById("id_password2");
+        var icon = document.getElementById("togglePassword2")
+        if (field.type === "password") {
+            field.type = "text";
+            icon.className = "bi bi-eye";
+        } else {
+            field.type = "password";
+            icon.className = "bi bi-eye-slash";
+        }
+    }
+</script>
+{% endblock content %}

@@ -38,3 +38,21 @@ body, html {
     text-align: center;
     color:cornflowerblue;
   }
+
+  .btn-primary {
+    background-color: #7e77c9!important;
+    border-color: #716bb5!important;
+  }
+
+  .btn-primary:active{
+    /*formatting goes here*/
+  }
+  btn-primary:hover{
+    background-color: #58538d!important;
+    border-color: #655fa1!important;
+  }
+  }
+  btn-primary:focus{
+    background-color: #58538d!important;
+    border-color: #655fa1!important;
+  }
