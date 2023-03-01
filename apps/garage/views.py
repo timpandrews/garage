@@ -22,7 +22,7 @@ def landing(response):
 # Sign Up View
 class SignUpView(View):
     form_class = SignUpForm
-    template_name = 'registration/signup.html'
+    template_name = 'user/signup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -38,7 +38,7 @@ class SignUpView(View):
 
             current_site = get_current_site(request)
             subject = 'Activate Your MySite Account'
-            message = render_to_string('registration/account_activation_email.html', {
+            message = render_to_string('user/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -54,7 +54,6 @@ class SignUpView(View):
 
 
 class ActivateAccount(View):
-
     def get(self, request, uidb64, token, *args, **kwargs):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
@@ -79,4 +78,4 @@ class ProfileView(UpdateView):
     model = User
     form_class = ProfileForm
     success_url = reverse_lazy('home')
-    template_name = 'commons/profile.html'
+    template_name = 'user/profile.html'
