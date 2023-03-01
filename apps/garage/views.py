@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -10,8 +9,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import UpdateView, View
 
-from .forms import SignUpForm, ProfileForm
-from .models import Doc
+from .forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
+from .models import UserProfile
 from .tokens import account_activation_token
 
 
@@ -74,8 +73,11 @@ class ActivateAccount(View):
 
 
 # Edit Profile View
-class ProfileView(UpdateView):
+class EditProfileView(UpdateView):
+    template_name = 'users/profile.html'
+    context_object_name = 'user'
     model = User
-    form_class = ProfileForm
+    form_class = UserUpdateForm
+    profile_form = ProfileUpdateForm
     success_url = reverse_lazy('home')
-    template_name = 'user/profile.html'
+

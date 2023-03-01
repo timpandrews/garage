@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from .models import UserProfile
+
 
 # Sign Up Form
 class SignUpForm(UserCreationForm):
@@ -21,7 +23,7 @@ class SignUpForm(UserCreationForm):
             ]
 
 
-class ProfileForm(forms.ModelForm):
+class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
@@ -30,4 +32,9 @@ class ProfileForm(forms.ModelForm):
             'first_name',
             'last_name',
             'email',
-            ]
+        ]
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+         model = UserProfile
+         fields = ['bio', 'location', 'birth_date',]
