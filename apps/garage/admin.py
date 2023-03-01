@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Doc, Kudos, Profile
+from .models import Doc, Kudos, UserProfile
 
 
 class DocAdmin(admin.ModelAdmin):
@@ -72,6 +72,6 @@ class KudosAdmin(admin.ModelAdmin):
 admin.site.register(Kudos, KudosAdmin)
 
 
-class ProfileAdmin(admin.ModelAdmin):
+class UserProfileAdmin(admin.ModelAdmin):
     pass
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
