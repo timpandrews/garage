@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models import signals
 from django.dispatch import receiver
 
-from .models import Kudos, Profile
+from .models import Kudos, UserProfile
 
 
 @receiver(signals.post_save, sender=Kudos)
@@ -16,5 +16,5 @@ def create_hexkey(sender, instance, created, **kwargs):
 @receiver(signals.post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        UserProfile.objects.create(user=instance)
         instance.profile.save()
