@@ -8,7 +8,7 @@
     <form method="post">
         {% csrf_token %}
         {% bootstrap_field form.username %}
-        {% bootstrap_field form.password addon_after="<i class='bi bi-eye-slash' id='togglePassword' onclick='togglePassword()''></i>"%}
+        {% bootstrap_field form.password addon_after="<i class='bi bi-eye-slash' id='togglePassword' onclick='togglePassword()''></i>" %}
 
         <button type="submit" class="btn btn-primary">
             <i class="bi bi-box-arrow-in-right me-2"></i>Log In
@@ -29,6 +29,6 @@
             icon.className = "bi bi-eye-slash";
         }
     }
-</script
+</script>
 
 {% endblock %}
