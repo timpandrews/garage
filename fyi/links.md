@@ -7,6 +7,8 @@
 
 [Classy Class-Based Views (cheatsheet) ](https://ccbv.co.uk/)
 
-[Font Awesome v5 Docs](https://fontawesome.com/v5/docs/web/setup/host-font-awesome-yourself)
-
 [Query Postgres JSON Field](https://gdevops.gitlab.io/tuto_django/documentation/meta_postgresql/django.contrib.postgres/fields/json_field/json_field.html)
+
+[Django-Bootstrap-v5](https://django-bootstrap-v5.readthedocs.io/en/latest/index.html)
+
+[Django-Bootstrap-Datepicker-Plus](https://django-bootstrap-datepicker-plus.readthedocs.io/en/latest/index.html)
