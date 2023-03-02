@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "apps.kudos",
     # 3rd party apps
     "django_bootstrap5",
+    "bootstrap_datepicker_plus",
 ]
 
 MIDDLEWARE = [

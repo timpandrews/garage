@@ -1,3 +1,4 @@
+from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -41,7 +42,7 @@ class UpdateProfileForm(forms.ModelForm):
     location = forms.CharField(
         max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
     birth_date = forms.DateField(
-        required=False, widget=forms.DateInput(attrs={"class": "form-control"}))
+        required=False, widget=DatePickerInput(attrs={"class": "form-control"}))
     class Meta:
         model = Profile
         fields = ['bio', 'location', 'birth_date']
