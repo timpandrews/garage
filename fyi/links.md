@@ -10,3 +10,5 @@
 [Font Awesome v5 Docs](https://fontawesome.com/v5/docs/web/setup/host-font-awesome-yourself)
 
 [Query Postgres JSON Field](https://gdevops.gitlab.io/tuto_django/documentation/meta_postgresql/django.contrib.postgres/fields/json_field/json_field.html)
+
+[git - the simple guide - no deep shit](https://rogerdudler.github.io/git-guide/)
