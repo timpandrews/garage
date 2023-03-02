@@ -43,7 +43,7 @@ class Kudos(models.Model):
         return self.key
 
 
-class UserProfile(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email_confirmed = models.BooleanField(default=False)
     bio = models.TextField(max_length=500, blank=True)

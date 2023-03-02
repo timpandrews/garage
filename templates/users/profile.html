@@ -7,10 +7,9 @@
     <h2>Profile</h2>
     <form method="post">
         {% csrf_token %}
-        {% bootstrap_form form %}
-        {% for field in profile_form %}
-            {{ forloop.counter }}
-        {% endfor %}
+        {% bootstrap_form user_form %}
+        {% bootstrap_form profile_form %}
+
         <button type="submit" class="btn btn-primary text-nowrap">
             <i class="bi bi-save me-2"></i>Update
         </button>
