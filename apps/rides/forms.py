@@ -1,14 +1,14 @@
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django import forms
 from django.forms import ModelForm
-from django.contrib.admin.widgets import AdminSplitDateTime
 
 from apps.garage.models import Doc
 
 
 class AddNewRide(ModelForm):
-    start = forms.SplitDateTimeField(
-        label="Start Date/Time", widget=AdminSplitDateTime()
-    )  # "%Y-%m-%d %H:%M:%S"
+    # "%Y-%m-%d %H:%M:%S"
+    start = forms.DateTimeField(
+        required=False, widget=DateTimePickerInput(attrs={"class": "form-control"}))
     ride_title = forms.CharField(
         label="Ride Title",
         max_length=200,

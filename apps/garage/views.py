@@ -1,17 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.views.generic import UpdateView, View
+from django.views.generic import View
 
-from .forms import SignUpForm, ProfileForm
-from .models import Doc
+from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
 from .tokens import account_activation_token
 
 
@@ -22,7 +21,7 @@ def landing(response):
 # Sign Up View
 class SignUpView(View):
     form_class = SignUpForm
-    template_name = 'user/signup.html'
+    template_name = 'users/signup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -38,7 +37,7 @@ class SignUpView(View):
 
             current_site = get_current_site(request)
             subject = 'Activate Your MySite Account'
-            message = render_to_string('user/account_activation_email.html', {
+            message = render_to_string('users/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -73,9 +72,19 @@ class ActivateAccount(View):
             return redirect('landing')
 
 
-# Edit Profile View
-class ProfileView(UpdateView):
-    model = User
-    form_class = ProfileForm
-    success_url = reverse_lazy('home')
-    template_name = 'user/profile.html'
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile )
+
+    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})

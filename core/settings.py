@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.trophies",
     # 3rd party apps
     "django_bootstrap5",
+    "bootstrap_datepicker_plus",
 ]
 
 MIDDLEWARE = [
