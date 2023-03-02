@@ -51,8 +51,11 @@
             </p>
             <div class="card bg-light">
                 <span>
-                    {% for kudo in context.kudos_rtbp %}
-                        <button type="button" class="btn btn-secondary btn-sm m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ kudo.data.desc }}">
+                    {% for kudos in context.kudos_rtbp %}
+                        <button type="button" class="btn btn-secondary btn-sm m-1"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="{{ kudos.hex }}"
+                                onclick="CopyHexToClipboard('{{ kudos.hex }}')">
                             <i class="bi bi-trophy"></i>
                         </button>
                     {% endfor %}
@@ -62,7 +65,11 @@
     </div>
 </div>
 
-{% comment %} <br><br>
-{{ context.weekly_kudos }} {% endcomment %}
+<script>
+    function CopyHexToClipboard(hex) {
+        alert(hex);
+        navigator.clipboard.writeText(hex);
+    }
+</script>
 
 {% endblock %}
