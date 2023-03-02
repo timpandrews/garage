@@ -3,8 +3,8 @@
 
 {% block title %}Profile{% endblock title %}
 {% block content %}
-{% comment %} {% debug %} {% endcomment %}
     <h2>Profile</h2>
+    {{ profile_form.media }}
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form user_form %}
