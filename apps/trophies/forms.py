@@ -9,4 +9,4 @@ class TrophiesForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['trophies_raw',]
+        fields = ['trophies',]

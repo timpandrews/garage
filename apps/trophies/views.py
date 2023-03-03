@@ -33,7 +33,7 @@ def trophies_view(request):
 
     context ={
         "profile_id": profile.id,
-        "trophies": profile.trophies_raw,
+        "trophies": profile.trophies,
     }
 
     return render(request, "trophies/trophies_view.html", context)
