@@ -10,14 +10,14 @@
     {% endif %}
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <li>
-            <a class="dropdown-item" href="{% url 'trophies' %}">
+            <a class="dropdown-item" href="{% url 'trophies_edit' %}">
                 Trophies Edit
             </a>
         </li>
-        <li>
-            <a class="dropdown-item" href="{% url 'trophies' %}">
+        {% comment %} <li>
+            <a class="dropdown-item" href="{% url 'trophies_view' %}">
                 Trophies View
             </a>
-        </li>
+        </li> {% endcomment %}
     </ul>
 </div>
