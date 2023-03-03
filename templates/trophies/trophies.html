@@ -1,7 +1,16 @@
 {% extends 'include/base.html' %}{% load static %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 
 <h1>Trophies</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">
+        Update
+    </button>
+</form>
 
 {% endblock %}

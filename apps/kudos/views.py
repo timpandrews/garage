@@ -59,7 +59,7 @@ def get_kudos_rtbp(user):
     Get Kudos Ready To Be Placed (rtbp)
     """
     kudos = Kudos.objects.filter(
-        user=user, active=True, placed=False).order_by("created")
+        user=user, active=True, placed=False).order_by("created").values()
 
     return kudos
 

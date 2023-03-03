@@ -1,9 +1,10 @@
 from django.urls import path
 
-from . import views
+from .views import TrophiesRaw, trophies_fw
 
 # app_name = 'trophies'
 
 urlpatterns = [
-    path("trophies/", views.trophies, name="trophies"),
+    path("trophies/<int:pk>/", TrophiesRaw.as_view(), name="trophies"),
+    path("trophies/", trophies_fw, name="trophies_fw"),
 ]

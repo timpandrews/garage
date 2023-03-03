@@ -55,7 +55,7 @@
                         <button type="button" class="btn btn-secondary btn-sm m-1"
                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                 title="{{ kudos.hex }}"
-                                onclick="CopyHexToClipboard('{{ kudos.hex }}')">
+                                onclick="CopyHexToClipboard('<{{ kudos.hex }}>')">
                             <i class="bi bi-trophy"></i>
                         </button>
                     {% endfor %}
@@ -67,7 +67,7 @@
 
 <script>
     function CopyHexToClipboard(hex) {
-        alert(hex);
+        alert("Kudos code: " + hex + " copied to clipboard");
         navigator.clipboard.writeText(hex);
     }
 </script>
