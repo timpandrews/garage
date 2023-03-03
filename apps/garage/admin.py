@@ -73,5 +73,11 @@ admin.site.register(Kudos, KudosAdmin)
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "id",
+        "user",
+        "location",
+        "birth_date",
+    )
+    list_display_links = ("id", "user")
 admin.site.register(Profile, ProfileAdmin)
