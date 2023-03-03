@@ -1,0 +1,14 @@
+{% extends 'include/base.html' %}{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<h1>Trophies - View</h1>
+
+<div class="card mx-5">
+    <div class="card-body">
+        {{ trophies }}
+    </div>
+</div>
+
+{% endblock %}

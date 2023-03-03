@@ -25,3 +25,15 @@ def trophies_edit(request):
     }
 
     return render(request, "trophies/trophies_edit.html", context)
+
+
+@login_required
+def trophies_view(request):
+    profile = Profile.objects.filter(user=request.user).first()
+
+    context ={
+        "profile_id": profile.id,
+        "trophies": profile.trophies_raw,
+    }
+
+    return render(request, "trophies/trophies_view.html", context)
