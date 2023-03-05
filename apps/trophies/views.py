@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic import UpdateView
@@ -10,30 +11,38 @@ from .forms import TrophiesForm
 
 
 @login_required
-def trophies_edit(request):
-    profile = Profile.objects.filter(user=request.user).first()
-    form = TrophiesForm(request.POST or None, instance = profile)
+def trophies_view(request, user_id):
+    user = User.objects.get(id=user_id)
+    profile = Profile.objects.get(user = user)
+    trophies = profile.bio
+    print("trophies", trophies, type(trophies))
 
-    if form.is_valid():
-        form.save()
-        messages.success(request, "You have updated The Trophies Page")
-        return HttpResponseRedirect(request.path_info)
+    context = {
+        "trophies": trophies
+    }
+
+    return render(request, "trophies/trophies_view.html", context)
+
+
+@login_required
+def trophies_edit(request, user_id):
+    print("trophies_edit")
+    user = User.objects.get(id=user_id)
+    user_profile = Profile.objects.get(user = user)
+    test = user_profile.trophies.html
+    form = TrophiesForm(instance = user_profile)
+
+    if request.method == "POST":
+        form = TrophiesForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "You have updated The Trophies Page")
+            return HttpResponseRedirect(request.path_info)
 
     context ={
-        "profile_id": profile.id,
         "form": form,
+        "test": test,
     }
 
     return render(request, "trophies/trophies_edit.html", context)
 
-
-@login_required
-def trophies_view(request):
-    profile = Profile.objects.filter(user=request.user).first()
-
-    context ={
-        "profile_id": profile.id,
-        "trophies": profile.trophies,
-    }
-
-    return render(request, "trophies/trophies_view.html", context)
