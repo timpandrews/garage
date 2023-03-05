@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     "django_bootstrap5",
     "bootstrap_datepicker_plus",
-    "django_quill",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [
