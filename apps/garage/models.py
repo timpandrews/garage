@@ -49,7 +49,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    trophies = QuillField(blank=True, null=True)
+    trophies = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

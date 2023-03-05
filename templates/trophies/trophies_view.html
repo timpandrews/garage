@@ -3,14 +3,11 @@
 
 {% block content %}
 
-x{{ trophies.html }}
-
 <h1>Trophies - View</h1>
 
 <div class="card mx-5">
     <div class="card-body">
-        {% comment %} {{ trophies.html | safe }} {% endcomment %}
-        {{ trophies }}
+        {{ trophies | safe }}
     </div>
 </div>
 

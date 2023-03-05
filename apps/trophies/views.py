@@ -14,8 +14,7 @@ from .forms import TrophiesForm
 def trophies_view(request, user_id):
     user = User.objects.get(id=user_id)
     profile = Profile.objects.get(user = user)
-    trophies = profile.bio
-    print("trophies", trophies, type(trophies))
+    trophies = profile.trophies
 
     context = {
         "trophies": trophies
@@ -26,10 +25,8 @@ def trophies_view(request, user_id):
 
 @login_required
 def trophies_edit(request, user_id):
-    print("trophies_edit")
     user = User.objects.get(id=user_id)
     user_profile = Profile.objects.get(user = user)
-    test = user_profile.trophies.html
     form = TrophiesForm(instance = user_profile)
 
     if request.method == "POST":
@@ -41,7 +38,6 @@ def trophies_edit(request, user_id):
 
     context ={
         "form": form,
-        "test": test,
     }
 
     return render(request, "trophies/trophies_edit.html", context)
