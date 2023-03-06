@@ -134,4 +134,3 @@ def update_kudos(user):
             week_start = get_date_ranges(first_act_date, user)["week_start"].replace(hour=0, minute=0, second=0)
             week_end = get_date_ranges(first_act_date, user)["week_end"].replace(hour=23, minute=59, second=59)
 
-    return None
