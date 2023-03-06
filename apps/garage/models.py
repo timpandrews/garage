@@ -49,8 +49,8 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    trophies = RichTextField(blank=True, null=True)
-    torphies2 = models.TextField(blank=True, null=True)
+    trophies_edit = RichTextField(blank=True, null=True)
+    trophies_view = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
