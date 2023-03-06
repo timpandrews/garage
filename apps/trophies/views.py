@@ -59,16 +59,18 @@ def trophies_edit(request, user_id):
 
 def sub_for_codes(profile_id):
     print("***sub_for_codes***")
-    
+
     user_profile = Profile.objects.get(id=profile_id)
     trophies_edit = user_profile.trophies_edit
-    match_str = "/&lt;([0-9]{6})&gt;"
+
+    match_str = r"&lt;([0-9]{6})&gt;"
     match = re.compile(match_str)
     icon = "<i class='bi bi-trophy'></i>"
+
     trophies_view = re.sub(match, icon, trophies_edit)
-    # trophies_view = trophies_edit.replace(">&lt;000042&gt;", "<i class='bi bi-trophy'></i>")
+
     print("trophies_edit", trophies_edit)
     print("match", match)
     print("trophies_view", trophies_view)
 
-    # Profile.objects.filter(id=profile_id).update(trophies_view=trophies_view)
+    Profile.objects.filter(id=profile_id).update(trophies_view=trophies_view)
