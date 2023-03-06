@@ -30,8 +30,16 @@
                             <a class="nav-link" href="/kudos">Kudos</a>
                         </li>
                     {% endif %}
-                    <!-- Dashboard -->
-                    {% include "include/_nav_trophies.html" %}
+                    <!-- Trophies -->
+                    {% if "trophies" in request.path %}
+                        <li class="nav-item active fw-bolder" id="kudos">
+                            <a class="nav-link w3-text-light-blue" href="/trophies">Trophies</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" id="kudos">
+                            <a class="nav-link" href="/trophies">Trophies</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                     <!-- Profile & Login/Logout Pages-->
