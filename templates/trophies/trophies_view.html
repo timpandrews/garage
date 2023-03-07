@@ -1,0 +1,20 @@
+{% extends 'include/base.html' %}{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<h1>Trophies - View</h1>
+
+<div class="text-center mb-2">
+    <a class="btn btn-primary btn-sm" href="{% url 'trophies_edit' user.id %}">
+        <i class="bi bi-pencil me-2">Edit</i>
+    </a>
+</div>
+
+<div class="card mx-5">
+    <div class="card-body">
+        {{ trophies_view | safe }}
+    </div>
+</div>
+
+{% endblock %}

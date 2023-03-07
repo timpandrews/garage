@@ -51,10 +51,36 @@
             </p>
             <div class="card bg-light">
                 <span>
-                    {% for kudo in context.kudos_rtbp %}
-                        <button type="button" class="btn btn-secondary btn-sm m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ kudo.data.desc }}">
+                    {% for kudos in context.kudos_rtbp %}
+                        {% if kudos.data.type == "welcome" %}
+                        <button type="button" class="btn btn-danger btn-sm m-1"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="{{ kudos.hex }}, {{ kudos.data.desc }}"
+                                onclick="CopyHexToClipboard('<{{ kudos.hex }}>')">
                             <i class="bi bi-trophy"></i>
                         </button>
+                        {% elif kudos.data.type == "ride" %}
+                            <button type="button" class="btn btn-success btn-sm m-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="{{ kudos.hex }}, {{ kudos.data.desc }}"
+                                    onclick="CopyHexToClipboard('<{{ kudos.hex }}>')">
+                                <i class="bi bi-trophy"></i>
+                            </button>
+                        {% elif kudos.data.type == "rides_bonus" %}
+                            <button type="button" class="btn btn-info btn-sm m-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="{{ kudos.hex }}, {{ kudos.data.desc }}"
+                                    onclick="CopyHexToClipboard('<{{ kudos.hex }}>')">
+                                <i class="bi bi-trophy"></i>
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-secondary btn-sm m-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="{{ kudos.hex }}, {{ kudos.data.desc }}"
+                                    onclick="CopyHexToClipboard('<{{ kudos.hex }}>')">
+                                <i class="bi bi-trophy"></i>
+                            </button>
+                        {% endif %}
                     {% endfor %}
                 </span>
             </div>
@@ -62,7 +88,11 @@
     </div>
 </div>
 
-{% comment %} <br><br>
-{{ context.weekly_kudos }} {% endcomment %}
+<script>
+    function CopyHexToClipboard(hex) {
+        alert("Kudos code: " + hex + " copied to clipboard");
+        navigator.clipboard.writeText(hex);
+    }
+</script>
 
 {% endblock %}

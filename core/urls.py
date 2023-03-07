@@ -11,4 +11,5 @@ urlpatterns = [
     path('', include('apps.rides.urls')),
     path('', include('apps.dashboard.urls')),
     path('', include('apps.kudos.urls')),
+    path('', include('apps.trophies.urls')),
 ]

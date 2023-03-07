@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     "apps.rides",
     "apps.dashboard",
     "apps.kudos",
+    "apps.trophies",
     # 3rd party apps
     "django_bootstrap5",
     "bootstrap_datepicker_plus",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,80 @@ LOGOUT_REDIRECT_URL = "landing"
 
 # Temp email solution, just writes emails to console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Configure CKEditor Toolbars
+CKEDITOR_CONFIGS = {
+    'default':
+        {'toolbar': 'Custom',
+         'toolbar_Custom': [
+            {'name': 'group1', 'items': [
+                'Format',
+                'Font',
+                'FontSize',
+            ]},
+            {'name': 'group2', 'items': [
+                '-',
+                'Bold',
+                'Italic',
+                'Underline',
+                'Strike',
+                'Subscript',
+                'Superscript',
+                '-',
+                'TextColor',
+                'BGColor',
+                '-',
+                'Link',
+                'Image',
+                'Table',
+                'HorizontalRule',
+                'Smiley',
+                'Blockquote',
+                '-',
+                'NumberedList',
+                'BulletedList', '-',
+                'Outdent',
+                'Indent', '-',
+                'JustifyLeft',
+                'JustifyCenter',
+                'JustifyRight',
+                'JustifyBlock'
+            ]},
+            {'name': 'group2', 'items': [
+                'Undo',
+                'Redo'
+            ]}
+        ]},
+}
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'skin': 'moono',
+#         'toolbar_YourCustomToolbarConfig': [
+#             {'name': 'group1', 'items': [
+#                 'Bold', 'Italic', 'Underline', 'Strike',
+#             ]},
+#             {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+#             {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+#             {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+#             {'name': 'forms',
+#              'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+#                        'HiddenField']},
+#             '/',
+#             {'name': 'basicstyles',
+#              'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+#             {'name': 'paragraph',
+#              'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+#                        'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+#                        'Language']},
+#             {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+#             {'name': 'insert',
+#              'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+#             '/',
+#             {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+#             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+#             {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+#             {'name': 'about', 'items': ['About']},
+#             '/',  # put this to force next toolbar on new line
+#         ],
+#     }
+# }

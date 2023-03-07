@@ -26,14 +26,6 @@ def kudos(request):
     return render(request, "kudos/kudos.html", {"context": context})
 
 
-@login_required
-def trophies(request):
-    update_kudos(request.user)
-    context = {}
-
-    return render(request, "kudos/trophies.html", {"context": context})
-
-
 def get_weekly_kudos(user, start, end):
     # print("get_weekly_kudos")
     rides = get_rides_in_range(user, start, end)
@@ -67,7 +59,7 @@ def get_kudos_rtbp(user):
     Get Kudos Ready To Be Placed (rtbp)
     """
     kudos = Kudos.objects.filter(
-        user=user, active=True, placed=False).order_by("created")
+        user=user, active=True, placed=False).order_by("created").values()
 
     return kudos
 
@@ -113,7 +105,7 @@ def update_kudos(user):
 
         # give one extra kudos for weeks with 3+ rides
         if len(week_rides) >= 3:
-            kudos_data = {"ride_id": "", "desc": "extra ride kudos for 3+ rides"}
+            kudos_data = {"desc": "extra ride kudos for 3+ rides"}
             Kudos.objects.create(
                 user=user,
                 data=kudos_data,
@@ -121,7 +113,7 @@ def update_kudos(user):
 
         # give two extra kudos for weeks with 5+ rides
         if len(week_rides) >= 5:
-            kudos_data = {"ride_id": act.id, "desc": "extra ride kudos for 5+ rides"}
+            kudos_data = {"desc": "extra ride kudos for 5+ rides"}
             for x in range(2):
                 Kudos.objects.create(
                     user=user,
@@ -142,4 +134,3 @@ def update_kudos(user):
             week_start = get_date_ranges(first_act_date, user)["week_start"].replace(hour=0, minute=0, second=0)
             week_end = get_date_ranges(first_act_date, user)["week_end"].replace(hour=23, minute=59, second=59)
 
-    return None
