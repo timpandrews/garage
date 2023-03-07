@@ -15,7 +15,6 @@ from .forms import TrophiesForm
 
 
 class TrophiesRedirectView(LoginRequiredMixin, RedirectView):
-    print("TrophiesRedirectView")
     def get_redirect_url(self, *args, **kwargs):
         user_id = self.request.user.id
         url = f'/trophies/edit/{user_id}'
@@ -60,8 +59,6 @@ def trophies_edit(request, user_id):
 
 
 def sub_for_codes(profile_id, user):
-    print("***sub_for_codes***")
-
     user_profile = Profile.objects.get(id=profile_id)
     trophies_edit = user_profile.trophies_edit
 
@@ -87,7 +84,6 @@ def sub_for_codes(profile_id, user):
 
 
 def get_kudos_icon(kudos_hex, user):
-    print("get_kudos_icon", kudos_hex)
     if is_kudos_valid(kudos_hex, user):
         kudos_detail = Kudos.objects.get(hex=kudos_hex)
 
