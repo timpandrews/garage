@@ -105,7 +105,7 @@ def update_kudos(user):
 
         # give one extra kudos for weeks with 3+ rides
         if len(week_rides) >= 3:
-            kudos_data = {"ride_id": "", "desc": "extra ride kudos for 3+ rides"}
+            kudos_data = {"desc": "extra ride kudos for 3+ rides"}
             Kudos.objects.create(
                 user=user,
                 data=kudos_data,
@@ -113,7 +113,7 @@ def update_kudos(user):
 
         # give two extra kudos for weeks with 5+ rides
         if len(week_rides) >= 5:
-            kudos_data = {"ride_id": act.id, "desc": "extra ride kudos for 5+ rides"}
+            kudos_data = {"desc": "extra ride kudos for 5+ rides"}
             for x in range(2):
                 Kudos.objects.create(
                     user=user,
