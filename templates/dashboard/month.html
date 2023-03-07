@@ -6,11 +6,20 @@
 
 <h1>Dashboard</h1>
 
+<p>
+    <a href="/dashboard/" class="btn btn-primary btn-sm" type="button" >
+        <i class="bi bi-arrows-collapse me-2"></i>This Week
+    </a>
+    <a href="/dashboard/month" class="btn btn-primary" type="button" >
+        <i class="bi bi-arrows-collapse me-2"></i><strong>Month to Month</strong>
+    </a>
+    <a href="/dashboard/year" class="btn btn-primary btn-sm" type="button" >
+        <i class="bi bi-arrows-collapse me-2"></i>Year to Year
+    </a>
+</p>
+
 <form action="" method="post" class="mb-2">
     {% csrf_token %}
-    <button class="btn btn-primary btn-sm me-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        <i class="bi bi-arrows-collapse me-2"></i>Month
-    </button>
     {% for field in context.form %}
         {{ field.label_tag }}
         {{ field }}
