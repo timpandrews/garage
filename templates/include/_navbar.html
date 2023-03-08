@@ -8,6 +8,15 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse " id="navbar">
                 <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
+                    {% if "rides" in request.path %}
+                        <li class="nav-item active fw-bolder" id="Rides">
+                            <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" id="Rides">
+                            <a class="nav-link" href="/rides">Rides</a>
+                        </li>
+                    {% endif %}
                     <!-- Dashboard -->
                     {% if "dashboard" in request.path %}
                         <li class="nav-item active fw-bolder" id="dashboard">
@@ -16,16 +25,6 @@
                     {% else %}
                         <li class="nav-item" id="kudos">
                             <a class="nav-link" href="/dashboard">Dashboard</a>
-                        </li>
-                    {% endif %}
-                    <!-- Rides -->
-                    {% if "rides" in request.path %}
-                        <li class="nav-item active fw-bolder" id="Rides">
-                            <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item" id="Rides">
-                            <a class="nav-link" href="/rides">Rides</a>
                         </li>
                     {% endif %}
                     <!-- Kudos Page -->
