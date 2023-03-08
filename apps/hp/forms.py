@@ -4,9 +4,13 @@ from apps.garage.models import Doc
 
 
 class GenericHPForm(forms.ModelForm):
+    type = forms.CharField(
+        widget=forms.HiddenInput(),
+        initial="other",
+    )
     class Meta:
         model = Doc
-        fields = ["data"]
+        fields = ["type", "data"]
         widgets = {
             "data": forms.Textarea(
                 attrs={
@@ -18,3 +22,50 @@ class GenericHPForm(forms.ModelForm):
             )
         }
 
+
+class WeightHPForm(forms.ModelForm):
+    type = forms.CharField(
+        widget=forms.HiddenInput(),
+        initial="weight",
+    )
+    weight = forms.IntegerField(
+        label="Weight",
+        min_value=0,
+    )
+
+    class Meta:
+        model = Doc
+        exclude = (
+            "user",
+            "doc_type",
+            "doc_date",
+            "data",
+            "active",
+            "kudosed",
+        )
+
+
+class BPHPForm(forms.ModelForm):
+    type = forms.CharField(
+        widget=forms.HiddenInput(),
+        initial="bp",
+    )
+    bp_STOL = forms.IntegerField(
+        label="Systolic",
+        min_value=0,
+    )
+    bp_DTOL = forms.IntegerField(
+        label="Diastolic",
+        min_value=0,
+    )
+
+    class Meta:
+        model=Doc
+        exclude = (
+            "user",
+            "doc_type",
+            "doc_date",
+            "data",
+            "active",
+            "kudosed",
+        )
