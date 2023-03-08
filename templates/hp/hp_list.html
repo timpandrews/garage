@@ -1,0 +1,99 @@
+{% extends 'include/base.html' %}{% load static %}
+
+{% block content %}
+
+<div class="container mt-2">
+    <div class="col">
+        <h2 class="text-center">
+            HP
+        </h2>
+        <div class="text-center">
+            <a href="/hp/create/weight" class="btn btn-primary btn-sm m-2">
+                <i class="bi bi-plus-square me-2"></i>Add New HP - Weight
+            </a>
+            <a href="/hp/create/bp" class="btn btn-primary btn-sm m-2">
+                <i class="bi bi-plus-square me-2"></i>Add New HP - BP
+            </a>
+            <a href="/hp/create/other" class="btn btn-primary btn-sm m-2">
+                <i class="bi bi-plus-square me-2"></i>Add New HP - Other
+            </a>
+        </div>
+
+        <table class="table table-striped mt-2">
+            <thead>
+                <tr>
+                    <th class="" scope="col">ID</th>
+                    <th class="" scope="col">User ID</th>
+                    <th class="" scope="col" nowrap>Doc Type</th>
+                    <th class="" scope="col">Data</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hp in hps %}
+                    <tr>
+                        <td class="ml-5">{{hp.id}}</td>
+                        <td class="ml-5">{{hp.user}}</td>
+                        <td class="ml-5">{{hp.doc_type}}</td>
+                        <td class="" style="width:60%">{{hp.data}}</td>
+                        <td nowrap>
+                            <a class="me-2" href="{% url 'hp:hp_detail' hp.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="/hp/{{ hp.id }}/update/{{ hp.data.type }}"><i class="bi bi-pencil w3-xlarge w3-text-deep-purple"></i></a>
+                            <a href="{% url 'hp:hp_delete' hp.id %}"><i class="bi bi-trash w3-xlarge w3-text-deep-purple"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            {% if is_paginated %}
+                <ul class="pagination flex-wrap">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{page_obj.previous_page_number}}">
+                                &laquo;
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">&laquo;</a>
+                        </li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item"><a class="page-link active">{{ i }}</a></li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{page_obj.next_page_number}}" class="page-link">
+                                &raquo;
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </nav>
+        <div class="text-center">
+            <a href="/hp/create/weight" class="btn btn-primary btn-sm m-2">
+                <i class="bi bi-plus-square me-2"></i>Add New HP - Weight
+            </a>
+            <a href="/hp/create/bp" class="btn btn-primary btn-sm m-2">
+                <i class="bi bi-plus-square me-2"></i>Add New HP - BP
+            </a>
+            <a href="/hp/create/other" class="btn btn-primary btn-sm m-2">
+                <i class="bi bi-plus-square me-2"></i>Add New HP - Other
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

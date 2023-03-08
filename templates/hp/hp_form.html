@@ -1,0 +1,41 @@
+{% extends 'include/base.html' %}{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="container justify-content-center mt-2" style="width: 25%;">
+    <div class="row">
+        {% if "create" in request.path %}
+            <h2 class="text-center">Add HP</h2>
+        {% elif "update" in request.path%}
+            <h2 class="text-center">Edit HP</h2>
+        {% else %}
+            <h2 class="text-center">Add/Edit HP</h2>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {{ form.media }}
+        <form id="data_form" action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="container d-flex justify-content-center" style="width: 10%;">
+                <button type="submit" class="btn btn-primary me-2 text-nowrap">
+                    <i class="bi bi-save me-2"></i>
+                    {% if "create" in request.path %}
+                        Save
+                    {% elif "update" in request.path %}
+                        Update
+                    {% else %}
+                        Submit
+                    {% endif %}
+                </button>
+                <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'hp:all' %}'; return false;">
+                    <i class="bi bi-x-circle me-2"></i>Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

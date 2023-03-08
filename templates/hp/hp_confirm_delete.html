@@ -4,16 +4,16 @@
 
 <div class="container d-flex justify-content-center mt-2" style="width: 50%;">
     <div class="col mt-2 text-center">
-        <h2>Delete Ride</h2>
+        <h2>Delete HP</h2>
 
-        <p class="h5">Are you sure you want to delete the Ride:</p>
+        <p class="h5">Are you sure you want to delete the HP:</p>
         {{ object.data }}
         <form action="" method="POST">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger me-2 mt-2">
                 <i class="bi bi-trash me-2"></i>Confirm
             </button>
-            <button type="submit" class="btn btn-secondary mt-2" onclick="window.location='{% url 'rides:all' %}'; return false;">
+            <button type="submit" class="btn btn-secondary mt-2" onclick="window.location='{% url 'hp:all' %}'; return false;">
                 <i class="bi bi-x-circle me-2"></i>Cancel
             </button>
         </form>

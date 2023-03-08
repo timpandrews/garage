@@ -2,9 +2,6 @@
 
 {% block content %}
 
-<!-- ### Debug : See all Context Variables ### -->
-<!--<textarea rows=10 onclick="this.focus();this.select()" style="width: 100%;"> {% debug %} </textarea> -->
-
 <div class="container" style="width: 70%;">
     <div class="col">
         <h2 class="text-center">Ride Details</h2>
@@ -49,6 +46,16 @@
                         <td>active</td>
                         <td>
                             {% if object.active %}
+                                <input type="checkbox" checked>
+                            {% else %}
+                                <input type="checkbox">
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kudosed</td>
+                        <td>
+                            {% if object.kudosed %}
                                 <input type="checkbox" checked>
                             {% else %}
                                 <input type="checkbox">

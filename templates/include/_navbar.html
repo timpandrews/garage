@@ -8,6 +8,7 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse " id="navbar">
                 <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
+                    <!-- Rides -->
                     {% if "rides" in request.path %}
                         <li class="nav-item active fw-bolder" id="Rides">
                             <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
@@ -15,6 +16,16 @@
                     {% else %}
                         <li class="nav-item" id="Rides">
                             <a class="nav-link" href="/rides">Rides</a>
+                        </li>
+                    {% endif %}
+                    <!-- HP -->
+                    {% if "hp" in request.path %}
+                        <li class="nav-item active fw-bolder" id="HP">
+                            <a class="nav-link w3-text-light-blue" href="/hp">HP</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" id="HP">
+                            <a class="nav-link" href="/hp">HP</a>
                         </li>
                     {% endif %}
                     <!-- Dashboard -->

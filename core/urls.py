@@ -12,4 +12,5 @@ urlpatterns = [
     path('', include('apps.dashboard.urls')),
     path('', include('apps.kudos.urls')),
     path('', include('apps.trophies.urls')),
+    path('', include('apps.hp.urls')),
 ]
