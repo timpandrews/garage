@@ -1,0 +1,10 @@
+[run]
+omit=
+    */_env/*
+    */tests/*
+    */data/*
+    */.vscode/*
+    */static/*
+    */media/*
+    */migrations/*
+    */__init__.py
