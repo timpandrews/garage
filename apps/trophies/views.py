@@ -58,6 +58,18 @@ def trophies_edit(request, user_id):
     return render(request, "trophies/trophies_edit.html", context)
 
 
+def trophies_share(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user = user)
+    trophies_view = profile.trophies_view
+
+    context = {
+        "trophies_view": trophies_view
+    }
+
+    return render(request, "trophies/trophies_view.html", context)
+
+
 def sub_for_codes(profile_id, user):
     user_profile = Profile.objects.get(id=profile_id)
     trophies_edit = user_profile.trophies_edit
