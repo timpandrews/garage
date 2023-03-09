@@ -9,6 +9,10 @@ class TestRidesUrls(SimpleTestCase):
             url = reverse('rides:all')
             self.assertEquals(resolve(url).func.view_class, RideListView)
 
+        def test_rides_list_url_login_required(self):
+            response = self.client.get(reverse('rides:all'))
+            self.assertTrue(response.url.startswith('/accounts/login/'))
+
         def test_rides_detail_url_is_resolved(self):
             url = reverse('rides:detail', args=[1])
             self.assertEquals(resolve(url).func.view_class, RideDetailView)
