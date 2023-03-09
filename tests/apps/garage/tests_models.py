@@ -27,7 +27,6 @@ class TestUserModel(TestCase):
 
 
 class DocModelTest(TestCase):
-    print("DocModelTest")
     def setUp(self):
         user = User.objects.create(
             username = 'testuser',
