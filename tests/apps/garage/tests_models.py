@@ -26,7 +26,7 @@ class TestUserModel(TestCase):
         self.assertEqual(user.profile, Profile.objects.get(user=user))
 
 
-class DocModelTest(TestCase):
+class Doc_Kudos_ModelTest(TestCase):
     def setUp(self):
         user = User.objects.create(
             username = 'testuser',
