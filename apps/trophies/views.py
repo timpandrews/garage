@@ -64,10 +64,11 @@ def trophies_share(request, username):
     trophies_view = profile.trophies_view
 
     context = {
+        "username": username,
         "trophies_view": trophies_view
     }
 
-    return render(request, "trophies/trophies_view.html", context)
+    return render(request, "trophies/trophies_share.html", context)
 
 
 def sub_for_codes(profile_id, user):
