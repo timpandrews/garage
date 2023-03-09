@@ -128,7 +128,11 @@ def db_month(request):
         # get monthly milage
         miles_this_year = 0
         rides = Doc.objects.filter(
-            user=request.user, doc_date__year=year, doc_date__month=month, active=True
+            user=request.user,
+            doc_date__year=year,
+            doc_date__month=month,
+            active=True,
+            doc_type="ride",
         )
         for ride in rides:
             miles_this_year += ride.data["distance"]
@@ -177,9 +181,13 @@ class db_year(LoginRequiredMixin, TemplateView):
             # get yearly milage
             miles_this_year = 0
             rides = Doc.objects.filter(
-                user=self.request.user, doc_date__year=year, active=True
+                user=self.request.user,
+                doc_date__year=year,
+                active=True,
+                doc_type="ride",
             )
             for ride in rides:
+                print("****", ride)
                 miles_this_year += ride.data["distance"]
             milage.append(round(miles_this_year))
 

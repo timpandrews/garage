@@ -26,12 +26,12 @@ YEAR_CHOICES = [
 class DBMonthForm(Form):
     start_year = forms.IntegerField(
         label="Start",
-        required=False,
+        required=True,
         widget=forms.Select(choices=YEAR_CHOICES),
     )
     end_year = forms.IntegerField(
         label="End",
-        required=False,
+        required=True,
         widget=forms.Select(choices=YEAR_CHOICES),
     )
 

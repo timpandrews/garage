@@ -10,12 +10,12 @@ from django.views.generic.list import ListView
 
 from apps.garage.models import Doc
 
-from .forms import AddNewRide
+from .forms import RideForm
 
 
 class RideBaseView(View):
     model = Doc
-    success_url = reverse_lazy("rides:all")  # TODO rename to all_rides
+    success_url = reverse_lazy("rides:all")
 
 
 class RideListView(LoginRequiredMixin, RideBaseView, ListView):
@@ -60,7 +60,7 @@ class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):
 
 class RideCreateView(LoginRequiredMixin, RideBaseView, CreateView):
     template_name = "rides/ride_form.html"
-    form_class = AddNewRide
+    form_class = RideForm
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -76,7 +76,7 @@ class RideCreateView(LoginRequiredMixin, RideBaseView, CreateView):
 
 
 class RideUpdateView(LoginRequiredMixin, RideBaseView, UpdateView):
-    form_class = AddNewRide
+    form_class = RideForm
     template_name = "rides/ride_form.html"
 
     def get_initial(self):

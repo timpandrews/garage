@@ -17,7 +17,7 @@ from .forms import TrophiesForm
 class TrophiesRedirectView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         user_id = self.request.user.id
-        url = f'/trophies/edit/{user_id}'
+        url = f'/trophies/view/{user_id}'
         return url
 
 

@@ -11,7 +11,7 @@
             </span>
         </h2>
         <div class="d-flex justify-content-centerd">
-            <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary my-2 mx-auto">
+            <a href="{% url 'rides:create' %}" class="d-block btn btn-primary my-2 mx-auto">
                 <i class="bi bi-plus-square me-2"></i>Add New
             </a>
         </div>
@@ -34,9 +34,9 @@
                         <td class="ml-5">{{ride.doc_type}}</td>
                         <td class="" style="width:60%">{{ride.data}}</td>
                         <td nowrap>
-                            <a class="me-2" href="{% url 'rides:ride_detail' ride.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>
-                            <a class="me-2" href="{% url 'rides:ride_update' ride.id %}"><i class="bi bi-pencil w3-xlarge w3-text-deep-purple"></i></a>
-                            <a href="{% url 'rides:ride_delete' ride.id %}"><i class="bi bi-trash w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'rides:detail' ride.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'rides:update' ride.id %}"><i class="bi bi-pencil w3-xlarge w3-text-deep-purple"></i></a>
+                            <a href="{% url 'rides:delete' ride.id %}"><i class="bi bi-trash w3-xlarge w3-text-deep-purple"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -80,7 +80,7 @@
             {% endif %}
         </nav>
         <div class="d-flex justify-content-centerd">
-            <a href="{% url 'rides:ride_create' %}" class="d-block btn btn-primary my-2 mx-auto">
+            <a href="{% url 'rides:create' %}" class="d-block btn btn-primary my-2 mx-auto">
                 <i class="bi bi-plus-square me-2"></i>Add New
             </a>
         </div>
