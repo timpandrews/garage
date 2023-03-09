@@ -17,7 +17,6 @@ class HPBaseView(View):
 
 
 class HPListView(LoginRequiredMixin, HPBaseView, ListView):
-    print('HPListView')
     template_name = 'hp/hp_list.html'
     context_object_name = "hps"
     paginate_by = 20
