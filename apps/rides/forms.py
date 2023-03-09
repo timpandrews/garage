@@ -5,10 +5,12 @@ from django.forms import ModelForm
 from apps.garage.models import Doc
 
 
-class AddNewRide(ModelForm):
+class RideForm(ModelForm):
     # "%Y-%m-%d %H:%M:%S"
     start = forms.DateTimeField(
-        required=False, widget=DateTimePickerInput(attrs={"class": "form-control"}))
+        required=True,
+        widget=DateTimePickerInput(attrs={"class": "form-control"}),
+    )
     ride_title = forms.CharField(
         label="Ride Title",
         max_length=200,
