@@ -15,7 +15,7 @@ from .forms import RideForm
 
 class RideBaseView(View):
     model = Doc
-    success_url = reverse_lazy("rides:all")  # TODO rename to all_rides
+    success_url = reverse_lazy("rides:all")
 
 
 class RideListView(LoginRequiredMixin, RideBaseView, ListView):
