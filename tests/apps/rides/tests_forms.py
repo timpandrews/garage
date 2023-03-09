@@ -4,7 +4,7 @@ from apps.rides.forms import RideForm
 
 
 class TestRideForms(TestCase):
-    def test_ride_form(self):
+    def test_ride_form_valid(self):
         form = RideForm(
             {
                 "start": "01/01/2020 00:00:00",
