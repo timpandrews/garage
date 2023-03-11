@@ -1,8 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from .views import (ActivateAccount, SignUpView, ToolsView, landing,
-                    parse_fit_file, profile)
+from .views import (ActivateAccount, SignUpView, ToolsView, landing, profile)
 
 urlpatterns = [
     path('', landing, name='landing'),
@@ -18,6 +17,4 @@ urlpatterns = [
         ),
         name='change_password'
     ),
-    path('tools/', ToolsView.as_view(), name='tools'),
-    path('tools/pff', parse_fit_file, name='pff'),
 ]

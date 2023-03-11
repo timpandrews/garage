@@ -80,13 +80,8 @@
                     <!-- Admin Page -->
                     {% if user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link link-danger" href="/admin" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
-                                <i class="bi bi-person-fill-gear"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link link-warning" href="{% url 'tools' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="App Tools">
-                                <i class="bi bi-tools"></i>
+                            <a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
+                                <i class="bi bi-person-fill-gear me-2"></i>Admin
                             </a>
                         </li>
                     {% endif %}

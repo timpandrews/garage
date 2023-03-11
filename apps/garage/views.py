@@ -1,6 +1,3 @@
-import os
-import fitdecode
-
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -98,31 +95,3 @@ def profile(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
-
-
-def parse_fit_file(request):
-    print("Parse Fit File")
-    # file = input("Enter file name: ")
-    file = 'test.fit'
-    cwd = os.getcwd()
-    path = os.path.join(cwd, 'data')
-    print(path)
-    print(cwd, file)
-    file = os.path.join(path, file)
-
-    with fitdecode.FitReader(file) as fit:
-        for frame in fit:
-            # The yielded frame object is of one of the following types:
-            # * fitdecode.FitHeader (FIT_FRAME_HEADER)
-            # * fitdecode.FitDefinitionMessage (FIT_FRAME_DEFINITION)
-            # * fitdecode.FitDataMessage (FIT_FRAME_DATA)
-            # * fitdecode.FitCRC (FIT_FRAME_CRC)
-
-            if frame.frame_type == fitdecode.FIT_FRAME_DATA:
-                # Here, frame is a FitDataMessage object.
-                # A FitDataMessage object contains decoded values that
-                # are directly usable in your script logic.
-                print(frame.name)
-
-
-    return redirect(reverse('tools'))
