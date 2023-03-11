@@ -1,6 +1,10 @@
+import os
+import fitdecode
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
@@ -8,7 +12,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.views.generic import View
+from django.views.generic import TemplateView, View
 
 from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
 from .tokens import account_activation_token
@@ -17,6 +21,9 @@ from .tokens import account_activation_token
 def landing(response):
     return render(response, "garage/landing.html", {})
 
+
+class ToolsView(LoginRequiredMixin, TemplateView):
+    template_name = "garage/tools.html"
 
 # Sign Up View
 class SignUpView(View):
@@ -87,4 +94,35 @@ def profile(request):
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile )
 
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'users/profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
+
+
+def parse_fit_file(request):
+    print("Parse Fit File")
+    # file = input("Enter file name: ")
+    file = 'test.fit'
+    cwd = os.getcwd()
+    path = os.path.join(cwd, 'data')
+    print(path)
+    print(cwd, file)
+    file = os.path.join(path, file)
+
+    with fitdecode.FitReader(file) as fit:
+        for frame in fit:
+            # The yielded frame object is of one of the following types:
+            # * fitdecode.FitHeader (FIT_FRAME_HEADER)
+            # * fitdecode.FitDefinitionMessage (FIT_FRAME_DEFINITION)
+            # * fitdecode.FitDataMessage (FIT_FRAME_DATA)
+            # * fitdecode.FitCRC (FIT_FRAME_CRC)
+
+            if frame.frame_type == fitdecode.FIT_FRAME_DATA:
+                # Here, frame is a FitDataMessage object.
+                # A FitDataMessage object contains decoded values that
+                # are directly usable in your script logic.
+                print(frame.name)
+
+
+    return redirect(reverse('tools'))

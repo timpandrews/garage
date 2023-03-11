@@ -1,0 +1,21 @@
+{% extends 'include/base.html' %}{% load static %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="">
+        <i class="bi bi-tools me-2"></i>Tools
+    </h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Fit Tools</h5>
+        <p class="card-text">
+            <a href="{% url 'pff' %}" class="btn btn-primary btn-sm" type="button" >
+                <i class="bi bi-tools me-2"></i>Parse Fit File
+            </a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}
