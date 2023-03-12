@@ -1,6 +1,8 @@
+import json
 import os
-import fitdecode
+from datetime import datetime
 
+import fitdecode
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -14,8 +16,10 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import TemplateView, View
 
+from .helper import get_next
 from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
 from .tokens import account_activation_token
+from .models import Doc
 
 
 def landing(response):
@@ -102,27 +106,53 @@ def profile(request):
 
 def parse_fit_file(request):
     print("Parse Fit File")
-    # file = input("Enter file name: ")
     file = 'test.fit'
     cwd = os.getcwd()
     path = os.path.join(cwd, 'data')
-    print(path)
-    print(cwd, file)
     file = os.path.join(path, file)
 
+    # one pass through the file to get the names of the frames
+    data_types = []
     with fitdecode.FitReader(file) as fit:
-        for frame in fit:
-            # The yielded frame object is of one of the following types:
-            # * fitdecode.FitHeader (FIT_FRAME_HEADER)
-            # * fitdecode.FitDefinitionMessage (FIT_FRAME_DEFINITION)
-            # * fitdecode.FitDataMessage (FIT_FRAME_DATA)
-            # * fitdecode.FitCRC (FIT_FRAME_CRC)
-
+        fit_file = {}
+        for i, frame in enumerate(fit):
             if frame.frame_type == fitdecode.FIT_FRAME_DATA:
-                # Here, frame is a FitDataMessage object.
-                # A FitDataMessage object contains decoded values that
-                # are directly usable in your script logic.
-                print(frame.name)
+                if frame.name not in data_types:
+                    fit_file[frame.name] = ""
+                    data_types.append(frame.name)
 
+    # loop through the fit file again for each data_type
+    for data_type in data_types:
+        data = []
+        with fitdecode.FitReader(file) as fit:
+            for i, frame in enumerate(fit):
+                if frame.frame_type == fitdecode.FIT_FRAME_DATA and frame.name == data_type:
+                    row = {}
+                    for field in frame:
+                        if type(field.value) == datetime:
+                            row[field.name] = field.value.strftime('%Y-%m-%d %H:%M:%S %Z')
+                        else:
+                            row[field.name] = field.value
+                    data.append(row)
+            fit_file[data_type] = data
+
+    fit_file_json = json.dumps(fit_file)
+    # print(fit_file_json)
+
+    print(fit_file["file_id"][0]["manufacturer"])
+
+
+    doc_data = {}
+    doc_data['start'] = fit_file["session"][0]["start_time"]
+    doc_data['notes'] = "test notes"
+    doc_data['hr'] = 150
+    doc_data['fit_file'] = fit_file
+
+    doc_values = {}
+    doc_values['user'] = request.user
+    doc_values['doc_type'] = 'test'
+    doc_values['doc_date'] = datetime.now()
+    doc_values['data'] = doc_data
+    Doc.objects.create(**doc_values)
 
     return redirect(reverse('tools'))

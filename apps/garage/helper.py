@@ -1,6 +1,7 @@
 import calendar
 import time
 from datetime import date, datetime, timedelta
+from itertools import islice, zip_longest, tee
 
 from apps.garage.models import Doc
 
@@ -79,3 +80,10 @@ def get_rides_in_range(user, start, end):
         ))
 
     return rides
+
+
+def get_next(some_iterable, window=1):
+    """Returns the next item in the iterable, or a default value"""
+    items, nexts = tee(some_iterable, 2)
+    nexts = islice(nexts, window, None)
+    return zip_longest(items, nexts)
