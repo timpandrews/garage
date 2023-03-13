@@ -1,0 +1,35 @@
+{% extends 'include/base.html' %}{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center mt-2">
+    <div class="col mt-2">
+        <h2 class="text-center">
+            <i class="bi bi-file-earmark-binary"></i>
+            Import Ride from .fit File</h2>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="fit_file" class="form-label">Choose .fit file to import</label>
+                <div class="input-group mb-3">
+                    <input class="form-control" type="file" id="fit_file" name="fit_file">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary me-3">
+                            <i class="bi bi-upload me-2"></i>Import
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% if uploaded_file_name %}
+            Uploaded file: {{ uploaded_file_name }}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

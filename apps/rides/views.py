@@ -1,7 +1,11 @@
 from datetime import datetime, timedelta
 
+import fitdecode
+from django import forms
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.detail import DetailView
@@ -9,6 +13,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from apps.garage.models import Doc
+from common.tools import import_fit_file
 
 from .forms import RideForm
 
@@ -99,6 +104,47 @@ class RideUpdateView(LoginRequiredMixin, RideBaseView, UpdateView):
 
 class RideDeleteView(LoginRequiredMixin, RideBaseView, DeleteView):
     template_name = "rides/ride_confirm_delete.html"
+
+
+def ride_import_fit(request):
+    context = {}
+
+    if request.method == "POST":
+        uploaded_file = request.FILES['fit_file'] if 'fit_file' in request.FILES else None
+
+        if uploaded_file: # check if file was uploaded
+            #check if file was uploaded
+            if not uploaded_file:
+                print("****** No file uploaded")
+
+            # check file extension to make sure it's a FIT file
+            if uploaded_file.name[-4:] == ".fit":
+                fs = FileSystemStorage()
+                fit_file = fs.save(uploaded_file.name, uploaded_file)
+                fit_file_path = fs.path(fit_file)
+                messages.success(request, "You have upload the file: " + uploaded_file.name)
+                context["uploaded_file_name"] = uploaded_file.name
+
+                # read FIT file
+                fit_file_data = import_fit_file(fit_file_path)
+
+                # delete file from media directory after reading
+                fs.delete(fit_file)
+                
+                print(fit_file_data["file_id"][0]["manufacturer"])
+
+            else:
+                messages.error(
+                    request,
+                    "Sorry we couldn't upload that file.  The file must be a .fit file.  "
+                    "Please select a .fit file and try again."
+                )
+        else: # no file uploaded
+            messages.error(request, "No file uploaded, please select a file to upload")
+
+
+
+    return render(request, "rides/ride_import_fit.html", context)
 
 
 def clean_data_for_db(data):
