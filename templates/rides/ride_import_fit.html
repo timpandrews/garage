@@ -19,7 +19,7 @@
                 <div class="input-group mb-3">
                     <input class="form-control" type="file" id="fit_file" name="fit_file">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary me-3">
+                        <button type="submit" class="btn btn-primary me-3" id="import_fit" name="import_fit">
                             <i class="bi bi-upload me-2"></i>Import
                         </button>
                     </div>
@@ -27,7 +27,28 @@
             </div>
         </form>
         {% if uploaded_file_name %}
-            Uploaded file: {{ uploaded_file_name }}
+            <p>
+                Uploaded file: {{ uploaded_file_name }}
+            <p>
+            {{ pre_pop_form_data }}
+
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form.media }}
+                        {% bootstrap_form form %}
+                        <div class="container d-flex justify-content-center" style="width: 10%;">
+                            <button type="submit" class="btn btn-primary me-2 text-nowrap" id="create_ride", name="create_ride">
+                                <i class="bi bi-save me-2"></i>Create Ride
+                            </button>
+                            <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'rides:all' %}'; return false;">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         {% endif %}
     </div>
 </div>

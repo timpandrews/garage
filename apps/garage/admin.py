@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Doc, Kudos, Profile
+from .models import Doc, Kudos, Profile, ZwiftRouteList
 
 
 class DocAdmin(admin.ModelAdmin):
@@ -81,3 +81,13 @@ class ProfileAdmin(admin.ModelAdmin):
     )
     list_display_links = ("id", "user")
 admin.site.register(Profile, ProfileAdmin)
+
+
+class ZwiftRouteListAdmin(admin.ModelAdmin):
+    list_display = (
+        "route_name",
+        "world_name",
+    )
+    list_display_links = ("route_name",)
+    ordering = ('world_name', 'route_name',)
+admin.site.register(ZwiftRouteList, ZwiftRouteListAdmin)
