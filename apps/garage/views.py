@@ -129,6 +129,7 @@ def parse_fit_file(request):
                 if frame.frame_type == fitdecode.FIT_FRAME_DATA and frame.name == data_type:
                     row = {}
                     for field in frame:
+                        # TODO do I need to convert datatime to string if I don't convert to JSON?
                         if type(field.value) == datetime:
                             row[field.name] = field.value.strftime('%Y-%m-%d %H:%M:%S %Z')
                         else:
