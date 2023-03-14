@@ -101,10 +101,10 @@ class RideForm(ModelForm):
         min_value=0,
         required=False,
     )
-    # fitfile = forms.CharField(
-    #     widget=forms.HiddenInput(),
-    #     required=False,
-    # )
+    fitfile = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False,
+    )
 
     class Meta:
         model = Doc
@@ -115,4 +115,6 @@ class RideForm(ModelForm):
             "data",
             "active",
             "kudosed",
+            "fit_data",
+            "gpx_data",
         )
