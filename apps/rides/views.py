@@ -207,12 +207,15 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
 
     list_of_route_names = ZwiftRouteList.objects.all().values_list("route_name", flat=True)
     # loop through list of route names and check if route name is in ride title
+    route_name = "Unknown"
     for route in list_of_route_names:
         if route in ride_title:
              route_name = route
 
+
     list_of_worlds_names = ZwiftRouteList.objects.values_list("world_name", flat=True).distinct()
     # loop through list of world names and check if world name is in ride title
+    world_name = "Unknown"
     for world in list_of_worlds_names:
         if world in ride_title:
              world_name = world
