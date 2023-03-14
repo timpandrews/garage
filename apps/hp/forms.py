@@ -40,6 +40,8 @@ class WeightHPForm(forms.ModelForm):
             "doc_type",
             "doc_date",
             "data",
+            "fit_data",
+            "gpx_data",
             "active",
             "kudosed",
         )
