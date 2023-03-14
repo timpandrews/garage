@@ -2,17 +2,14 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
 
-KUDOS_TYPES = (
-    ("App", "app"), # Application Kudos
-    ("Rides", "rides"),
-    ("HP", "hp"), # health points
-)
 
 class Doc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     doc_type = models.CharField(max_length = 200)
     doc_date = models.DateTimeField()
-    data = models.JSONField()
+    data = models.JSONField(blank=True, default=dict)
+    fit_data = models.JSONField(blank=True, default=dict)
+    gpx_data = models.JSONField(blank=True, default=dict)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
@@ -24,6 +21,12 @@ class Doc(models.Model):
     def __str__(self):
         return self.doc_type
 
+
+KUDOS_TYPES = (
+    ("App", "app"), # Application Kudos
+    ("Rides", "rides"),
+    ("HP", "hp"), # health points
+)
 
 class Kudos(models.Model):
     hex = models.CharField(max_length=8, blank=True) # value set in signals.create_hexkey()
@@ -54,3 +57,27 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
+
+Zwift_worlds = (
+    ("Watopia", "Watopia"),
+    ("Richmond", "Richmond"),
+    ("Lodon", "London"),
+    ("New York", "New York"),
+    ("Innsbruck", "Innsbruck"),
+    ("Bologna TT", "Bologna TT"),
+    ("Yorkshire", "Yorkshire"),
+    ("Crit City", "Crit City"),
+    ("Makuri Islands", "Makuri Islands"),
+    ("France", "France"),
+    ("Paris", "Paris"),
+    ("Scotland", "Scotland"),
+    ("Gravel Mountain", "Gravel Mountain"),
+)
+
+class ZwiftRouteList(models.Model):
+    route_name = models.CharField(max_length=200)
+    world_name = models.CharField(max_length=200, choices=Zwift_worlds)
+
+    def __str__(self):
+        return self.route_name
