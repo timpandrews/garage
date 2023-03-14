@@ -12,6 +12,8 @@ class DocAdmin(admin.ModelAdmin):
                 "doc_type",
                 "doc_date",
                 "data",
+                "fit_data",
+                "gpx_data",
                 "created",
                 "updated",
                 "active",
@@ -27,14 +29,13 @@ class DocAdmin(admin.ModelAdmin):
         "doc_type",
         "doc_date",
         "kudosed",
-        "data",
         "created",
         "updated",
         "active",
     )
     list_display_links = ("id", "user", "doc_type")
     list_editable = ("active", "kudosed",)
-    list_filter = ("user", "doc_type", "kudosed")
+    # list_filter = ("user", "doc_type", "kudosed")
 admin.site.register(Doc, DocAdmin)
 
 
