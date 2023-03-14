@@ -1,0 +1,26 @@
+{% extends 'include/base_error.html' %}
+
+{% block page_title %}500 Error{% endblock %}
+
+{% block content %}
+<div class="container justify-content-center mt-2" style="width: 25%;">
+    <div class="card  text-center mt-5" style="width: 18rem;">
+        <div class="card-body mx-auto">
+            <h5 class="card-title">
+                <i class="bi bi-5-square" style="font-size: 50px; color: #7e77c9"></i>
+                <i class="bi bi-0-square" style="font-size: 50px; color: #7e77c9"></i>
+                <i class="bi bi-0-square" style="font-size: 50px; color: #7e77c9"></i>
+            </h5>
+            <p class="card-text text.center">
+                <strong>Something has gone wrong!</strong>
+            </p>
+            <p class="card-text text.center">
+                500 - Error: Internal Server Error
+            </p>
+            <a href="/" class="btn btn-primary btn-sm mb-3">
+                <i class="bi bi-house me-2"></i>Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

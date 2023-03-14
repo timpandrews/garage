@@ -95,3 +95,11 @@ def profile(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+
+def error_404_view(request, exception):
+    return render(request, 'errors/404.html')
+
+
+def error_500_view(request):
+    return render(request, 'errors/500.html')

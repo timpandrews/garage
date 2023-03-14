@@ -16,5 +16,8 @@ urlpatterns = [
     path('', include('apps.hp.urls')),
 ]
 
+handler404 = 'apps.garage.views.error_404_view'
+handler500 = 'apps.garage.views.error_500_view'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
