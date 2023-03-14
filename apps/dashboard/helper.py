@@ -95,6 +95,9 @@ def get_weekly_sums(weekly_rides):
     time_parts = time_str.split(":")
     time_str = time_parts[0] + "h " + time_parts[1] + "m " + time_parts[2] + "s "
     sums["time"] = time_str
+    # BUG: elevation & calories are not required fields these sums will fail if
+    # a ride has null values for these fields.  See issue #42 
+    # (https://github.com/timpandrews/garage/issues/42)
     sums["elevation"] = elevation
     sums["calories"] = calories
     return sums
