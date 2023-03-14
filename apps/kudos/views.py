@@ -66,29 +66,23 @@ def get_kudos_rtbp(user):
 
 
 def update_kudos(user):
-    print("update_kudos")
     this_week_start = get_date_ranges(date.today(), user)["week_start"]
     # el_act = eligible activities (rides, hps, etc. from DOC model)
     # TODO add other types of activities
     el_act = Doc.objects.filter(
         user=user, doc_type="ride", kudosed=False, doc_date__lt=this_week_start
         ).order_by("doc_date")
-    print(el_act)
 
     if not el_act: # empty
-        print("no eligible activitie")
         eligible_activities = False
     else: # at least one eligible activitie
-        print("at least one eligible activitie")
         eligible_activities = True
         first_act_date = el_act[0].doc_date
         # get date range for first week group of eligable activities
         week_start = get_date_ranges(first_act_date, user)["week_start"].replace(hour=0, minute=0, second=0)
         week_end = get_date_ranges(first_act_date, user)["week_end"].replace(hour=23, minute=59, second=59)
-        print(week_start, week_end)
 
     while eligible_activities:
-        print("while eligible_activities")
         # Rides
         # get rides from the each week group
         week_rides = Doc.objects.filter(
@@ -100,9 +94,12 @@ def update_kudos(user):
         print("len week rides:", len(week_rides))
 
         for act in week_rides:
-            print("for act in week_rides")
             # add kudo for each ride
-            kudos_data = {"ride_id": act.id, "desc": "simple ride kudos"}
+            kudos_data = {
+                "ride_id": act.id,
+                "desc": "simple ride kudos",
+                "type": "ride"
+            }
             Kudos.objects.create(
                 user=user,
                 data=kudos_data,
@@ -113,7 +110,10 @@ def update_kudos(user):
 
         # give one extra kudos for weeks with 3+ rides
         if len(week_rides) >= 3:
-            kudos_data = {"desc": "extra ride kudos for 3+ rides"}
+            kudos_data = {
+                "desc": "extra ride kudos for 3+ rides",
+                "type": "rides_bonus"
+            }
             Kudos.objects.create(
                 user=user,
                 data=kudos_data,
@@ -121,7 +121,10 @@ def update_kudos(user):
 
         # give two extra kudos for weeks with 5+ rides
         if len(week_rides) >= 5:
-            kudos_data = {"desc": "extra ride kudos for 5+ rides"}
+            kudos_data = {
+                "desc": "extra ride kudos for 5+ rides",
+                "type": "rides_bonus"
+            }
             for x in range(2):
                 Kudos.objects.create(
                     user=user,
