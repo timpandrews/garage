@@ -11,7 +11,7 @@
                     <!-- Rides -->
                     {% if "rides" in request.path %}
                         <li class="nav-item active fw-bolder" id="Rides">
-                            <a class="nav-link w3-text-light-blue" href="/rides">Rides</a>
+                            <a class="nav-link w3-text-light-blue" href="{% url 'rides' %}">Rides</a>
                         </li>
                     {% else %}
                         <li class="nav-item" id="Rides">
@@ -80,7 +80,7 @@
                     <!-- Admin Page -->
                     {% if user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
+                            <a class="nav-link" href="{% url 'admin' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
                                 <i class="bi bi-person-fill-gear me-2"></i>Admin
                             </a>
                         </li>
