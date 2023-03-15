@@ -8,6 +8,7 @@ db.sqlite3
 media
 .env
 *.env
+prod_settings.py
 
 
 # Visual Studio Code #
