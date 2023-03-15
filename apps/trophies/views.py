@@ -58,17 +58,21 @@ def trophies_edit(request, user_id):
     return render(request, "trophies/trophies_edit.html", context)
 
 
-def trophies_share(request, username):
-    user = User.objects.get(username=username)
-    profile = Profile.objects.get(user = user)
-    trophies_view = profile.trophies_view
+def trophies_share(request, username=None):
+    # TODO: this is a hack, fix it
+    if username is None:
+        return HttpResponseRedirect(reverse_lazy("home"))
+    else:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user = user)
+        trophies_view = profile.trophies_view
 
-    context = {
-        "username": username,
-        "trophies_view": trophies_view
-    }
+        context = {
+            "username": username,
+            "trophies_view": trophies_view
+        }
 
-    return render(request, "trophies/trophies_share.html", context)
+        return render(request, "trophies/trophies_share.html", context)
 
 
 def sub_for_codes(profile_id, user):
