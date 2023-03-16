@@ -20,12 +20,12 @@
                     {% endif %}
                     <!-- HP -->
                     {% if "health" in request.path %}
-                        <li class="nav-item active fw-bolder" id="health">
-                            <a class="nav-link w3-text-light-blue" href="{% url 'health:list' %}">Health</a>
+                        <li class="nav-item active fw-bolder" id="hp">
+                            <a class="nav-link w3-text-light-blue" href="{% url 'hp:list' %}">HP</a>
                         </li>
                     {% else %}
-                        <li class="nav-item" id="health">
-                            <a class="nav-link" href="{% url 'health:list' %}">Health</a>
+                        <li class="nav-item" id="hp">
+                            <a class="nav-link" href="{% url 'hp:list' %}">HP</a>
                         </li>
                     {% endif %}
                     <!-- Dashboard -->
