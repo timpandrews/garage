@@ -11,51 +11,51 @@
                     <!-- Rides -->
                     {% if "rides" in request.path %}
                         <li class="nav-item active fw-bolder" id="Rides">
-                            <a class="nav-link w3-text-light-blue" href="{% url 'rides' %}">Rides</a>
+                            <a class="nav-link w3-text-light-blue" href="{% url 'rides:list' %}">Rides</a>
                         </li>
                     {% else %}
                         <li class="nav-item" id="Rides">
-                            <a class="nav-link" href="/rides">Rides</a>
+                            <a class="nav-link" href="{% url 'rides:list' %}">Rides</a>
                         </li>
                     {% endif %}
                     <!-- HP -->
-                    {% if "hp" in request.path %}
-                        <li class="nav-item active fw-bolder" id="HP">
-                            <a class="nav-link w3-text-light-blue" href="/hp">HP</a>
+                    {% if "health" in request.path %}
+                        <li class="nav-item active fw-bolder" id="health">
+                            <a class="nav-link w3-text-light-blue" href="{% url 'health:list' %}">Health</a>
                         </li>
                     {% else %}
-                        <li class="nav-item" id="HP">
-                            <a class="nav-link" href="/hp">HP</a>
+                        <li class="nav-item" id="health">
+                            <a class="nav-link" href="{% url 'health:list' %}">Health</a>
                         </li>
                     {% endif %}
                     <!-- Dashboard -->
                     {% if "dashboard" in request.path %}
                         <li class="nav-item active fw-bolder" id="dashboard">
-                            <a class="nav-link w3-text-light-blue" href="/dashboard">Dashboard</a>
+                            <a class="nav-link w3-text-light-blue" href="{% url 'dashboard:db' %}">Dashboard</a>
                         </li>
                     {% else %}
                         <li class="nav-item" id="kudos">
-                            <a class="nav-link" href="/dashboard">Dashboard</a>
+                            <a class="nav-link" href="{% url 'dashboard:db' %}">Dashboard</a>
                         </li>
                     {% endif %}
                     <!-- Kudos Page -->
                     {% if "kudos" in request.path %}
                         <li class="nav-item active fw-bolder" id="kudos">
-                            <a class="nav-link w3-text-light-blue" href="/kudos">Kudos</a>
+                            <a class="nav-link w3-text-light-blue" href="{% url 'kudos:kudos' %}">Kudos</a>
                         </li>
                     {% else %}
                         <li class="nav-item" id="kudos">
-                            <a class="nav-link" href="/kudos">Kudos</a>
+                            <a class="nav-link" href="{% url 'kudos:kudos' %}">Kudos</a>
                         </li>
                     {% endif %}
                     <!-- Trophies -->
                     {% if "trophies" in request.path %}
-                        <li class="nav-item active fw-bolder" id="kudos">
-                            <a class="nav-link w3-text-light-blue" href="/trophies">Trophies</a>
+                        <li class="nav-item active fw-bolder" id="trophies">
+                            <a class="nav-link w3-text-light-blue" href="{% url 'trophies:trophies' %}">Trophies</a>
                         </li>
                     {% else %}
-                        <li class="nav-item" id="kudos">
-                            <a class="nav-link" href="/trophies">Trophies</a>
+                        <li class="nav-item" id="trophies">
+                            <a class="nav-link" href="{% url 'trophies:trophies' %}">Trophies</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -80,7 +80,7 @@
                     <!-- Admin Page -->
                     {% if user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
+                            <a class="nav-link" href="admin/" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
                                 <i class="bi bi-person-fill-gear me-2"></i>Admin
                             </a>
                         </li>
