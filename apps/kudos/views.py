@@ -27,7 +27,6 @@ def kudos(request):
 
 
 def get_weekly_kudos(user, start, end):
-    print("get_weekly_kudos")
     rides = get_rides_in_range(user, start, end)
     num_rides = len(rides)
     # NOTE: 1 ride_kudos for each ride
@@ -58,7 +57,6 @@ def get_kudos_rtbp(user):
     """
     Get Kudos Ready To Be Placed (rtbp)
     """
-    print("get_kudos_rtbp")
     kudos = Kudos.objects.filter(
         user=user, active=True, placed=False).order_by("created").values()
 
