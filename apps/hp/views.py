@@ -13,7 +13,7 @@ from .forms import GenericHPForm, WeightHPForm, BPHPForm
 
 class HPBaseView(View):
     model = Doc
-    success_url = reverse_lazy('hp:all')
+    success_url = reverse_lazy('hp:list')
 
 
 class HPListView(LoginRequiredMixin, HPBaseView, ListView):
