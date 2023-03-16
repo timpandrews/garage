@@ -187,7 +187,6 @@ class db_year(LoginRequiredMixin, TemplateView):
                 doc_type="ride",
             )
             for ride in rides:
-                print("****", ride)
                 miles_this_year += ride.data["distance"]
             milage.append(round(miles_this_year))
 
