@@ -24,7 +24,7 @@ from .forms import RideForm
 
 class RideBaseView(View):
     model = Doc
-    success_url = reverse_lazy("rides:all")
+    success_url = reverse_lazy("rides:list")
 
 
 class RideListView(LoginRequiredMixin, RideBaseView, ListView):
@@ -159,10 +159,8 @@ def ride_import_fit(request):
 
         # COMMENT - Create Ride from form w/ extra fit_file_data
         elif "create_ride" in request.POST:
-            print("********* Create Ride Form *********")
             if form.is_valid():
-                print("********* Form is valid *********")
-
+                
                 object = form.save(commit=False)
                 user = request.user
                 data = form.cleaned_data

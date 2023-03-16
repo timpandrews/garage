@@ -1,14 +1,14 @@
 from django.urls import path
 
-from . import views
+from .views import *
 
 app_name = 'rides'
 
 urlpatterns = [
-    path('rides/', views.RideListView.as_view(), name='all'),
-    path('rides/<int:pk>/detail/', views.RideDetailView.as_view(), name='detail'),
-    path('rides/create/', views.RideCreateView.as_view(), name='create'),
-    path('rides/<int:pk>/update/', views.RideUpdateView.as_view(), name='update'),
-    path('rides/<int:pk>/delete/', views.RideDeleteView.as_view(), name='delete'),
-    path('rides/import/fit/', views.ride_import_fit, name='import_fit'),
+    path('rides/', RideListView.as_view(), name='list'),
+    path('rides/<int:pk>/detail/', RideDetailView.as_view(), name='detail'),
+    path('rides/create/', RideCreateView.as_view(), name='create'),
+    path('rides/<int:pk>/update/', RideUpdateView.as_view(), name='update'),
+    path('rides/<int:pk>/delete/', RideDeleteView.as_view(), name='delete'),
+    path('rides/import/fit/', ride_import_fit, name='import_fit'),
 ]
