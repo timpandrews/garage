@@ -8,12 +8,12 @@ urlpatterns = [
     path("jsil8n/", JavaScriptCatalog.as_view(), name="js-catalog"),
     path('admin/', admin.site.urls, name='admin'),
     path("accounts/", include("django.contrib.auth.urls")),
+    path('', include('apps.hp.urls')),
     path('', include('apps.garage.urls')),
     path('', include('apps.rides.urls')),
     path('', include('apps.dashboard.urls')),
     path('', include('apps.kudos.urls')),
     path('', include('apps.trophies.urls')),
-    path('', include('apps.hp.urls')),
 ]
 
 handler404 = 'apps.garage.views.error_404_view'
