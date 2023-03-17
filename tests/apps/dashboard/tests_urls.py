@@ -5,7 +5,7 @@ from apps.dashboard.views import dashboard, db_month, db_year
 
 class TestUrls(SimpleTestCase):
         def test_dashboard_url_is_resolved(self):
-            url = reverse('dashboard:dashboard')
+            url = reverse('dashboard:db')
             self.assertEquals(resolve(url).func, dashboard)
 
         def test_db_month_url_is_resolved(self):

@@ -6,11 +6,11 @@ from apps.rides.views import (
 
 class TestRidesUrls(SimpleTestCase):
         def test_rides_list_url_is_resolved(self):
-            url = reverse('rides:all')
+            url = reverse('rides:list')
             self.assertEquals(resolve(url).func.view_class, RideListView)
 
         def test_rides_list_url_login_required(self):
-            response = self.client.get(reverse('rides:all'))
+            response = self.client.get(reverse('rides:list'))
             self.assertTrue(response.url.startswith('/accounts/login/'))
 
         def test_rides_detail_url_is_resolved(self):

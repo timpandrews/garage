@@ -33,5 +33,5 @@ class TestRideForms(TestCase):
     def test_ride_form_invalid(self):
         form = RideForm({})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 15)
+        self.assertEqual(len(form.errors), 3)
 

@@ -13,7 +13,7 @@ class GenericHPFormTest(TestCase):
     def test_generic_hp_form_invalid(self):
         form = GenericHPForm({})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 2)
+        self.assertEqual(len(form.errors), 1)
 
 
 class WeightHPFormTest(TestCase):
