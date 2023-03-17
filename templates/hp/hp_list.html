@@ -37,9 +37,9 @@
                         <td class="ml-5">{{hp.doc_type}}</td>
                         <td class="" style="width:60%">{{hp.data}}</td>
                         <td nowrap>
-                            <a class="me-2" href="{% url 'hp:hp_detail' hp.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>
-                            <a class="me-2" href="/hp/{{ hp.id }}/update/{{ hp.data.type }}"><i class="bi bi-pencil w3-xlarge w3-text-deep-purple"></i></a>
-                            <a href="{% url 'hp:hp_delete' hp.id %}"><i class="bi bi-trash w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'hp:detail' hp.id %}"><i class="bi bi-search w3-xlarge w3-text-deep-purple"></i></a>
+                            <a class="me-2" href="{% url 'hp:update' hp.id hp.data.type %}" ><i class="bi bi-pencil w3-xlarge w3-text-deep-purple"></i></a>
+                            <a href="{% url 'hp:delete' hp.id %}"><i class="bi bi-trash w3-xlarge w3-text-deep-purple"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
