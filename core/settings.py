@@ -5,6 +5,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,6 +54,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # third-party additions
+    "django_auto_logout.middleware.auto_logout", # django-auto-logout
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -68,6 +71,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # third-party additions
+                "django_auto_logout.context_processors.auto_logout_client", # django-auto-logout
             ],
         },
     },
@@ -187,6 +192,14 @@ CKEDITOR_CONFIGS = {
             ]}
         ]},
 }
+
+# django-auto-logout settings
+AUTO_LOGOUT = {
+    "IDLE_TIME": timedelta(minutes=30),
+    "REDIRECT_TO_LOGIN_IMMEDIATELY": True,
+    "MESSAGE": "The session has expired. Please login again to continue.",
+}
+
 
 try:
     from .prod_settings import *
