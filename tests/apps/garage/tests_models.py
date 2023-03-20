@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.garage.models import Doc, Kudos, Profile
+from apps.garage.models import Doc, Kudos, Profile, ZwiftRouteList
 
 
-class TestUserModel(TestCase):
+class TestUserAndProfileModel(TestCase):
     def test_user_creation(self):
         user = User.objects.create(
             username = 'testuser',
@@ -26,7 +26,7 @@ class TestUserModel(TestCase):
         self.assertEqual(user.profile, Profile.objects.get(user=user))
 
 
-class Doc_Kudos_ModelTest(TestCase):
+class DocModelTest(TestCase):
     def setUp(self):
         user = User.objects.create(
             username = 'testuser',
@@ -46,6 +46,16 @@ class Doc_Kudos_ModelTest(TestCase):
         self.assertTrue(isinstance(doc, Doc))
         self.assertEqual(doc.__str__(), doc.doc_type)
 
+
+class KudosModelTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(
+            username = 'testuser',
+            email = 'testemail@test.com'
+        )
+        user.set_password('test123password')
+        user.save()
+
     def test_kudos_creation(self):
         user = User.objects.get(username='testuser')
         kudos = Kudos.objects.create(
@@ -57,6 +67,21 @@ class Doc_Kudos_ModelTest(TestCase):
         )
         self.assertTrue(isinstance(kudos, Kudos))
         self.assertEqual(kudos.__str__(), kudos.key)
+
+
+class ZwiftRouteListModelTest(TestCase):
+    def setUp(self):
+        ZwiftRouteList.objects.create(
+            route_name = 'Ven-Top',
+            world_name = 'France'
+        )
+
+    def test_get_world_name_by_route_name(self):
+        obj = ZwiftRouteList.objects.get(route_name='Ven-Top')
+        self.assertEqual(obj.world_name, 'France')
+        self.assertTrue(isinstance(obj, ZwiftRouteList))
+
+
 
 
 
