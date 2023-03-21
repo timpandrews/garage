@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "apps.trophies",
     "apps.hp",
     # 3rd party apps
+    "admin_honeypot",
     "django_bootstrap5",
     "bootstrap_datepicker_plus",
     "ckeditor",
