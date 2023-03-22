@@ -7,6 +7,17 @@ from apps.garage.models import Doc
 
 class RideForm(ModelForm):
     # "%Y-%m-%d %H:%M:%S"
+    ### Try to get the datetimepicker to work with the input_formats & use am/pm ###
+    # start = forms.DateTimeField(
+    #     required=True,
+    #     input_formats=["%Y-%m-%d %I:%M:%S %p"],
+    #     widget=DateTimePickerInput(
+    #         attrs={"class": "form-control"},
+    #         options={
+    #             "format": "%Y-%m-%d %I:%M:%S %p",
+    #         },
+    #     ),
+    # )
     start = forms.DateTimeField(
         required=True,
         widget=DateTimePickerInput(attrs={"class": "form-control"}),
