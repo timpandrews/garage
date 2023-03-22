@@ -27,6 +27,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 3rd party app that needs to be before django.contrib.admin
+    'django_admin_env_notice',
+    # django apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "bootstrap_datepicker_plus",
     "ckeditor",
+    'django_seed',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +78,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 # third-party additions
                 "django_auto_logout.context_processors.auto_logout_client", # django-auto-logout
+                "django_admin_env_notice.context_processors.from_settings", # django-admin-env-notice
             ],
         },
     },
@@ -204,6 +209,11 @@ AUTO_LOGOUT = {
     "REDIRECT_TO_LOGIN_IMMEDIATELY": True,
     "MESSAGE": "The session has expired. Please login again to continue.",
 }
+
+# django-admin-env-notice settings
+ENVIRONMENT_NAME = env("ENVIRONMENT_NAME")
+ENVIRONMENT_COLOR = env("ENVIRONMENT_COLOR")
+ENVIRONMENT_SHOW_TO_UNAUTHENTICATED = False
 
 
 try:
