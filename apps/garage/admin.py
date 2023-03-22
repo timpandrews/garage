@@ -77,8 +77,7 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
-        "location",
-        "birth_date",
+        "profile_pic",
     )
     list_display_links = ("id", "user")
 admin.site.register(Profile, ProfileAdmin)

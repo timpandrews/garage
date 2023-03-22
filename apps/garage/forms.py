@@ -43,6 +43,15 @@ class UpdateProfileForm(forms.ModelForm):
         max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
     birth_date = forms.DateField(
         required=False, widget=DatePickerInput(attrs={"class": "form-control"}))
+    profile_pic = forms.ImageField(
+        label="Profile Picture",
+        required=False
+    )
+    strava_url = forms.CharField(
+        label="Strava Profile URL",
+        max_length=200,
+        required=False,
+    )
     class Meta:
         model = Profile
-        fields = ['bio', 'location', 'birth_date']
+        fields = ['bio', 'location', 'birth_date', 'profile_pic', 'strava_url',]

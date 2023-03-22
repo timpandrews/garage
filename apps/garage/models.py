@@ -54,6 +54,8 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     trophies_edit = RichTextField(blank=True, null=True)
     trophies_view = models.TextField(blank=True, null=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pics')
+    strava_url = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

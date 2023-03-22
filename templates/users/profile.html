@@ -1,11 +1,20 @@
 {% extends 'include/base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
 {% block title %}Profile{% endblock title %}
 {% block content %}
+    {{ content }}
     <h2>Profile</h2>
+
+    {% if profile_pic %}
+        <img src="{{ profile_pic.url }}" class="img-thumbnail" style="width: 200px;">
+    {% else %}
+        <img src="{% static 'img/default_profile_pic.jpg' %}" class="img-thumbnail" style="width: 200px;">
+    {% endif %}
+
     {{ profile_form.media }}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form user_form %}
         {% bootstrap_form profile_form %}

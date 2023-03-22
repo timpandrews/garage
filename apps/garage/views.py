@@ -13,6 +13,7 @@ from django.views.generic import TemplateView, View
 
 from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
 from .tokens import account_activation_token
+from .models import Profile
 
 
 def landing(response):
@@ -78,9 +79,12 @@ class ActivateAccount(View):
 
 @login_required
 def profile(request):
+    # get profile_pic from Profile model
+    profile_pic = Profile.objects.get(user=request.user).profile_pic
+
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -93,7 +97,8 @@ def profile(request):
 
     return render(request, 'users/profile.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
+        'profile_pic': profile_pic,
     })
 
 
