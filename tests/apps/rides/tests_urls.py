@@ -18,7 +18,7 @@ class TestRidesUrls(SimpleTestCase):
 
     def test_rides_list_url_login_required(self):
         response = self.client.get(reverse("rides:list"))
-        self.assertTrue(response.url.startswith("/accounts/login/"))
+        self.assertTrue(response.url.startswith("/user_stuff/login/"))
 
     def test_rides_detail_url_is_resolved(self):
         url = reverse("rides:detail", args=[1])

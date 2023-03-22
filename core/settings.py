@@ -153,6 +153,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # django_project/settings.py
 LOGIN_REDIRECT_URL = "landing"
 LOGOUT_REDIRECT_URL = "landing"
+LOGIN_URL = 'login'
+
 
 # Temp email solution, just writes emails to console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
