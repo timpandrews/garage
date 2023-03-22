@@ -8,7 +8,7 @@ urlpatterns = [
     path("jsil8n/", JavaScriptCatalog.as_view(), name="js-catalog"),
     path('admin/', include('admin_honeypot.urls')), # admin_honeypot
     path("delta/", admin.site.urls, name="admin"), # actual admin page
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("user_stuff/", include("django.contrib.auth.urls")),
     path('', include('apps.hp.urls')),
     path('', include('apps.garage.urls')),
     path('', include('apps.rides.urls')),
