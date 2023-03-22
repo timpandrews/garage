@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import fitdecode
 from django import forms
@@ -78,8 +78,11 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
         user = self.request.user
         data = form.cleaned_data
         data = clean_data_for_db(data)
+
         doc_date = data["start"]
         doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
+        doc_date = doc_date.replace(tzinfo=timezone.utc)
+
         self.object = Doc(doc_type="ride", doc_date=doc_date, user=user, data=data)
         self.object.save()
 
@@ -101,8 +104,11 @@ class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Upda
         self.object = form.save(commit=False)
         data = form.cleaned_data
         data = clean_data_for_db(data)
+
         doc_date = data["start"]
         doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
+        doc_date = doc_date.replace(tzinfo=timezone.utc)
+
         self.object.date_date = doc_date
         self.object.data = data
         self.object.save()
@@ -160,7 +166,7 @@ def ride_import_fit(request):
         # COMMENT - Create Ride from form w/ extra fit_file_data
         elif "create_ride" in request.POST:
             if form.is_valid():
-                
+
                 object = form.save(commit=False)
                 user = request.user
                 data = form.cleaned_data
@@ -174,8 +180,11 @@ def ride_import_fit(request):
                 del data["fitfile"] # remove fit_file_name from dict
 
                 data = clean_data_for_db(data)
+
                 doc_date = data["start"]
                 doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
+                doc_date = doc_date.replace(tzinfo=timezone.utc)
+
                 object = Doc(
                     doc_type = "ride",
                     doc_date = doc_date,
