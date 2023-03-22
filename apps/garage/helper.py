@@ -19,8 +19,14 @@ def get_date_ranges(input_date, user):
     year_start = date(input_date.year, 1, 1)
     year_end = date(input_date.year, 12, 31)
 
-    earliest_ride = Doc.objects.filter(user=user, active=True).earliest()
-    start_date = earliest_ride.doc_date
+    if Doc.objects.filter(user=user, active=True, doc_type="ride").count() > 0:
+        earliest_ride = Doc.objects.filter(user=user, active=True).earliest()
+        start_date = earliest_ride.doc_date
+    else:
+        earliest_ride = "N/A"
+        start_date = date.today()
+
+
     lifetime_start = date(start_date.year, start_date.month, start_date.day)
     lifetime_end = year_end
 
