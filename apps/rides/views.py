@@ -45,10 +45,17 @@ class RideListView(LoginRequiredMixin, RideBaseView, ListView):
 
     def get_context_data(self, **kwargs):
         total_rides = Doc.objects.filter(user=self.request.user, active=True).count()
-        earliest_ride = Doc.objects.filter(
-            user=self.request.user, active=True
-        ).earliest()
-        earliest_date = earliest_ride.doc_date.strftime("%B %Y")
+        print('******', total_rides)
+
+        # account for users with no rides yet
+        if total_rides > 0:
+            earliest_ride = Doc.objects.filter(
+                user=self.request.user, active=True
+            ).earliest()
+            earliest_date = earliest_ride.doc_date.strftime("%B %Y")
+        else:
+            earliest_date = "N/A"
+            
         data = super().get_context_data(**kwargs)
         data["total_rides"] = total_rides
         data["first_ride"] = earliest_date
