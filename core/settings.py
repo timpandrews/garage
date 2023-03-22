@@ -195,8 +195,9 @@ CKEDITOR_CONFIGS = {
 }
 
 # django-auto-logout settings
+IDLE_TIME_MIN = int(env("IDLE_TIME_MIN"))
 AUTO_LOGOUT = {
-    "IDLE_TIME": timedelta(minutes=30),
+    "IDLE_TIME": timedelta(minutes=IDLE_TIME_MIN),
     "REDIRECT_TO_LOGIN_IMMEDIATELY": True,
     "MESSAGE": "The session has expired. Please login again to continue.",
 }
