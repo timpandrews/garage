@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     "bootstrap_datepicker_plus",
     "ckeditor",
     'django_seed',
-    'hijack', # django-hijack
-    'hijack.contrib.admin', # django-hijack
 ]
 
 MIDDLEWARE = [
@@ -63,7 +61,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party additions
     "django_auto_logout.middleware.auto_logout", # django-auto-logout
-    'hijack.middleware.HijackUserMiddleware', # django-hijack
 ]
 
 ROOT_URLCONF = "core.urls"

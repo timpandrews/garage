@@ -7,7 +7,6 @@ from django.views.i18n import JavaScriptCatalog
 urlpatterns = [
     path("jsil8n/", JavaScriptCatalog.as_view(), name="js-catalog"),
     path('admin/', include('admin_honeypot.urls')), # admin_honeypot
-    path('hijack/', include('hijack.urls')), # django-hijack
     path("delta/", admin.site.urls, name="admin"), # actual admin page
     # NOTE: Change accounts/* to user_stuff/*
     # NOTE: Is there a better name then user_stuff?
