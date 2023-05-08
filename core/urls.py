@@ -11,12 +11,14 @@ urlpatterns = [
     # NOTE: Change accounts/* to user_stuff/*
     # NOTE: Is there a better name then user_stuff?
     path("user_stuff/", include("django.contrib.auth.urls")),
+    path('', include('apps.feed.urls')),
     path('', include('apps.hp.urls')),
     path('', include('apps.garage.urls')),
     path('', include('apps.rides.urls')),
     path('', include('apps.dashboard.urls')),
     path('', include('apps.kudos.urls')),
     path('', include('apps.trophies.urls')),
+
 ]
 
 handler404 = 'apps.garage.views.error_404_view'
