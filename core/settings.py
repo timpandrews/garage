@@ -150,7 +150,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # django_project/settings.py
-LOGIN_REDIRECT_URL = "landing"
+LOGIN_REDIRECT_URL = "feed"
 LOGOUT_REDIRECT_URL = "landing"
 LOGIN_URL = 'login'
 

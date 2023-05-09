@@ -2,6 +2,24 @@
 
 {% block content %}
 
-<h1>Feed</h1>
+<div class="container mt-2">
+    <div class="col">
+        <h1 class="text-center">
+            Feed
+        </h1>
+
+    </div>
+</div>
+<div class="containter">
+    <div class="row">
+        <div class="col-sm-3 card">
+            {% include "feed/_userinfo.html" %}
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-8 card">
+            {% include "feed/_activities.html" %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -1,0 +1,38 @@
+
+{% if activity.data.type == "weight" %}
+
+    <!-- Weight -->
+    <div class="card">
+        <div class="card-body">
+            <i class="fa fa-balance-scale" aria-hidden="true"></i>
+            {{ activity.doc_date }}
+            <h5 class="card-title">Weight: {{ activity.data.weight }} lbs.</h5>
+            <p class="card-text">{{ activity.data }}</p>
+        </div>
+    </div>
+
+{% elif activity.data.type == "bp" %}
+
+    <!-- Blood Pressure -->
+    <div class="card">
+        <div class="card-body">
+            <i class="fa fa-stethoscope" aria-hidden="true"></i>
+            {{ activity.doc_date }}
+            <h5 class="card-title">BP: {{ activity.data.bp_STOL }} / {{ activity.data.bp_DTOL }}</h5>
+            <p class="card-text">{{ activity.data }}</p>
+        </div>
+    </div>
+
+{% else %}
+
+    <!-- HP - Other -->
+    <div class="card">
+        <div class="card-body">
+            <i class="fa fa-question-circle" aria-hidden="true"></i>
+            {{ activity.doc_date }}
+            <h5 class="card-title">Other Health Info</h5>
+            <p class="card-text">{{ activity.data }}</p>
+        </div>
+    </div>
+
+{% endif %}

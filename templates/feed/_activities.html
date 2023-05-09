@@ -1,0 +1,9 @@
+{% for activity in feed %}
+    {% if activity.doc_type == "ride" %}
+        <!-- Ride -->
+        {% include "feed/_activity_ride.html" %}
+    {% elif activity.doc_type == "hp" %}
+        <!-- HP -->
+        {% include "feed/_activity_hp.html" %}
+    {% endif %}
+{% endfor %}
