@@ -22,9 +22,6 @@ class Doc(models.Model):
     def __str__(self):
         return self.doc_type
 
-    def get_absolute_url(self):
-        return reverse("doc_detail", args=[str(self.id)])
-
 
 KUDOS_TYPES = (
     ("App", "app"), # Application Kudos
