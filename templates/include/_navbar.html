@@ -10,11 +10,11 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
                     <!-- Feed -->
                     {% if "feed" in request.path %}
-                        <li class="nav-item active fw-bolder" id="Rides">
+                        <li class="nav-item active fw-bolder" id="feed">
                             <a class="nav-link w3-text-light-blue" href="{% url 'feed:feed' %}">Feed</a>
                         </li>
                     {% else %}
-                        <li class="nav-item" id="Rides">
+                        <li class="nav-item" id="feed">
                             <a class="nav-link" href="{% url 'feed:feed' %}">Feed</a>
                         </li>
                     {% endif %}

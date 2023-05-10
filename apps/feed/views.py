@@ -1,6 +1,10 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
+from django.views.generic import TemplateView
+
 from apps.garage.models import Doc
+
 
 @login_required
 def feed(request):
@@ -18,3 +22,4 @@ def feed(request):
     }
 
     return render(request, "feed/feed.html", context)
+
