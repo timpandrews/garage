@@ -6,7 +6,11 @@
         <div class="card-body">
             <i class="fa fa-balance-scale" aria-hidden="true"></i>
             {{ activity.doc_date }}
-            <h5 class="card-title">Weight: {{ activity.data.weight }} lbs.</h5>
+            <h5 class="card-title">
+                <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                    Weight: {{ activity.data.weight }} lbs.
+                </a>
+            </h5>
             <p class="card-text">{{ activity.data }}</p>
         </div>
     </div>
@@ -18,7 +22,11 @@
         <div class="card-body">
             <i class="fa fa-stethoscope" aria-hidden="true"></i>
             {{ activity.doc_date }}
-            <h5 class="card-title">BP: {{ activity.data.bp_STOL }} / {{ activity.data.bp_DTOL }}</h5>
+            <h5 class="card-title">
+                <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                    BP: {{ activity.data.bp_STOL }} / {{ activity.data.bp_DTOL }}
+                </a>
+            </h5>
             <p class="card-text">{{ activity.data }}</p>
         </div>
     </div>
@@ -30,7 +38,11 @@
         <div class="card-body">
             <i class="fa fa-question-circle" aria-hidden="true"></i>
             {{ activity.doc_date }}
-            <h5 class="card-title">Other Health Info</h5>
+            <h5 class="card-title">
+                <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                    Other Health Info
+                </a>
+            </h5>
             <p class="card-text">{{ activity.data }}</p>
         </div>
     </div>
