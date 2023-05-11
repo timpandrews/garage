@@ -1,9 +1,50 @@
 {% for activity in feed %}
-    {% if activity.doc_type == "ride" %}
-        <!-- Ride -->
-        {% include "feed/_activity_ride.html" %}
-    {% elif activity.doc_type == "hp" %}
-        <!-- HP -->
-        {% include "feed/_activity_hp.html" %}
-    {% endif %}
+    <div class="card" hx-trigger="revealed" hx-confirm="Hello">
+        <div class="card-body">
+
+            {% if activity.doc_type == "ride" %}
+                <!-- Ride -->
+                <i class="fa fa-bicycle" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' doc_id=activity.id %}">{{ activity.data.ride_title }}</a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% elif activity.doc_type == "hp" and activity.data.type == "weight" %}
+                <!-- HP/Weight -->
+                <i class="fa fa-balance-scale" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                        Weight: {{ activity.data.weight }} lbs.
+                    </a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% elif activity.doc_type == "hp" and activity.data.type == "weight" %}
+                <!-- HP/BP -->
+                <i class="fa fa-stethoscope" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                        BP: {{ activity.data.bp_STOL }} / {{ activity.data.bp_DTOL }}
+                    </a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% else %}
+                <!-- Other -->
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                        Other Health Info
+                    </a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% endif %}
+        </div> <!-- card-body -->
+    </div> <!-- card -->
 {% endfor %}
