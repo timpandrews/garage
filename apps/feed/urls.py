@@ -6,5 +6,5 @@ app_name = 'feed'
 
 urlpatterns = [
     path("feed/", FeedView.as_view(), name="feed"),
-    path("feed/<int:doc_id>/", DetailView.as_view(), name="detail"),
+    path("feed/<int:pk>/", DetailView.as_view(), name="detail"),
 ]

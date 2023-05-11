@@ -1,3 +1,4 @@
+
 {% for activity in feed %}
     <div class="card" hx-trigger="revealed" hx-confirm="Hello">
         <div class="card-body">
@@ -7,7 +8,7 @@
                 <i class="fa fa-bicycle" aria-hidden="true"></i>
                 {{ activity.doc_date }}
                 <h5 class="card-title">
-                    <a href="{% url 'feed:detail' doc_id=activity.id %}">{{ activity.data.ride_title }}</a>
+                    <a href="{% url 'feed:detail' pk=activity.id %}">{{ activity.data.ride_title }}</a>
                 </h5>
                 <p class="card-text">{{ activity.data }}</p>
 
@@ -16,7 +17,7 @@
                 <i class="fa fa-balance-scale" aria-hidden="true"></i>
                 {{ activity.doc_date }}
                 <h5 class="card-title">
-                    <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                    <a href="{% url 'feed:detail' pk=activity.id %}">
                         Weight: {{ activity.data.weight }} lbs.
                     </a>
                 </h5>
@@ -27,7 +28,7 @@
                 <i class="fa fa-stethoscope" aria-hidden="true"></i>
                 {{ activity.doc_date }}
                 <h5 class="card-title">
-                    <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                    <a href="{% url 'feed:detail' pk=activity.id %}">
                         BP: {{ activity.data.bp_STOL }} / {{ activity.data.bp_DTOL }}
                     </a>
                 </h5>
@@ -38,7 +39,7 @@
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
                 {{ activity.doc_date }}
                 <h5 class="card-title">
-                    <a href="{% url 'feed:detail' doc_id=activity.id %}">
+                    <a href="{% url 'feed:detail' pk=activity.id %}">
                         Other Health Info
                     </a>
                 </h5>

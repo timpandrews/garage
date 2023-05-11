@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import ListView, DetailView
 
 from apps.garage.models import Doc
 
 
-class FeedView(LoginRequiredMixin, TemplateView):
+class FeedView(LoginRequiredMixin, ListView):
     template_name = "feed/feed.html"
+    model = Doc
 
     def get_context_data(self, *args, **kwargs):
         context = super(FeedView, self).get_context_data(*args, **kwargs)
@@ -20,13 +21,14 @@ class FeedView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class DetailView(LoginRequiredMixin, TemplateView):
+class DetailView(LoginRequiredMixin, DetailView):
     template_name = "feed/detail.html"
+    model = Doc
 
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
 
-        doc_id = self.kwargs["doc_id"]
+        doc_id = self.kwargs["pk"]
         doc = Doc.objects.get(id=doc_id)
 
 
