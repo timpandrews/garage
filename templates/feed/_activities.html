@@ -1,6 +1,16 @@
 
 {% for activity in feed %}
-    <div class="card" hx-trigger="revealed" hx-confirm="Hello">
+
+    {% if forloop.last %}
+        <div class="card"
+            hx-get="{% url 'feed:feed' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            hx-target="this">
+    {% else %}
+        <div class="card">
+    {% endif %}
+
         <div class="card-body">
 
             {% if activity.doc_type == "ride" %}

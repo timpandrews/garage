@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "bootstrap_datepicker_plus",
     "ckeditor",
-    'django_seed',
+    "django_seed",
+    "django_htmx",
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party additions
     "django_auto_logout.middleware.auto_logout", # django-auto-logout
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"

@@ -8,17 +8,34 @@ from apps.garage.models import Doc
 
 class FeedView(LoginRequiredMixin, ListView):
     template_name = "feed/feed.html"
+    context_object_name = "feed"
     model = Doc
+    paginate_by = 10
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(FeedView, self).get_context_data(*args, **kwargs)
+    def get_template_names(self):
+        if self.request.htmx:
+            return "feed/_activities.html"
 
+        return "feed/feed.html"
+
+    def get_queryset(self):
         user=self.request.user
-        feed = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
-        feed = feed.order_by("-doc_date")
-        context["feed"] = feed
+        print("user", user)
+        queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
+        queryset = queryset.order_by("-doc_date")
+        print("queryset", queryset)
 
-        return context
+        return queryset
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(FeedView, self).get_context_data(*args, **kwargs)
+
+    #     user=self.request.user
+    #     feed = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
+    #     feed = feed.order_by("-doc_date")
+    #     context["feed"] = feed
+
+    #     return context
 
 
 class DetailView(LoginRequiredMixin, DetailView):
