@@ -27,16 +27,6 @@ class FeedView(LoginRequiredMixin, ListView):
 
         return queryset
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(FeedView, self).get_context_data(*args, **kwargs)
-
-    #     user=self.request.user
-    #     feed = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
-    #     feed = feed.order_by("-doc_date")
-    #     context["feed"] = feed
-
-    #     return context
-
 
 class DetailView(LoginRequiredMixin, DetailView):
     template_name = "feed/detail.html"
