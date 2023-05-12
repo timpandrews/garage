@@ -6,17 +6,17 @@ from django.views.generic import ListView, DetailView
 from apps.garage.models import Doc
 
 
-class FeedView(LoginRequiredMixin, ListView):
+class FeedView(LoginRequiredMixin, ListView): 
     template_name = "feed/feed.html"
     context_object_name = "feed"
     model = Doc
     paginate_by = 10
 
     def get_template_names(self):
-        if self.request.htmx:
+        if self.request.htmx: # get partial while using htmx scrolling
             return "feed/_activities.html"
 
-        return "feed/feed.html"
+        return "feed/feed.html" # get full page on initial load
 
     def get_queryset(self):
         user=self.request.user
