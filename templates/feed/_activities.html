@@ -15,12 +15,7 @@
 
             {% if activity.doc_type == "ride" %}
                 <!-- Ride -->
-                <i class="fa fa-bicycle" aria-hidden="true"></i>
-                {{ activity.doc_date }}
-                <h5 class="card-title">
-                    <a href="{% url 'feed:detail' pk=activity.id %}">{{ activity.data.ride_title }}</a>
-                </h5>
-                <p class="card-text">{{ activity.data }}</p>
+                {% include "feed/__rides.html" %}
 
             {% elif activity.doc_type == "hp" and activity.data.type == "weight" %}
                 <!-- HP/Weight -->

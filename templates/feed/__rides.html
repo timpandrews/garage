@@ -1,0 +1,35 @@
+<i class="fa fa-bicycle" aria-hidden="true"></i>
+{{ activity.doc_date }}
+<h5 class="card-title">
+    <a href="{% url 'feed:detail' pk=activity.id %}">
+        {% if activity.data.ride_title %}
+            {{ activity.data.ride_title }}
+        {% elif activity.data.title %}
+            {{ activity.data.title }}
+        {% else %}
+            Ride
+        {% endif %}
+    </a>
+</h5>
+<table class="table">
+    <tr>
+        <th>Ride Distance</th>
+        <th>Ride Time</th>
+        <th>Elevation Gained</th>
+    </tr>
+    <tr>
+        <td>{{ activity.data.distance }}</td>
+        <td>{{ activity.data.duration }}</td>
+        <td>{{ activity.data.elevation }}</td>
+    </tr>
+</table>
+<table class="table">
+    <tr>
+        <th>Ride Details <i class="bi bi-arrows-collapse me-2"></th>
+    </tr>
+</table
+
+
+
+
+<p class="card-text">{{ activity.data }}</p>
