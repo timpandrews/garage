@@ -195,3 +195,70 @@ class db_year(LoginRequiredMixin, TemplateView):
         context["bgColor"] = bgColor
         context["chart_title"] = "Distance (KM) by Year"
         return context
+
+
+class dbnew(LoginRequiredMixin, TemplateView):
+    template_name = "dashboard/db2.html"
+    model = Doc
+    context_object_name = "chart"
+
+    def get_template_names(self):
+        chart_type = self.request.GET.get('chart_type')
+        print("*****gtn: chart_type: ", chart_type, type(chart_type))
+        if self.request.htmx: # get partial while using htmx get request
+            print("_chart.html")
+            return "dashboard/_chart.html"
+        else:
+            print("db2.html")
+            return "dashboard/db2.html"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        chart_type = self.request.GET.get('chart_type')
+        context["chart_type"] = chart_type
+        print("chart_type: ", chart_type, type(chart_type))
+
+        if chart_type == "weekly" or chart_type == None:
+            print("weekly****")
+            user = self.request.user
+
+            week_range = get_week_range()
+            weekly_rides = get_weekly_rides(week_range, user)
+            weekly_sums = get_weekly_sums(weekly_rides)
+
+            week = {}
+            week["start"] = week_range["start"]
+            week["end"] = week_range["end"]
+            week["rides"] = len(weekly_rides)
+            week["distance"] = weekly_sums["distance"]
+            week["time"] = weekly_sums["time"]
+            week["elevation"] = weekly_sums["elevation"]
+            week["calories"] = weekly_sums["calories"]
+
+            week_ranges, distance_history = get_distance_history(user)
+
+            labels = convert_ranges_to_str(week_ranges)
+            labels = labels[::-1]
+            data = distance_history[::-1]
+
+            context["week"] = week
+            context["labels"] = labels
+            context["data"] = data
+
+        elif chart_type == "monthly":
+            print("monthly****")
+            labels = {}
+            data = {}
+        elif chart_type == "yearly":
+            print("yearly****")
+            labels = {}
+            data = {}
+        else:
+            print("else****")
+            labels = {}
+            data = {}
+
+        print("context: ", context)
+
+        return context
+
