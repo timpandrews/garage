@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from apps.garage.models import Doc
 
 
-class FeedView(LoginRequiredMixin, ListView):
+class FeedView(LoginRequiredMixin, ListView): 
     template_name = "feed/feed.html"
     context_object_name = "feed"
     model = Doc
@@ -20,8 +20,10 @@ class FeedView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user=self.request.user
+        print("user", user)
         queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
         queryset = queryset.order_by("-doc_date")
+        print("queryset", queryset)
 
         return queryset
 
@@ -35,6 +37,7 @@ class DetailView(LoginRequiredMixin, DetailView):
 
         doc_id = self.kwargs["pk"]
         doc = Doc.objects.get(id=doc_id)
+
 
         context["doc_type"] = doc.doc_type
         context["doc"] = doc
