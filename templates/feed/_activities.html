@@ -2,13 +2,13 @@
 {% for activity in feed %}
 
     {% if forloop.last %}
-        <div class="card"
+        <div class="card bg-light mb-3"
             hx-get="{% url 'feed:feed' %}?page={{ page_obj.number|add:1 }}"
             hx-trigger="revealed"
             hx-swap="afterend"
             hx-target="this">
     {% else %}
-        <div class="card">
+        <div class="card bg-light mb-3">
     {% endif %}
 
         <div class="card-body">
@@ -53,4 +53,5 @@
             {% endif %}
         </div> <!-- card-body -->
     </div> <!-- card -->
+</div> <!-- ??? -->
 {% endfor %}
