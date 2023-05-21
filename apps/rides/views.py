@@ -6,6 +6,7 @@ import fitdecode
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files.storage import FileSystemStorage
@@ -45,7 +46,7 @@ class RideListView(LoginRequiredMixin, RideBaseView, ListView):
 
     def get_context_data(self, **kwargs):
         total_rides = Doc.objects.filter(user=self.request.user, active=True).count()
-        
+
         # account for users with no rides yet
         if total_rides > 0:
             earliest_ride = Doc.objects.filter(
@@ -127,6 +128,7 @@ class RideDeleteView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Dele
     success_message = "Ride was deleted successfully"
 
 
+@login_required
 def ride_import_fit(request):
     context = {}
     form = RideForm(request.POST or None)
