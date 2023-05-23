@@ -21,15 +21,56 @@
         <td>{{ activity.data.distance }}</td>
         <td>{{ activity.data.duration }}</td>
         <td>{{ activity.data.elevation }}</td>
+        <td>{{ activity.data.calories }}</td>
     </tr>
 </table>
-<table class="table">
+
+<div class="card">
+    <div class="card-body">
+        {{ activity.map | safe }}
+    </div>
+  </div>
+
+<table class="table-info w-100 mt-2">
     <tr>
-        <th>Ride Details <i class="bi bi-arrows-collapse me-2"></th>
+        <th>
+            Ride Details
+            <button class="btn btn-sm btn-primary ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#rideDetail{{ activity.id }}" aria-expanded="false" aria-controls="rideDetail{{ activity.id }}">
+                <i class="bi bi-arrows-collapse"></i>
+            </button>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <div class="collapse" id="rideDetail{{ activity.id }}">
+                <table class="table table-light w-75">
+                    <tr>
+                        <th></th>
+                        <th>Avg</th>
+                        <th>Max</th>
+                    </tr>
+                    <tr>
+                        <td>Speed</td>
+                        <td>{{ activity.data.speed_avg }}</td>
+                        <td>{{ activity.data.speed_max }}</td>
+                    </tr>
+                    <tr>
+                        <td>Cadence</td>
+                        <td>{{ activity.data.cadence_avg }}</td>
+                        <td>{{ activity.data.cadence_max }}</td>
+                    </tr>
+                    <tr>
+                        <td>Power</td>
+                        <td>{{ activity.data.power_avg }}</td>
+                        <td>{{ activity.data.power_max }}</td>
+                    </tr>
+                    <tr>
+                        <td>Heart Rate</td>
+                        <td>{{ activity.data.hr_avg }}</td>
+                        <td>{{ activity.data.hr_max }}</td>
+                    </tr>
+                </table>
+            </div>
+        </td>
     </tr>
 </table
-
-
-
-
-<p class="card-text">{{ activity.data }}</p>
