@@ -25,11 +25,23 @@
     </tr>
 </table>
 
-<div class="card">
-    <div class="card-body">
-        {{ activity.map | safe }}
-    </div>
-  </div>
+<table class="table-info w-100 mt-2">
+    <tr>
+        <th>
+            Ride Map
+            <button class="btn btn-sm btn-primary ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#rideMap{{ activity.id }}" aria-expanded="True" aria-controls="rideMap{{ activity.id }}">
+                <i class="bi bi-arrows-collapse"></i>
+            </button>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <div id="rideMap{{ activity.id }}" class="card-body collapse">
+                {{ activity.map | safe }}
+            </div>
+        </td>
+    </tr>
+</table>
 
 <table class="table-info w-100 mt-2">
     <tr>
