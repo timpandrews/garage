@@ -1,0 +1,57 @@
+
+{% for activity in feed %}
+
+    {% if forloop.last %}
+        <div class="card bg-light mb-3"
+            hx-get="{% url 'feed:feed' %}?page={{ page_obj.number|add:1 }}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            hx-target="this">
+    {% else %}
+        <div class="card bg-light mb-3">
+    {% endif %}
+
+        <div class="card-body">
+
+            {% if activity.doc_type == "ride" %}
+                <!-- Ride -->
+                {% include "feed/__rides.html" %}
+
+            {% elif activity.doc_type == "hp" and activity.data.type == "weight" %}
+                <!-- HP/Weight -->
+                <i class="fa fa-balance-scale" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' pk=activity.id %}">
+                        Weight: {{ activity.data.weight }} lbs.
+                    </a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% elif activity.doc_type == "hp" and activity.data.type == "weight" %}
+                <!-- HP/BP -->
+                <i class="fa fa-stethoscope" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' pk=activity.id %}">
+                        BP: {{ activity.data.bp_STOL }} / {{ activity.data.bp_DTOL }}
+                    </a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% else %}
+                <!-- Other -->
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    <a href="{% url 'feed:detail' pk=activity.id %}">
+                        Other Health Info
+                    </a>
+                </h5>
+                <p class="card-text">{{ activity.data }}</p>
+
+            {% endif %}
+        </div> <!-- card-body -->
+    </div> <!-- card -->
+</div> <!-- ??? -->
+{% endfor %}

@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     "apps.kudos",
     "apps.trophies",
     "apps.hp",
+    "apps.feed",
     # 3rd party apps
     "admin_honeypot",
     "django_bootstrap5",
     "bootstrap_datepicker_plus",
     "ckeditor",
-    'django_seed',
+    "django_seed",
+    "django_htmx",
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party additions
     "django_auto_logout.middleware.auto_logout", # django-auto-logout
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -149,7 +152,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # django_project/settings.py
-LOGIN_REDIRECT_URL = "landing"
+LOGIN_REDIRECT_URL = "feed:feed"
 LOGOUT_REDIRECT_URL = "landing"
 LOGIN_URL = 'login'
 
