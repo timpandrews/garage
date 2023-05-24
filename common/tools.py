@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import fitdecode
 
@@ -35,3 +35,28 @@ def import_fit_file(file_path):
             fit_file[data_type] = data
 
     return fit_file
+
+
+def clean_data_for_db(data):
+    # convert H:M:S duration field to total seconds
+    data["duration"] = data["duration"].total_seconds()
+    # convert datetime object to string to stor in JSON
+    data["start"] = data["start"].strftime("%m/%d/%Y %H:%M:%S")
+
+    return data
+
+
+def clean_data_for_display(data):
+    # convert duration field from seconds to H:M:S format
+    data["duration"] = str(timedelta(seconds=data["duration"]))
+
+    return data
+
+
+def clean_data_for_edit(data):
+    # convert duration field from seconds to H:M:S format
+    data["duration"] = str(timedelta(seconds=data["duration"]))
+    # convert datetime string to datetime object for datetime formfield
+    data["start"] = datetime.strptime(data["start"], "%m/%d/%Y %H:%M:%S")
+
+    return data

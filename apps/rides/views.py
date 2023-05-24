@@ -18,7 +18,8 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from apps.garage.models import Doc, ZwiftRouteList
-from common.tools import import_fit_file
+from common.tools import (clean_data_for_db, clean_data_for_display,
+                          clean_data_for_edit, import_fit_file)
 
 from .forms import RideForm
 
@@ -285,28 +286,3 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
     }
 
     return prepend_form_data
-
-
-def clean_data_for_db(data):
-    # convert H:M:S duration field to total seconds
-    data["duration"] = data["duration"].total_seconds()
-    # convert datetime object to string to stor in JSON
-    data["start"] = data["start"].strftime("%m/%d/%Y %H:%M:%S")
-
-    return data
-
-
-def clean_data_for_display(data):
-    # convert duration field from seconds to H:M:S format
-    data["duration"] = str(timedelta(seconds=data["duration"]))
-
-    return data
-
-
-def clean_data_for_edit(data):
-    # convert duration field from seconds to H:M:S format
-    data["duration"] = str(timedelta(seconds=data["duration"]))
-    # convert datetime string to datetime object for datetime formfield
-    data["start"] = datetime.strptime(data["start"], "%m/%d/%Y %H:%M:%S")
-
-    return data
