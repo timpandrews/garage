@@ -38,6 +38,7 @@ def import_fit_file(file_path):
     return fit_file
 
 
+# Data Cleaning Functions #
 def clean_data_for_db(data):
     """
     Takes a dictionary of data and cleans it for storage in the database.
@@ -113,6 +114,7 @@ def clean_data_for_edit(data):
     return data
 
 
+# Maping Functions #
 def find_centroid(coordinates):
     """
     Given a list of coordinates (lat/long), will return the centroid (center point)
