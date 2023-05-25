@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
@@ -12,8 +14,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import TemplateView, View
 
 from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
-from .tokens import account_activation_token
 from .models import Profile
+from .tokens import account_activation_token
 
 
 def landing(response):
@@ -42,13 +44,14 @@ class SignUpView(View):
 
             current_site = get_current_site(request)
             subject = 'Activate Your MySite Account'
+            email_from = settings.ADMIN_EMAIL
             message = render_to_string('users/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            user.email_user(subject, message)
+            user.email_user(subject, message, email_from)
 
             messages.success(request, ('Please Confirm your email to complete registration.'))
 
