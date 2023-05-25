@@ -16,3 +16,10 @@ IDLE_TIME_MIN=***
 # django-admin-env-notice settings
 ENVIRONMENT_NAME=********
 ENVIRONMENT_COLOR=********
+
+# SMTP Email settings
+EMAIL_HOST=**********
+EMAIL_PORT=***
+EMAIL_HOST_USER=**********
+EMAIL_HOST_PASSWORD=**********
+EMAIL_USE_TLS=****
