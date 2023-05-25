@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_seed",
     "django_htmx",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party additions
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_auto_logout.middleware.auto_logout", # django-auto-logout
     "django_htmx.middleware.HtmxMiddleware",
 ]
@@ -160,6 +162,16 @@ LOGIN_URL = 'login'
 # Temp email solution, just writes emails to console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# Temp SMTP email solution
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = env('EMAIL_HOST')
+# EMAIL_PORT = env('EMAIL_PORT')
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
+# EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+# EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+
+
 # Configure CKEditor Toolbars
 CKEDITOR_CONFIGS = {
     'default':
@@ -217,6 +229,12 @@ AUTO_LOGOUT = {
 ENVIRONMENT_NAME = env("ENVIRONMENT_NAME")
 ENVIRONMENT_COLOR = env("ENVIRONMENT_COLOR")
 ENVIRONMENT_SHOW_TO_UNAUTHENTICATED = False
+
+
+# django-debug-toolbar settings
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 
 try:

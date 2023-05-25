@@ -8,6 +8,7 @@ urlpatterns = [
     path("jsil8n/", JavaScriptCatalog.as_view(), name="js-catalog"),
     path('admin/', include('admin_honeypot.urls')), # admin_honeypot
     path("delta/", admin.site.urls, name="admin"), # actual admin page
+    path('__atlas__/', include("debug_toolbar.urls")),
     # NOTE: Change accounts/* to user_stuff/*
     # NOTE: Is there a better name then user_stuff?
     path("user_stuff/", include("django.contrib.auth.urls")),
