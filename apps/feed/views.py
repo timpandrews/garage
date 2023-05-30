@@ -22,7 +22,7 @@ class FeedView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user=self.request.user
 
-        queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
+        queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp") | Doc.objects.filter(user=user, doc_type="joined")
         queryset = queryset.order_by("-doc_date")
 
         for activity in queryset:
