@@ -1,1 +1,84 @@
-<h3>{{ user.username }}</h3>
+<div class="card mt-2">
+    <div class="card-header bg-secondary">
+        <p class="card-title text-center">
+            <i class="bi bi-person-square"></i>
+        </p>
+        <h5 class="card-title text-center">{{ user.username }}</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+            <span class="fw-bold">Member Since:</span>
+            {{ member_joined_date }}
+        </p>
+        <p class="card-text">
+            <span class="fw-bold">Total Rides:</span>
+            {{ activities_ride }}
+        </p>
+        <p class="card-text">
+            <span class="fw-bold">Total Activities:</span>
+            {{ activities_total }}
+        </p>
+    </div>
+</div>
+<div class="card text-center mt-2">
+    <div class="card-header bg-secondary">
+        <h5 class="card-title">What to do Next</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button"
+                    id="dropdownAddRidesBtn" data-toggle="dropdown" aria-haspopup="true"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-bicycle me-2" aria-hidden="true"></i>
+                    Add / Import New Rides
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownAddRidesBtn">
+                    <a class="dropdown-item" href="{% url 'rides:import_fit' %}">
+                        Import .fit File
+                    </a>
+                    <a class="dropdown-item disabled" href="#">
+                        Import .gpx File
+                    </a>
+                    <a class="dropdown-item" href="{% url 'rides:create' %}">
+                        Manually Enter a Ride
+                    </a>
+                </div>
+            </div>
+        </p>
+        <p class="card-text">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button"
+                    id="dropdownAddHP" data-toggle="dropdown" aria-haspopup="true"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-stethoscope me-2" aria-hidden="true"></i>
+                    Add New Health Points
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownAddHP">
+                    <a class="dropdown-item" href="{% url 'hp:create' %}">
+                        Add FTP
+                    </a>
+                    <a class="dropdown-item" href="{% url 'hp:create' 'weight' %}">
+                        Add Weight
+                    </a>
+                    <a class="dropdown-item" href="{% url 'hp:create' 'bp' %}">
+                        Add Blood Pressure
+                    </a>
+                    <a class="dropdown-item" href="{% url 'hp:create' %}">
+                        Add Other Health Points
+                    </a>
+                </div>
+            </div>
+        </p>
+        <p class="card-text">
+            <a href="{% url 'dashboard:db' %}" class="btn btn-primary">
+                <i class="bi bi-clipboard-data me-2"></i>View Dashboards
+            </a>
+        </p>
+        <p class="card-text">
+            <a href="#" class="btn btn-primary disabled">
+                <i class="bi bi-trophy me-2"></i>Manage you Trophies & Kudos
+            </a>
+        </p>
+    </div>
+</div>
