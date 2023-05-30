@@ -7,17 +7,8 @@
         <h2 class="text-center">
             HP
         </h2>
-        <div class="text-center">
-            <a href="/hp/create/weight" class="btn btn-primary btn-sm m-2">
-                <i class="bi bi-plus-square me-2"></i>Add New HP - Weight
-            </a>
-            <a href="/hp/create/bp" class="btn btn-primary btn-sm m-2">
-                <i class="bi bi-plus-square me-2"></i>Add New HP - BP
-            </a>
-            <a href="/hp/create/other" class="btn btn-primary btn-sm m-2">
-                <i class="bi bi-plus-square me-2"></i>Add New HP - Other
-            </a>
-        </div>
+
+        {% include "hp/_buttons.html" %}
 
         <table class="table table-striped mt-2">
             <thead>
@@ -82,17 +73,9 @@
                 </ul>
             {% endif %}
         </nav>
-        <div class="text-center">
-            <a href="/hp/create/weight" class="btn btn-primary btn-sm m-2">
-                <i class="bi bi-plus-square me-2"></i>Add New HP - Weight
-            </a>
-            <a href="/hp/create/bp" class="btn btn-primary btn-sm m-2">
-                <i class="bi bi-plus-square me-2"></i>Add New HP - BP
-            </a>
-            <a href="/hp/create/other" class="btn btn-primary btn-sm m-2">
-                <i class="bi bi-plus-square me-2"></i>Add New HP - Other
-            </a>
-        </div>
+
+        {% include "hp/_buttons.html" %}
+        
     </div>
 </div>
 
