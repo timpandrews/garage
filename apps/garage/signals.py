@@ -25,7 +25,6 @@ def update_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def create_first_activity(sender, instance, created, **kwargs):
     # create a first activity for a user when the user is created
-    print("create_first_activity")
     if created:
         dt = datetime.now()
         dt = dt.replace(tzinfo=timezone.utc)
