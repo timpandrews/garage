@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_seed",
     "django_htmx",
-    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +62,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party additions
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_auto_logout.middleware.auto_logout", # django-auto-logout
     "django_htmx.middleware.HtmxMiddleware",
 ]
@@ -231,16 +229,6 @@ AUTO_LOGOUT = {
 ENVIRONMENT_NAME = env("ENVIRONMENT_NAME")
 ENVIRONMENT_COLOR = env("ENVIRONMENT_COLOR")
 ENVIRONMENT_SHOW_TO_UNAUTHENTICATED = False
-
-
-# django-debug-toolbar settings
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda r: True,  # Set to False to disable the toolbar
-}
 
 
 try:
