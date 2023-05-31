@@ -18,8 +18,12 @@ from .models import Profile
 from .tokens import account_activation_token
 
 
-def landing(response):
-    return render(response, "garage/landing.html", {})
+class LandingView(TemplateView):
+    template_name = "garage/landing.html"
+
+
+class NewUserHelpView(LoginRequiredMixin, TemplateView):
+    template_name = "garage/new_user_help.html"
 
 
 class ToolsView(LoginRequiredMixin, TemplateView):
@@ -43,7 +47,7 @@ class SignUpView(View):
             user.save()
 
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            subject = "Activate Your Cyclist's Garage Account"
             email_from = settings.ADMIN_EMAIL
             message = render_to_string('users/account_activation_email.html', {
                 'user': user,

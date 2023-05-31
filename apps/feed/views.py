@@ -13,16 +13,19 @@ class FeedView(LoginRequiredMixin, ListView):
     model = Doc
     paginate_by = 10
 
+    # Get template for partial page when using htmx scrolling
     def get_template_names(self):
         if self.request.htmx: # get partial while using htmx scrolling
             return "feed/_activities.html"
 
         return "feed/feed.html" # get full page on initial load
 
+
+    # Get queryset for feed
     def get_queryset(self):
         user=self.request.user
 
-        queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp")
+        queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp") | Doc.objects.filter(user=user, doc_type="joined")
         queryset = queryset.order_by("-doc_date")
 
         for activity in queryset:
@@ -30,8 +33,27 @@ class FeedView(LoginRequiredMixin, ListView):
                 activity.map = build_map(activity)
             activity.data = clean_data_for_display(activity.data)
 
-
         return queryset
+
+
+    # Get extra context for user info
+    def get_context_data(self,**kwargs):
+        context = super(FeedView,self).get_context_data(**kwargs)
+        user=self.request.user
+
+        member_joined_date = Doc.objects.filter(user=user, doc_type="joined").values('doc_date')
+        member_joined_date = member_joined_date[0]['doc_date']
+        member_joined_date = member_joined_date.strftime("%B %d, %Y")
+        context["member_joined_date"]=member_joined_date
+
+        activities_total = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp") | Doc.objects.filter(user=user, doc_type="joined")
+        activities_total = activities_total.count()
+        context["activities_total"]=activities_total
+
+        activities_ride = Doc.objects.filter(user=user, doc_type="ride").count()
+        context["activities_ride"]=activities_ride
+
+        return context
 
 
 class DetailView(LoginRequiredMixin, DetailView):

@@ -39,6 +39,18 @@
                 </h5>
                 <p class="card-text">{{ activity.data }}</p>
 
+            {% elif activity.doc_type == "joined" %}
+                <!-- 1st activity -->
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                {{ activity.doc_date }}
+                <h5 class="card-title">
+                    Congratulations on joining!
+                </h5>
+                <p class="card-text">
+                    Thanks for joining the site.  Here's what you should do next.
+                    <a href="{% url 'new_user_help' %}">Click here</a>
+                </p>
+
             {% else %}
                 <!-- Other -->
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
