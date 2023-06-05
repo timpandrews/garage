@@ -246,9 +246,9 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
 
     elevation = (fit_file_data["session"][0]["total_ascent"])
 
-    speed_avg = round(fit_file_data["session"][0]["avg_speed"], 2)
-
-    speed_max = round(fit_file_data["session"][0]["max_speed"], 2)
+    # NOTE - speed is in m/s, so multiply by 3.6 to get km/h
+    speed_avg = round(fit_file_data["session"][0]["avg_speed"] * 3.6, 1)
+    speed_max = round(fit_file_data["session"][0]["max_speed"] * 3.6, 1)
 
     hr_avg = fit_file_data["session"][0]["avg_heart_rate"]
 
