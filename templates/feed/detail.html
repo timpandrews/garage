@@ -1,17 +1,19 @@
 {% extends 'include/base.html' %}{% load static %}
 
 {% block content %}
-<h1>Ride Detail</h1>
 
-{{ doc.id }}
-{{ doc.user }}
-{{ doc.doc_type }}
-{{ doc.doc_date }}
-{{ doc.data }}
 
-<br><br>
+{% if doc_type == "ride" %}
+    <h1>Ride Detail</h1>
+    {% include "feed/detail/_ride_basic_info.html" %}
+    {% include "feed/detail/_ride_extra_info.html" %}
+    {% include "feed/detail/_ride_map.html" %}
+{% else %}
+    <h1>Whoops!</h1>
+    {% include "feed/detail/_error.html" %}
+{% endif %}
 
-<a href="{% url 'feed:feed' %}" class="btn btn-secondary me-2 text-nowrap">
+<a href="{% url 'feed:feed' %}" class="btn btn-secondary m-2 text-nowrap">
     <i class="bi bi-skip-backward"></i>
 </a>
 

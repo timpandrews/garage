@@ -66,7 +66,16 @@ class DetailView(LoginRequiredMixin, DetailView):
         doc_id = self.kwargs["pk"]
         doc = Doc.objects.get(id=doc_id)
 
+        activity = clean_data_for_display(doc.data)
+        print(activity)
+
+        activity_type = doc.doc_type
+
+        if activity_type == "ride":
+            activity["map"] = build_map(doc)
+            
+
         context["doc_type"] = doc.doc_type
-        context["doc"] = doc
+        context["activity"] = activity
 
         return context
