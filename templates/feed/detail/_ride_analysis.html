@@ -1,0 +1,35 @@
+<div class="card m-2">
+    <h5 class="card-title mt-2 ms-2">Analysis</h5>
+    <div style="height:250px">
+        <canvas id="myChart" style="width:100%;height:100%"></canvas>
+    </div>
+</div>
+
+{% include "include/_chart_js_script.html" %}
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ chart.labels|safe }},
+            datasets: [{
+                label: 'Ride Elevation',
+                data: {{ chart.elevation|safe }},
+                borderWidth: 1,
+                fill: true,
+            }]
+        },
+        options: {
+            animation: false,
+            plugins: {
+                legend: {display: true},
+                tooltip: {enabled: true}
+            },
+            scales: {
+                y: {beginAtZero: true}
+            }
+        }
+    });
+</script>

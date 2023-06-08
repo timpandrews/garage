@@ -2,15 +2,20 @@
 
 {% block content %}
 
-
 {% if doc_type == "ride" %}
+
     <h1>Ride Detail</h1>
+    {% include "feed/detail/_ride_kudos.html" %}
     {% include "feed/detail/_ride_basic_info.html" %}
     {% include "feed/detail/_ride_extra_info.html" %}
     {% include "feed/detail/_ride_map.html" %}
+    {% include "feed/detail/_ride_analysis.html" %}
+
 {% else %}
+
     <h1>Whoops!</h1>
     {% include "feed/detail/_error.html" %}
+
 {% endif %}
 
 <a href="{% url 'feed:feed' %}" class="btn btn-secondary m-2 text-nowrap">

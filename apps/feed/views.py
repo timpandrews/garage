@@ -63,18 +63,20 @@ class DetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
 
+        chart = {}
+
         doc_id = self.kwargs["pk"]
         doc = Doc.objects.get(id=doc_id)
 
         activity = clean_data_for_display(doc.data)
-        print(activity)
-
         activity_type = doc.doc_type
-
         if activity_type == "ride":
             activity["map"] = build_map(doc)
-            
 
+            chart["labels"] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+            chart["elevation"] = [100, 101, 103, 107, 110, 109, 108, 106, 103, 102, 101, 100, 100]
+
+        context["chart"] = chart
         context["doc_type"] = doc.doc_type
         context["activity"] = activity
 
