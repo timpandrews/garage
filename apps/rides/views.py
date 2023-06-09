@@ -19,7 +19,8 @@ from django.views.generic.list import ListView
 
 from apps.garage.models import Doc, ZwiftRouteList
 from common.tools import (clean_data_for_db, clean_data_for_display,
-                          clean_data_for_edit, import_fit_file)
+                          clean_data_for_edit, get_detail_from_input_data,
+                          import_fit_file)
 
 from .forms import RideForm
 
@@ -137,7 +138,7 @@ def ride_import_fit(request):
     if request.method == "POST":
         # COMMENT - Import Fit File Form
         if "import_fit" in request.POST:
-            # TODO - Do I need to check who created the fiel? ie Zwift, Garmin, etc
+            # TODO - Do I need to check who created the file? ie Zwift, Garmin, etc
             # TODO - If so, Do I need to handle files from each source differently?
             uploaded_file = request.FILES['fit_file'] if 'fit_file' in request.FILES else None
 
@@ -184,9 +185,12 @@ def ride_import_fit(request):
                 # and then save the fit data to the database
                 fit_file_name = data["fitfile"]
                 fit_file_path = settings.MEDIA_ROOT + "/" + fit_file_name
-                fit = import_fit_file(fit_file_path)
+                input_data = import_fit_file(fit_file_path)
                 os.remove(fit_file_path) # delete file from media directory after reading
                 del data["fitfile"] # remove fit_file_name from dict
+
+                format =  "fit"
+                detail = get_detail_from_input_data(format, input_data)
 
                 data = clean_data_for_db(data)
 
@@ -199,7 +203,7 @@ def ride_import_fit(request):
                     doc_date = doc_date,
                     user = user,
                     data = data,
-                    fit_data = fit)
+                    detail = detail)
                 object.save()
                 messages.success(request, "Ride was created successfully")
 

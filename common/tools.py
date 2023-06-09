@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 
 import fitdecode
@@ -36,6 +37,51 @@ def import_fit_file(file_path):
             fit_file[data_type] = data
 
     return fit_file
+
+
+def get_detail_from_input_data(format, input_data):
+    """_summary_
+
+    Args:
+        format (_str_):     "fit" or "gpx".  A string indicating the format of the
+                            input data.
+        input_data (_dict_): A dictionary of data from the input file.  Exact format of
+                             the dictionary depends on the format and source of the input
+                             file.
+
+    Returns:
+        _dict_: A dictionary of data formatted in a consistent manner regardless of
+                the input file format.  This dictionary can be stored in the database
+                and used to build ride maps and ride analysis charts.
+    """
+    detail = list()
+
+    # FIT file format
+    if format == "fit":
+        for point in input_data["record"]:
+            # Create a new dictionary without keys having value None
+            point = {key: value for key, value in point.items() if value is not None}
+
+            # Convert semicircles to degrees
+            point["position_lat"] = point["position_lat"] * 180 / 2 ** 31
+            point["position_long"] = point["position_long"] * 180 / 2 ** 31
+
+            # Conver speed from m/s to km/h so multiply by 3.6 to get km/h
+            point["speed"] = round(point["speed"] * 3.6, 1)
+            point["enhanced_speed"] = round(point["speed"] * 3.6, 1)
+
+            # Add point to detail list
+            detail.append(point)
+
+        print("detail: ", detail)
+
+    elif format == "gpx":
+        print("GPX file format not yet supported")
+
+    else:
+        print("Unknown file format")
+
+    return detail
 
 
 # Data Cleaning Functions #
