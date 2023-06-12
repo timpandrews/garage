@@ -20,20 +20,25 @@
         data: {
             labels: {{ chart.labels|safe }},
             datasets: [{
-                label: 'Ride Elevation',
+                label: 'Elevation (m)',
                 data: {{ chart.elevation|safe }},
                 borderWidth: 1,
                 fill: true,
             }]
         },
         options: {
-            animation: false,
-            plugins: {
-                legend: {display: true},
-                tooltip: {enabled: true}
-            },
             scales: {
-                y: {beginAtZero: true}
+                y: {
+                    beginAtZero: true,
+                },
+                x: {
+                    type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'Distance (km)'
+                    },
+                    
+                }
             }
         }
     });

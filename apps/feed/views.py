@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from apps.garage.models import Doc
-from common.tools import clean_data_for_display, build_map
+from common.tools import clean_data_for_display, build_map, build_elevation_chart
 
 
 class FeedView(LoginRequiredMixin, ListView):
@@ -72,12 +72,13 @@ class DetailView(LoginRequiredMixin, DetailView):
         activity_type = doc.doc_type
         if activity_type == "ride":
             activity["map"] = build_map(doc)
-
-            chart["labels"] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
-            chart["elevation"] = [100, 101, 103, 107, 110, 109, 108, 106, 103, 102, 101, 100, 100]
+            chart["labels"], chart["elevation"] = build_elevation_chart(doc)
 
         context["chart"] = chart
         context["doc_type"] = doc.doc_type
         context["activity"] = activity
+
+        print("labels: ", chart["labels"])
+        # print("elevation: ", chart["elevation"])
 
         return context
