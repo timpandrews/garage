@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import fitdecode
 import folium
+import geopy.distance
 
 
 def import_fit_file(file_path):
@@ -58,7 +59,7 @@ def get_detail_from_input_data(format, input_data):
 
     # FIT file format
     if format == "fit":
-        for point in input_data["record"]:
+        for i, point in enumerate(input_data["record"]):
             # Create a new dictionary without keys having value None
             point = {key: value for key, value in point.items() if value is not None}
 
@@ -70,10 +71,18 @@ def get_detail_from_input_data(format, input_data):
             point["speed"] = round(point["speed"] * 3.6, 1)
             point["enhanced_speed"] = round(point["speed"] * 3.6, 1)
 
+            # Build computed distance values
+            if i == 0:
+                point["computed_distance"] = 0
+            else:
+                cord1 = (point["position_lat"], point["position_long"])
+                cord2 = (detail[-1]["position_lat"], detail[-1]["position_long"])
+
+                distance = geopy.distance.distance(cord1, cord2).km
+                point["computed_distance"] = detail[-1]["computed_distance"] + distance
+
             # Add point to detail list
             detail.append(point)
-
-        print("detail: ", detail)
 
     elif format == "gpx":
         print("GPX file format not yet supported")
@@ -160,7 +169,7 @@ def clean_data_for_edit(data):
     return data
 
 
-# Maping Functions #
+# Maping & Charting Functions #
 def find_centroid(coordinates):
     """
     Given a list of coordinates (lat/long), will return the centroid (center point)
@@ -190,8 +199,9 @@ def build_map(activity):
 
     Args:
         activity (dict): Activity is a dict of the ride data.  It includes meta
-        data about the ride/activity as well as data from the .fit file including
-        the coordinates of the route.
+        data about the ride/activity as well as data from the .fit or gpx files with
+        detailed activity data, including the coordinates of the route. This data is
+        converted to a standard format at stored in the detail field in the db.
 
     Returns:
         *if coordinates are available*
@@ -205,13 +215,8 @@ def build_map(activity):
     """
     try:
         route = []
-        for record in activity.fit_data["record"]:
-            # This is the semicircles to/from degrees calc.
-            #     degrees = semicircles * ( 180 / 2^31 )
-            #     semicircles = degrees * ( 2^31 / 180 )
-            lat = record["position_lat"] * 180 / 2 ** 31
-            long = record["position_long"] * 180 / 2 ** 31
-            coordinates = (lat, long)
+        for record in activity.detail:
+            coordinates = (record["position_lat"], record["position_long"])
             route.append(coordinates)
 
         centroid = find_centroid(route)
@@ -225,3 +230,14 @@ def build_map(activity):
 
     except Exception as e:
         return "No Map Data"
+
+
+def build_elevation_chart(activity):
+    labels = list()
+    elevation = list()
+
+    for record in activity.detail:
+        labels.append(record["computed_distance"])
+        elevation.append(record["altitude"])
+
+    return labels, elevation
