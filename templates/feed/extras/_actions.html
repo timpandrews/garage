@@ -12,7 +12,7 @@
                     Add / Import New Rides
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownAddRidesBtn">
-                    <a class="dropdown-item" href="{% url 'rides:import_fit' %}">
+                    <a class="dropdown-item" href="{% url 'rides:import_fit' %}?return_to=feed">
                         Import .fit File
                     </a>
                     <a class="dropdown-item disabled" href="#">

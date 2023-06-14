@@ -132,6 +132,7 @@ class RideDeleteView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Dele
 
 @login_required
 def ride_import_fit(request):
+    return_to = request.GET.get('return_to', '')
     context = {}
     form = RideForm(request.POST or None)
 
@@ -207,7 +208,10 @@ def ride_import_fit(request):
                 object.save()
                 messages.success(request, "Ride was created successfully")
 
-                return redirect("/rides/")
+                if return_to == "feed":
+                    return redirect("/feed/")
+                else:
+                    return redirect("/rides/")
             else:
                 messages.error(
                         request,
