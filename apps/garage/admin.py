@@ -12,6 +12,7 @@ class DocAdmin(admin.ModelAdmin):
                 "doc_type",
                 "doc_date",
                 "data",
+                "detail",
                 "fit_data",
                 "gpx_data",
                 "created",

@@ -19,7 +19,8 @@ from django.views.generic.list import ListView
 
 from apps.garage.models import Doc, ZwiftRouteList
 from common.tools import (clean_data_for_db, clean_data_for_display,
-                          clean_data_for_edit, import_fit_file)
+                          clean_data_for_edit, get_detail_from_input_data,
+                          import_fit_file)
 
 from .forms import RideForm
 
@@ -79,6 +80,7 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
     template_name = "rides/ride_form.html"
     form_class = RideForm
     # TODO: check if success message is working
+    # BUG: Require distance, elevation, and maybe some other fileds to be completed
     success_message = "Ride was created successfully"
 
     def form_valid(self, form):
@@ -94,7 +96,11 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
         self.object = Doc(doc_type="ride", doc_date=doc_date, user=user, data=data)
         self.object.save()
 
-        return redirect(self.get_success_url())
+        return_to = self.request.GET.get('return_to', '')
+        if return_to == "feed":
+            return redirect("/feed/")
+        else:
+            return redirect(self.get_success_url())
 
 
 class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, UpdateView):
@@ -131,13 +137,14 @@ class RideDeleteView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Dele
 
 @login_required
 def ride_import_fit(request):
+    return_to = request.GET.get('return_to', '')
     context = {}
     form = RideForm(request.POST or None)
 
     if request.method == "POST":
         # COMMENT - Import Fit File Form
         if "import_fit" in request.POST:
-            # TODO - Do I need to check who created the fiel? ie Zwift, Garmin, etc
+            # TODO - Do I need to check who created the file? ie Zwift, Garmin, etc
             # TODO - If so, Do I need to handle files from each source differently?
             uploaded_file = request.FILES['fit_file'] if 'fit_file' in request.FILES else None
 
@@ -184,9 +191,12 @@ def ride_import_fit(request):
                 # and then save the fit data to the database
                 fit_file_name = data["fitfile"]
                 fit_file_path = settings.MEDIA_ROOT + "/" + fit_file_name
-                fit = import_fit_file(fit_file_path)
+                input_data = import_fit_file(fit_file_path)
                 os.remove(fit_file_path) # delete file from media directory after reading
                 del data["fitfile"] # remove fit_file_name from dict
+
+                format =  "fit"
+                detail = get_detail_from_input_data(format, input_data)
 
                 data = clean_data_for_db(data)
 
@@ -199,11 +209,14 @@ def ride_import_fit(request):
                     doc_date = doc_date,
                     user = user,
                     data = data,
-                    fit_data = fit)
+                    detail = detail)
                 object.save()
                 messages.success(request, "Ride was created successfully")
 
-                return redirect("/rides/")
+                if return_to == "feed":
+                    return redirect("/feed/")
+                else:
+                    return redirect("/rides/")
             else:
                 messages.error(
                         request,
@@ -246,9 +259,9 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
 
     elevation = (fit_file_data["session"][0]["total_ascent"])
 
-    speed_avg = round(fit_file_data["session"][0]["avg_speed"], 2)
-
-    speed_max = round(fit_file_data["session"][0]["max_speed"], 2)
+    # NOTE - speed is in m/s, so multiply by 3.6 to get km/h
+    speed_avg = round(fit_file_data["session"][0]["avg_speed"] * 3.6, 1)
+    speed_max = round(fit_file_data["session"][0]["max_speed"] * 3.6, 1)
 
     hr_avg = fit_file_data["session"][0]["avg_heart_rate"]
 

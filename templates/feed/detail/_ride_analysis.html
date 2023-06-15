@@ -1,0 +1,45 @@
+<div class="card m-2">
+    <h5 class="card-title mt-2 ms-2">
+        Ride Analysis
+        <button class="btn btn-sm btn-primary ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#rideAnalysis" aria-expanded="true" aria-controls="rideAnalysis">
+            <i class="bi bi-arrows-collapse"></i>
+        </button>
+    </h5>
+    <div id="rideAnalysis" class="card-body collapse show" style="height:250px">
+        <canvas id="rideChart" style="width:100%;height:100%"></canvas>
+    </div>
+</div>
+
+{% include "include/_chart_js_script.html" %}
+
+<script>
+    const ctx = document.getElementById('rideChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ chart.labels|safe }},
+            datasets: [{
+                label: 'Elevation (m)',
+                data: {{ chart.elevation|safe }},
+                borderWidth: 1,
+                fill: true,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+                x: {
+                    type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'Distance (km)'
+                    },
+                    
+                }
+            }
+        }
+    });
+</script>

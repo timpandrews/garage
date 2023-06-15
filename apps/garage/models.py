@@ -9,6 +9,7 @@ class Doc(models.Model):
     doc_type = models.CharField(max_length = 200)
     doc_date = models.DateTimeField()
     data = models.JSONField(blank=True, default=dict)
+    detail = models.JSONField(blank=True, default=dict)
     fit_data = models.JSONField(blank=True, default=dict)
     gpx_data = models.JSONField(blank=True, default=dict)
     created = models.DateTimeField(auto_now_add=True)

@@ -27,9 +27,15 @@
                         Submit
                     {% endif %}
                 </button>
-                <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'rides:list' %}'; return false;">
-                    <i class="bi bi-x-circle me-2"></i>Cancel
-                </button>
+                {% if request.GET.return_to == "feed" %}
+                    <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'feed:feed' %}'; return false;">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'rides:list' %}'; return false;">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                {% endif %}
             </div>
         </form>
     </div>

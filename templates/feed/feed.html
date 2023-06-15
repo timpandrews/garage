@@ -12,10 +12,11 @@
 <div class="containter">
     <div class="row">
         <div class="col-sm-3 card bg-light">
-            {% include "feed/_userinfo.html" %}
+            {% include "feed/extras/_userinfo.html" %}
+            {% include "feed/extras/_actions.html" %}
         </div>
         <div class="col-sm-9">
-            {% include "feed/_activities.html" %}
+            {% include "feed/activities/_activities.html" %}
         </div>
     </div>
 </div>

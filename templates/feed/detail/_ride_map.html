@@ -1,0 +1,12 @@
+<div class="card m-2">
+    <h5 class="card-title mt-2 ms-2">
+        Ride Map
+        <button class="btn btn-sm btn-primary ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#rideMap{{ activity.id }}" aria-expanded="true" aria-controls="rideMap{{ activity.id }}">
+            <i class="bi bi-arrows-collapse"></i>
+        </button>
+    </h5>
+
+    <div id="rideMap{{ activity.id }}" class="card-body collapse show">
+        {{ activity.map | safe }}
+    </div>
+</div>

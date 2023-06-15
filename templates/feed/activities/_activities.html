@@ -15,7 +15,7 @@
 
             {% if activity.doc_type == "ride" %}
                 <!-- Ride -->
-                {% include "feed/__rides.html" %}
+                {% include "feed/activities/_rides.html" %}
 
             {% elif activity.doc_type == "hp" and activity.data.type == "weight" %}
                 <!-- HP/Weight -->
