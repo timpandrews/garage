@@ -95,7 +95,11 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
         self.object = Doc(doc_type="ride", doc_date=doc_date, user=user, data=data)
         self.object.save()
 
-        return redirect(self.get_success_url())
+        return_to = self.request.GET.get('return_to', '')
+        if return_to == "feed":
+            return redirect("/feed/")
+        else:
+            return redirect(self.get_success_url())
 
 
 class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, UpdateView):

@@ -18,7 +18,7 @@
                     <a class="dropdown-item disabled" href="#">
                         Import .gpx File
                     </a>
-                    <a class="dropdown-item" href="{% url 'rides:create' %}">
+                    <a class="dropdown-item" href="{% url 'rides:create' %}?return_to=feed">
                         Manually Enter a Ride
                     </a>
                 </div>
@@ -33,16 +33,16 @@
                     Add New Health Points
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownAddHP">
-                    <a class="dropdown-item" href="{% url 'hp:create' %}">
+                    <a class="dropdown-item" href="{% url 'hp:create' %}?return_to=feed">
                         Add FTP
                     </a>
-                    <a class="dropdown-item" href="{% url 'hp:create' 'weight' %}">
+                    <a class="dropdown-item" href="{% url 'hp:create' 'weight' %}?return_to=feed">
                         Add Weight
                     </a>
-                    <a class="dropdown-item" href="{% url 'hp:create' 'bp' %}">
+                    <a class="dropdown-item" href="{% url 'hp:create' 'bp' %}?return_to=feed">
                         Add Blood Pressure
                     </a>
-                    <a class="dropdown-item" href="{% url 'hp:create' %}">
+                    <a class="dropdown-item" href="{% url 'hp:create' %}?return_to=feed">
                         Add Other Health Points
                     </a>
                 </div>
