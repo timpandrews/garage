@@ -80,6 +80,7 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
     template_name = "rides/ride_form.html"
     form_class = RideForm
     # TODO: check if success message is working
+    # BUG: Require distance, elevation, and maybe some other fileds to be completed
     success_message = "Ride was created successfully"
 
     def form_valid(self, form):
