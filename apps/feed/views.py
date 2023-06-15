@@ -78,7 +78,4 @@ class DetailView(LoginRequiredMixin, DetailView):
         context["doc_type"] = doc.doc_type
         context["activity"] = activity
 
-        print("labels: ", chart["labels"])
-        # print("elevation: ", chart["elevation"])
-
         return context
