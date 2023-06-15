@@ -46,7 +46,11 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
         self.object = Doc(doc_type="hp", doc_date=doc_date, user=user, data=data)
         self.object.save()
 
-        return redirect(self.get_success_url())
+        return_to = self.request.GET.get('return_to', '')
+        if return_to == "feed":
+            return redirect("/feed/")
+        else:
+            return redirect(self.get_success_url())
 
     def get_form_class(self):
         form_class = set_form_class(self.kwargs)
@@ -73,7 +77,11 @@ class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
         self.object.data = data
         self.object.save()
 
-        return redirect(self.get_success_url())
+        return_to = self.request.GET.get('return_to', '')
+        if return_to == "feed":
+            return redirect("/feed/")
+        else:
+            return redirect(self.get_success_url())
 
 
 class HPDeleteView(LoginRequiredMixin, HPBaseView, DeleteView):
