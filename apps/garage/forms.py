@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 
 from .models import Profile
 
+UNITS_DISPLAY_PREFERENCE_CHOICES = [
+    ('metric', 'Metric (Kilometers and Kilograms)'),
+    ('imperial', 'Imperial (Miles and Pounds)'),
+]
+
 
 # Sign Up Form
 class SignUpForm(UserCreationForm):
@@ -52,6 +57,18 @@ class UpdateProfileForm(forms.ModelForm):
         max_length=200,
         required=False,
     )
+    units_display_preference = forms.ChoiceField(
+        label="Units & Measurements Display Preference",
+        choices=UNITS_DISPLAY_PREFERENCE_CHOICES,
+    )
+
     class Meta:
         model = Profile
-        fields = ['bio', 'location', 'birth_date', 'profile_pic', 'strava_url',]
+        fields = [
+            'bio',
+            'location',
+            'birth_date',
+            'profile_pic',
+            'strava_url',
+            'units_display_preference'
+        ]
