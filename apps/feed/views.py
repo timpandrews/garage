@@ -16,7 +16,7 @@ class FeedView(LoginRequiredMixin, ListView):
     # Get template for partial page when using htmx scrolling
     def get_template_names(self):
         if self.request.htmx: # get partial while using htmx scrolling
-            return "feed/_activities.html"
+            return "feed/activities/_activities.html"
 
         return "feed/feed.html" # get full page on initial load
 
