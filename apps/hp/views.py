@@ -105,10 +105,8 @@ def set_form_class(kwargs):
     if hp_type == 'generic':
         form_class = GenericHPForm
     elif hp_type == 'weight':
-        print('weight')
         form_class = WeightHPForm
     elif hp_type == 'bp':
-        print('bp')
         form_class = BPHPForm
     elif hp_type == 'other':
         form_class = GenericHPForm
