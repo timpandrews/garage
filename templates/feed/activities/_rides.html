@@ -19,9 +19,9 @@
         <th>Calories Burned</th>
     </tr>
     <tr>
-        <td>{{ activity.data.distance }}</td>
-        <td>{{ activity.data.duration }}</td>
-        <td>{{ activity.data.elevation }}</td>
+        <td>{{ activity.data.distance }} {{ unit_names.distance }}</td>
+        <td>{{ activity.data.duration }} h:m:s</td>
+        <td>{{ activity.data.elevation }} {{ unit_names.elevation }}</td>
         <td>{{ activity.data.calories }}</td>
     </tr>
 </table>
@@ -63,22 +63,34 @@
                         <th>Max</th>
                     </tr>
                     <tr>
-                        <td>Speed</td>
+                        <td>
+                            Speed
+                            <small class="text-muted">({{ unit_names.speed }})</small>
+                        </td>
                         <td>{{ activity.data.speed_avg }}</td>
                         <td>{{ activity.data.speed_max }}</td>
                     </tr>
                     <tr>
-                        <td>Cadence</td>
+                        <td>
+                            Cadence
+                            <small class="text-muted">({{ unit_names.cadence }})</small>
+                        </td>
                         <td>{{ activity.data.cadence_avg }}</td>
                         <td>{{ activity.data.cadence_max }}</td>
                     </tr>
                     <tr>
-                        <td>Power</td>
+                        <td>
+                            Power
+                            <small class="text-muted">({{ unit_names.power }})</small>
+                        </td>
                         <td>{{ activity.data.power_avg }}</td>
                         <td>{{ activity.data.power_max }}</td>
                     </tr>
                     <tr>
-                        <td>Heart Rate</td>
+                        <td>
+                            Heart Rate
+                            <small class="text-muted">({{ unit_names.hr }})</small
+                        </td>
                         <td>{{ activity.data.hr_avg }}</td>
                         <td>{{ activity.data.hr_max }}</td>
                     </tr>

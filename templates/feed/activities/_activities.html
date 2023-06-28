@@ -23,7 +23,7 @@
                 {{ activity.doc_date }}
                 <h5 class="card-title">
                     <a href="{% url 'feed:detail' pk=activity.id %}">
-                        Weight: {{ activity.data.weight }} lbs.
+                        Weight: {{ activity.data.weight }} {{ unit_names.weight }}
                     </a>
                 </h5>
                 <p class="card-text">{{ activity.data }}</p>

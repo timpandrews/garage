@@ -93,7 +93,7 @@ def get_detail_from_input_data(format, input_data):
     return detail
 
 
-# Data Cleaning Functions #
+# Data Cleaning & Converting Functions #
 def clean_data_for_db(data):
     """
     Takes a dictionary of data and cleans it for storage in the database.
@@ -168,6 +168,82 @@ def clean_data_for_edit(data):
 
     return data
 
+
+def get_unit_names(units_display_preference):
+    """
+    Returns a dictionary of unit names for the given
+    units_display_preference (imperial or metric)
+
+
+    Args:
+        units_display_preference (str): "imperial" or "metric"
+
+    Returns:
+        dict: A dictionary of unit names for the given
+              units_display_preference (imperial or metric)
+    """
+    unit_names = dict()
+    if units_display_preference == "imperial":
+        unit_names["distance"] = "miles"
+        unit_names["speed"] = "mph"
+        unit_names["weight"] = "lbs"
+        unit_names["elevation"] = "ft"
+        unit_names["temperature"] = "F"
+        unit_names["power"] = "watts"
+        unit_names["cadence"] = "rpm"
+        unit_names["hr"] = "bpm"
+
+    else: # metric is the default setting
+        unit_names["distance"] = "km"
+        unit_names["speed"] = "km/h"
+        unit_names["weight"] = "kg"
+        unit_names["elevation"] = "m"
+        unit_names["temperature"] = "C"
+        unit_names["power"] = "watts"
+        unit_names["cadence"] = "rpm"
+        unit_names["hr"] = "bpm"
+
+    return unit_names
+
+
+def convert_to_imperial(data, type):
+    """
+    Converts data from metric to imperial units.  Data is always stored in the
+    database in metric units.  This function is used to convert the data to
+    imperial units for display in the UI if required by the user as defined in
+    their profile settings (units_display_preference).
+
+    Args:
+        data (dict): A dictionary of data points from each activity.  Data is
+                     stored in the database in metric units.
+        type (str): A string indicating the type of activity.  Used to determine
+
+
+    Returns:
+        _dict_: The input dictionary converted to imperial units.
+    """
+
+    # convert HP weight from kg to lbs
+    if type == "hp" and data["type"] == "weight":
+        data["weight"] = round(data["weight"] * 2.20462)
+
+    # convert ride distance units metric to imperial
+    if type == "ride":
+        if "distance" in data.keys() and data["distance"] != "None":
+            data["distance"] = round(data["distance"] * 0.621371, 1)
+        if "elevation" in data.keys() and data["elevation"] is not None:
+            data["elevation"] = round(data["elevation"] * 3.28084)
+        if "speed_max" in data.keys() and data["speed_max"] is not None:
+            data["speed_max"] = round(data["speed_max"] * 0.621371, 1)
+        if "speed_avg" in data.keys() and data["speed_avg"] is not None:
+            data["speed_avg"] = round(data["speed_avg"] * 0.621371, 1)
+
+
+
+
+
+
+    return data
 
 # Maping & Charting Functions #
 def find_centroid(coordinates):
