@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
@@ -57,7 +56,7 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
         form_class = set_form_class(self.kwargs)
         return form_class
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context["display_pref"] = user.profile.units_display_preference
