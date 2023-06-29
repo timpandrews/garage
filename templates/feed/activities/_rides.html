@@ -19,10 +19,22 @@
         <th>Calories Burned</th>
     </tr>
     <tr>
-        <td>{{ activity.data.distance }} {{ unit_names.distance }}</td>
-        <td>{{ activity.data.duration }} h:m:s</td>
-        <td>{{ activity.data.elevation }} {{ unit_names.elevation }}</td>
-        <td>{{ activity.data.calories }}</td>
+        <td>
+            {{ activity.data.distance }}
+            <small class="text_muted">{{ unit_names.distance }}</small>
+        </td>
+        <td>
+            {{ activity.data.duration }}
+            <small class="text_muted">{{ unit_names.duration }}</small>
+        </td>
+        <td>
+            {{ activity.data.elevation }}
+            <small class="text_muted">{{ unit_names.elevation }}</small>
+        </td>
+        <td>
+            {{ activity.data.calories }}
+            <small class="text_muted">{{ unit_names.calories }}</small>
+        </td>
     </tr>
 </table>
 

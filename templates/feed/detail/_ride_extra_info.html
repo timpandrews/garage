@@ -6,22 +6,31 @@
             <th>Max</th>
         </tr>
         <tr>
-            <td>Speed</td>
+            <td>
+                Speed
+                <small class="text-muted">({{ unit_names.speed }})</small>
+            </td>
             <td>{{ activity.speed_avg }}</td>
             <td>{{ activity.speed_max }}</td>
         </tr>
         <tr>
-            <td>Cadence</td>
+            <td>Cadence
+                <small class="text-muted">({{ unit_names.cadence }})</small>
+            </td>
             <td>{{ activity.cadence_avg }}</td>
             <td>{{ activity.cadence_max }}</td>
         </tr>
         <tr>
-            <td>Power</td>
+            <td>Power
+                <small class="text-muted">({{ unit_names.power }})</small>
+            </td>
             <td>{{ activity.power_avg }}</td>
             <td>{{ activity.power_max }}</td>
         </tr>
         <tr>
-            <td>Heart Rate</td>
+            <td>Heart Rate
+                <small class="text-muted">({{ unit_names.hr }})</small>
+            </td>
             <td>{{ activity.hr_avg }}</td>
             <td>{{ activity.hr_max }}</td>
         </tr>
