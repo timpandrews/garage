@@ -234,6 +234,10 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
     # if fit_file_data["file_id"][0]["manufacturer"] == "zwift":
     #     print("********* Zwift ride *********")
 
+    # Hack to fix Watopia's Waistband route name
+    ride_title = ride_title.replace("Watopia s Waistband", "Watopia's Waistband")
+
+    # TODO - It would be better to user regex to find route name and world name in ride title
     list_of_route_names = ZwiftRouteList.objects.all().values_list("route_name", flat=True)
     # loop through list of route names and check if route name is in ride title
     route_name = "Unknown"

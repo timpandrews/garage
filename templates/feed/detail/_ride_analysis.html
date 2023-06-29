@@ -20,7 +20,7 @@
         data: {
             labels: {{ chart.labels|safe }},
             datasets: [{
-                label: 'Elevation (m)',
+                label: '{{ chart.x_label|safe }}',
                 data: {{ chart.elevation|safe }},
                 borderWidth: 1,
                 fill: true,
@@ -35,9 +35,9 @@
                     type: 'linear',
                     title: {
                         display: true,
-                        text: 'Distance (km)'
+                        text: '{{ chart.y_label|safe }}'
                     },
-                    
+
                 }
             }
         }

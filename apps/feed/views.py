@@ -4,7 +4,9 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from apps.garage.models import Doc
-from common.tools import clean_data_for_display, build_map, build_elevation_chart
+from common.tools import (build_elevation_chart, build_map,
+                          clean_data_for_display, convert_to_imperial,
+                          get_unit_names)
 
 
 class FeedView(LoginRequiredMixin, ListView):
@@ -31,7 +33,11 @@ class FeedView(LoginRequiredMixin, ListView):
         for activity in queryset:
             if activity.doc_type == "ride":
                 activity.map = build_map(activity)
+
             activity.data = clean_data_for_display(activity.data)
+
+            if user.profile.units_display_preference == "imperial":
+                activity.data = convert_to_imperial(activity.data, activity.doc_type)
 
         return queryset
 
@@ -53,6 +59,9 @@ class FeedView(LoginRequiredMixin, ListView):
         activities_ride = Doc.objects.filter(user=user, doc_type="ride").count()
         context["activities_ride"]=activities_ride
 
+        context["display_pref"] = user.profile.units_display_preference
+        context["unit_names"] = get_unit_names(user.profile.units_display_preference)
+
         return context
 
 
@@ -62,6 +71,7 @@ class DetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
+        user=self.request.user
 
         chart = {}
 
@@ -69,13 +79,33 @@ class DetailView(LoginRequiredMixin, DetailView):
         doc = Doc.objects.get(id=doc_id)
 
         activity = clean_data_for_display(doc.data)
+
         activity_type = doc.doc_type
+
+        if user.profile.units_display_preference == "imperial":
+                activity = convert_to_imperial(activity, activity_type)
+
         if activity_type == "ride":
             activity["map"] = build_map(doc)
-            chart["labels"], chart["elevation"] = build_elevation_chart(doc)
+            chart["labels"], chart["elevation"] = build_elevation_chart(
+                doc, user.profile.units_display_preference
+            )
+
+        chart["test"] = "test"
+        if user.profile.units_display_preference == "imperial":
+            chart["y_label"] = "Distance (miles)"
+            chart["x_label"] = "Elevation (ft)"
+        else: # metric
+            chart["y_label"] = "Distance (km)"
+            chart["x_label"] = "Elevation (m)"
 
         context["chart"] = chart
+
+
         context["doc_type"] = doc.doc_type
         context["activity"] = activity
+
+        context["display_pref"] = user.profile.units_display_preference
+        context["unit_names"] = get_unit_names(user.profile.units_display_preference)
 
         return context

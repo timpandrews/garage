@@ -56,6 +56,12 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
         form_class = set_form_class(self.kwargs)
         return form_class
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["display_pref"] = user.profile.units_display_preference
+        return context
+
 
 class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
     form_class = GenericHPForm
@@ -105,10 +111,8 @@ def set_form_class(kwargs):
     if hp_type == 'generic':
         form_class = GenericHPForm
     elif hp_type == 'weight':
-        print('weight')
         form_class = WeightHPForm
     elif hp_type == 'bp':
-        print('bp')
         form_class = BPHPForm
     elif hp_type == 'other':
         form_class = GenericHPForm
