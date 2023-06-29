@@ -189,9 +189,6 @@ def get_unit_names(units_display_preference):
         unit_names["weight"] = "lbs"
         unit_names["elevation"] = "ft"
         unit_names["temperature"] = "F"
-        unit_names["power"] = "watts"
-        unit_names["cadence"] = "rpm"
-        unit_names["hr"] = "bpm"
 
     else: # metric is the default setting
         unit_names["distance"] = "km"
@@ -199,9 +196,13 @@ def get_unit_names(units_display_preference):
         unit_names["weight"] = "kg"
         unit_names["elevation"] = "m"
         unit_names["temperature"] = "C"
-        unit_names["power"] = "watts"
-        unit_names["cadence"] = "rpm"
-        unit_names["hr"] = "bpm"
+
+    # unit names that are the same for imperial and metric
+    unit_names["power"] = "watts"
+    unit_names["cadence"] = "rpm"
+    unit_names["hr"] = "bpm"
+    unit_names["duration"] = "H:M:S"
+    unit_names["calories"] = "calories"
 
     return unit_names
 
@@ -308,12 +309,17 @@ def build_map(activity):
         return "No Map Data"
 
 
-def build_elevation_chart(activity):
+def build_elevation_chart(activity, units_display_preference):
     labels = list()
     elevation = list()
 
-    for record in activity.detail:
-        labels.append(record["computed_distance"])
-        elevation.append(record["altitude"])
+    if units_display_preference == "imperial":
+        for record in activity.detail:
+            labels.append(record["computed_distance"] * 0.621371)
+            elevation.append(record["altitude"] * 3.28084)
+    else:
+        for record in activity.detail:
+            labels.append(record["computed_distance"])
+            elevation.append(record["altitude"])
 
     return labels, elevation
