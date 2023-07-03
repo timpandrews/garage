@@ -96,9 +96,8 @@ def get_detail_from_input_data(format, input_data):
 
 def get_weighted_average_power(power_data, interval_data):
     """
-    Given a list of recorded power and the duration of each interval (interval
-    is assumed to be constant), return a single value for the weighted average
-    power of the ride.
+    Given a list of recorded power and a list of the duration of each interval
+    return a single value for the weighted average power of the ride.
 
     Args:
         power_data (list): A list of power data points from a given interval
@@ -129,6 +128,34 @@ def get_weighted_average_power(power_data, interval_data):
     weighted_average_power = round(weighted_average_power)
 
     return weighted_average_power
+
+
+def get_total_work(power_data, interval_data):
+    """
+    Given a list of recorded power and a list of the duration of each interval
+    return a single value for the total work done during the ride in kilojoules.
+
+    Args:
+        power_data (list): A list of power data points from a given interval
+                           for the ride.
+        interval_data (list): A list of intervals between power data points
+                              (in seconds).
+
+    Returns:
+        float: Returns a single value for the total work of the ride in kilojoules.
+    """
+    if len(power_data) != len(interval_data):
+        raise ValueError("Both lists must have the same length.")
+
+    total_work = 0
+
+    for i, power in enumerate(power_data):
+        total_work += power * interval_data[i]
+
+    total_work = total_work / 1000
+    total_work = round(total_work)
+
+    return total_work
 
 
 # Data Cleaning & Converting Functions #
