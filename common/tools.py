@@ -6,6 +6,7 @@ import folium
 import geopy.distance
 
 
+# File Import Functions #
 def import_fit_file(file_path):
     """
     Import a FIT file and return a dictionary of the data
@@ -91,6 +92,43 @@ def get_detail_from_input_data(format, input_data):
         print("Unknown file format")
 
     return detail
+
+
+def get_weighted_average_power(power_data, interval_data):
+    """
+    Given a list of recorded power and the duration of each interval (interval
+    is assumed to be constant), return a single value for the weighted average
+    power of the ride.
+
+    Args:
+        power_data (list): A list of power data points from a given interval
+                           for the ride.
+        interval_data (list): A list of intervals between power data points
+                              (in seconds).
+
+    Returns:
+        float: Returns a single value for the weighted average power of the ride.
+    """
+    # TODO: This solution does not assign a weight to each interval.  All power readigns
+    #       are weighted equally.  This is not ideal.  Need to find a way to assign
+    #       a weight to each interval based on power readings and power-duration curve
+    #       for the rider.  Higher power readings are normally weighted more heavily
+    #       than lower power readings.  https://github.com/timpandrews/garage/wiki/Calculate-Weighted-Power-Average
+
+    if len(power_data) != len(interval_data):
+        raise ValueError("Both lists must have the same length.")
+
+    weighted_average_power = 0
+    total_duration = 0
+
+    for i, power in enumerate(power_data):
+        weighted_average_power += power * interval_data[i]
+        total_duration += interval_data[i]
+
+    weighted_average_power = weighted_average_power / total_duration
+    weighted_average_power = round(weighted_average_power)
+
+    return weighted_average_power
 
 
 # Data Cleaning & Converting Functions #

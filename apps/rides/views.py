@@ -20,7 +20,7 @@ from django.views.generic.list import ListView
 from apps.garage.models import Doc, ZwiftRouteList
 from common.tools import (clean_data_for_db, clean_data_for_display,
                           clean_data_for_edit, get_detail_from_input_data,
-                          import_fit_file)
+                          import_fit_file, get_weighted_average_power)
 
 from .forms import RideForm
 
@@ -281,6 +281,28 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
 
     calories = fit_file_data["session"][0]["total_calories"]
 
+    # get power data from fit file
+    power_data = list()
+    interval_data = list()
+    for i, record in enumerate(fit_file_data["record"]):
+        print(i)
+        timestamp = datetime.strptime(record["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
+        # get timestamp from previous record and determine interval (in seconds)
+        # between records
+        if i > 0:
+            prev_timestamp = datetime.strptime(fit_file_data["record"][i-1]["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
+            time_between_records = timestamp - prev_timestamp
+            time_between_records = time_between_records.total_seconds()
+        else:
+            time_between_records = 1.0
+
+        power_data.append(record["power"])
+        interval_data.append(time_between_records)
+    weighted_power_avg = get_weighted_average_power(power_data, interval_data)
+
+    # TODO - Calculate total work
+    # total_work = ***
+
     prepend_form_data = {
         "ride_title": ride_title,
         "route": route,
@@ -297,6 +319,7 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
         "power_avg": power_avg,
         "power_max": power_max,
         "calories": calories,
+        "weighted_power_avg": weighted_power_avg,
         # pass fit file name to form so the fit file can be read when
         # the form is posted and then save the data to the DB
         "fitfile": file_name,
