@@ -286,7 +286,6 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
     power_data = list()
     interval_data = list()
     for i, record in enumerate(fit_file_data["record"]):
-        print(i)
         timestamp = datetime.strptime(record["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
         # get timestamp from previous record and determine interval (in seconds)
         # between records

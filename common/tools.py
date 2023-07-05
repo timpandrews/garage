@@ -108,7 +108,7 @@ def get_weighted_average_power(power_data, interval_data):
     Returns:
         float: Returns a single value for the weighted average power of the ride.
     """
-    # TODO: This solution does not assign a weight to each interval.  All power readigns
+    # FIXME: This solution does not assign a weight to each interval.  All power readigns
     #       are weighted equally.  This is not ideal.  Need to find a way to assign
     #       a weight to each interval based on power readings and power-duration curve
     #       for the rider.  Higher power readings are normally weighted more heavily
