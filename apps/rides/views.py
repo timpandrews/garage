@@ -23,7 +23,7 @@ from common.tools import (clean_data_for_db, clean_data_for_display,
                           get_total_work, get_weighted_average_power,
                           import_fit_file)
 
-from .forms import RideForm
+from .forms import RideFormMetric, RideFormImperial
 
 
 class RideBaseView(View):
@@ -79,10 +79,17 @@ class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):
 
 class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, CreateView):
     template_name = "rides/ride_form.html"
-    form_class = RideForm
     # TODO: check if success message is working
     # BUG: Require distance, elevation, and maybe some other fileds to be completed
     success_message = "Ride was created successfully"
+
+    def get_form_class(self):
+        if self.request.user.profile.units_display_preference == "metric":
+            return RideFormMetric
+        elif self.request.user.profile.units_display_preference == "imperial":
+            return RideFormImperial
+        else: # default to Metric
+            return RideFormMetric
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -105,10 +112,17 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
 
 
 class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, UpdateView):
-    form_class = RideForm
     template_name = "rides/ride_form.html"
     # TODO: check if success message is working
     success_message = "Ride was updated successfully"
+
+    def get_form_class(self):
+        if self.request.user.profile.units_display_preference == "metric":
+            return RideFormMetric
+        elif self.request.user.profile.units_display_preference == "imperial":
+            return RideFormImperial
+        else: # default to Metric
+            return RideFormMetric
 
     def get_initial(self):
         ride = self.get_object()
