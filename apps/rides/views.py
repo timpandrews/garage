@@ -21,9 +21,9 @@ from apps.garage.models import Doc, ZwiftRouteList
 from common.tools import (clean_data_for_db, clean_data_for_display,
                           clean_data_for_edit, get_detail_from_input_data,
                           get_total_work, get_weighted_average_power,
-                          import_fit_file)
+                          import_fit_file, convert_to_metric)
 
-from .forms import RideFormMetric, RideFormImperial
+from .forms import RideFormMetric, RideFormImperial, RideForm
 
 
 class RideBaseView(View):
@@ -96,6 +96,11 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
         user = self.request.user
         data = form.cleaned_data
         data = clean_data_for_db(data)
+
+        # TODO - This is where i left off #
+        units_display_preference = user.profile.units_display_preference
+        if units_display_preference == "imperial":
+            data = convert_to_metric(data, "ride")
 
         doc_date = data["start"]
         doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")

@@ -304,12 +304,40 @@ def convert_to_imperial(data, type):
         if "speed_avg" in data.keys() and data["speed_avg"] is not None:
             data["speed_avg"] = round(data["speed_avg"] * 0.621371, 1)
 
+    return data
 
 
+def convert_to_metric(data, type):
+    """
+    Converts data from imperial to metric units.  Data is always stored in the
+    database in metric units.  This function is used to convert the data to
+    metric units for storage if required by the user as defined in their profile
+    settings (units_display_preference).
 
 
+    Args:
+        data (dict): A dictionary of data points from each activity.  Data is
+                     stored in the database in metric units.
+        type (str): A string indicating the type of activity.
+
+    Returns:
+        dict: The input dictionary converted to metric units.
+    """
+
+    # convert ride distance units imperial to metric
+    if type == "ride":
+        if "distance" in data.keys() and data["distance"] != "None":
+            data["distance"] = round(data["distance"] * 1.60934, 1)
+        if "elevation" in data.keys() and data["elevation"] is not None:
+            data["elevation"] = round(data["elevation"] / 3.28084)
+        if "speed_max" in data.keys() and data["speed_max"] is not None:
+            data["speed_max"] = round(data["speed_max"] * 1.60934, 1)
+        if "speed_avg" in data.keys() and data["speed_avg"] is not None:
+            data["speed_avg"] = round(data["speed_avg"] * 1.60934, 1)
 
     return data
+
+
 
 # Maping & Charting Functions #
 def find_centroid(coordinates):
