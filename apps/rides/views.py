@@ -23,7 +23,7 @@ from common.tools import (clean_data_for_db, clean_data_for_display,
                           get_total_work, get_weighted_average_power,
                           import_fit_file, convert_to_metric)
 
-from .forms import RideFormMetric, RideFormImperial, RideForm
+from .forms import RideFormMetric, RideFormImperial
 
 
 class RideBaseView(View):
@@ -159,7 +159,12 @@ class RideDeleteView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Dele
 def ride_import_fit(request):
     return_to = request.GET.get('return_to', '')
     context = {}
-    form = RideForm(request.POST or None)
+    units_display_preference = request.user.profile.units_display_preference
+    if units_display_preference == "imperial":
+        form = RideFormImperial(request.POST or None)
+    else: # default to Metric
+        form = RideFormMetric(request.POST or None)
+
 
     if request.method == "POST":
         # COMMENT - Import Fit File Form
@@ -187,7 +192,10 @@ def ride_import_fit(request):
                     )
 
                     # create form with pre populated data
-                    form = RideForm(initial=pre_pop_form_data)
+                    if units_display_preference == "imperial":
+                        form = RideFormImperial(initial=pre_pop_form_data)
+                    else: # default to Metric
+                        form = RideFormMetric(initial=pre_pop_form_data)
                     context["form"] = form
 
                 else:
@@ -223,6 +231,11 @@ def ride_import_fit(request):
                 doc_date = data["start"]
                 doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
                 doc_date = doc_date.replace(tzinfo=timezone.utc)
+
+                # if user has selected imperial units, convert data to metric before
+                # saving the data to the database
+                if units_display_preference == "imperial":
+                    data = convert_to_metric(data, "ride")
 
                 object = Doc(
                     doc_type = "ride",

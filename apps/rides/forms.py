@@ -266,7 +266,7 @@ class RideForm(ModelForm):
         required=False,
     )
     distance = forms.FloatField(
-        label="Distance",
+        label="Distance (??)",
         min_value=0,
         required=True,
     )

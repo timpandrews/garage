@@ -338,7 +338,6 @@ def convert_to_metric(data, type):
     return data
 
 
-
 # Maping & Charting Functions #
 def find_centroid(coordinates):
     """
