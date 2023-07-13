@@ -19,11 +19,12 @@ from django.views.generic.list import ListView
 
 from apps.garage.models import Doc, ZwiftRouteList
 from common.tools import (clean_data_for_db, clean_data_for_display,
-                          clean_data_for_edit, get_detail_from_input_data,
+                          clean_data_for_edit, convert_to_imperial,
+                          convert_to_metric, get_detail_from_input_data,
                           get_total_work, get_weighted_average_power,
-                          import_fit_file, convert_to_metric)
+                          import_fit_file)
 
-from .forms import RideFormMetric, RideFormImperial
+from .forms import RideFormImperial, RideFormMetric
 
 
 class RideBaseView(View):
@@ -132,12 +133,21 @@ class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Upda
     def get_initial(self):
         ride = self.get_object()
         ride.data = clean_data_for_edit(ride.data)
+
+        if self.request.user.profile.units_display_preference == "imperial":
+            # data is stored as metric, convert to imperial for display
+            ride.data = convert_to_imperial(ride.data, "ride")
+
         return ride.data
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         data = form.cleaned_data
         data = clean_data_for_db(data)
+
+        if self.request.user.profile.units_display_preference == "imperial":
+            # convert data to metric before saving to DB if user has selected imperial units
+            data = convert_to_metric(data, "ride")
 
         doc_date = data["start"]
         doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
