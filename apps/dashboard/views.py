@@ -148,15 +148,13 @@ def db_month(request):
             miles_this_year += ride.data["distance"]
         milage.append(round(miles_this_year))
 
-    print(milage)
+    # Handle Unit Display Preference
     units_display_preference = request.user.profile.units_display_preference
     if units_display_preference == "imperial":
         chart_title = "Distance (miles) by month"
         milage = convert_to_imperial(milage, "dashboard_data")
     else: # metric
         chart_title= "Distance (km) by month"
-
-
 
     context = {
         "form": form,
@@ -210,10 +208,19 @@ class db_year(LoginRequiredMixin, TemplateView):
                 miles_this_year += ride.data["distance"]
             milage.append(round(miles_this_year))
 
+        # Handle Unit Display Preference
+        units_display_preference = self.request.user.profile.units_display_preference
+        if units_display_preference == "imperial":
+            chart_title = "Distance (miles) by Year"
+            milage = convert_to_imperial(milage, "dashboard_data")
+        else: # metric
+            chart_title= "Distance (km) by Year"
+
         context["labels"] = years
         context["data"] = milage
         context["bgColor"] = bgColor
-        context["chart_title"] = "Distance (KM) by Year"
+        context["chart_title"] = chart_title
+
         return context
 
 
