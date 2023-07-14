@@ -1,30 +1,28 @@
 import datetime
 from datetime import timedelta, timezone
-from tzlocal import get_localzone
+
 import pytz
 from dateutil import rrule
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
+from tzlocal import get_localzone
 
 from apps.garage.models import Doc
+from common.tools import convert_to_imperial, get_unit_names
 
 from .forms import DBMonthForm
-from .helper import (
-    convert_ranges_to_str,
-    get_color,
-    get_distance_history,
-    get_last_day_of_month,
-    get_week_range,
-    get_weekly_rides,
-    get_weekly_sums,
-)
+from .helper import (convert_ranges_to_str, get_color, get_distance_history,
+                     get_last_day_of_month, get_week_range, get_weekly_rides,
+                     get_weekly_sums)
 
 
 @login_required
 def dashboard(request):
     user = request.user
+    units_display_preference = user.profile.units_display_preference
+    unit_names = get_unit_names(units_display_preference)
     week_range = get_week_range()
     weekly_rides = get_weekly_rides(week_range, user)
     weekly_sums = get_weekly_sums(weekly_rides)
@@ -42,10 +40,23 @@ def dashboard(request):
     labels = labels[::-1]
     data = distance_history[::-1]
 
+    if units_display_preference == "imperial":
+        week = convert_to_imperial(week, "dashboard_week")
+        data = convert_to_imperial(data, "dashboard_data")
+
+    # build x/y labels for chart
+
+    if units_display_preference == "imperial":
+        chart_title = "Distance (miles) by week"
+    else: # metric
+        chart_title= "Distance (km) by week"
+
     context = {
         "week": week,
         "labels": labels,
         "data": data,
+        "unit_names": unit_names,
+        "chart_title": chart_title,
     }
 
     return render(request, "dashboard/dashboard.html", {"context": context})

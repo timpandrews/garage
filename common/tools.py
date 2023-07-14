@@ -280,7 +280,7 @@ def convert_to_imperial(data, type):
     their profile settings (units_display_preference).
 
     Args:
-        data (dict): A dictionary of data points from each activity.  Data is
+        data (dict/list): A dictionary/list of data points from each activity.  Data is
                      stored in the database in metric units.
         type (str): A string indicating the type of activity.  Used to determine
 
@@ -303,6 +303,22 @@ def convert_to_imperial(data, type):
             data["speed_max"] = round(data["speed_max"] * 0.621371, 1)
         if "speed_avg" in data.keys() and data["speed_avg"] is not None:
             data["speed_avg"] = round(data["speed_avg"] * 0.621371, 1)
+
+    if type == "dashboard_week":
+        if "distance" in data.keys() and data["distance"] != "None":
+            data["distance"] = round(data["distance"] * 0.621371, 2)
+        if "elevation" in data.keys() and data["elevation"] is not None:
+            data["elevation"] = round(data["elevation"] * 3.28084, 2)
+
+    if type == "dashboard_data":
+        # convert each item in the data list
+        print(data)
+        for i, item in enumerate(data):
+            data[i] = round(item * 0.621371 )
+        print(data)
+
+        pass
+
 
     return data
 
