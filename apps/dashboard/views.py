@@ -44,8 +44,7 @@ def dashboard(request):
         week = convert_to_imperial(week, "dashboard_week")
         data = convert_to_imperial(data, "dashboard_data")
 
-    # build x/y labels for chart
-
+    # build chart_title
     if units_display_preference == "imperial":
         chart_title = "Distance (miles) by week"
     else: # metric
@@ -149,12 +148,22 @@ def db_month(request):
             miles_this_year += ride.data["distance"]
         milage.append(round(miles_this_year))
 
+    print(milage)
+    units_display_preference = request.user.profile.units_display_preference
+    if units_display_preference == "imperial":
+        chart_title = "Distance (miles) by month"
+        milage = convert_to_imperial(milage, "dashboard_data")
+    else: # metric
+        chart_title= "Distance (km) by month"
+
+
+
     context = {
         "form": form,
         "labels": month_year,
         "data": milage,
         "bgColor": bgColor,
-        "chart_title": "Distance (KM) by Month",
+        "chart_title": chart_title,
     }
 
     return render(request, "dashboard/month.html", {"context": context})
