@@ -91,7 +91,6 @@ class DetailView(LoginRequiredMixin, DetailView):
                 doc, user.profile.units_display_preference
             )
 
-        chart["test"] = "test"
         if user.profile.units_display_preference == "imperial":
             chart["y_label"] = "Distance (miles)"
             chart["x_label"] = "Elevation (ft)"
