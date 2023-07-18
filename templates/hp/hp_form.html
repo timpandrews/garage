@@ -6,11 +6,20 @@
 <div class="container justify-content-center mt-2" style="width: 25%;">
     <div class="row">
         {% if "create" in request.path %}
-            <h2 class="text-center">Add Health Point</h2>
+            <h2 class="text-center">
+                Add {{ hp_type|title }}
+                <small class="text-muted">({{ unit_names.weight }})</small>
+            </h2>
         {% elif "update" in request.path%}
-            <h2 class="text-center">Edit Health Point</h2>
+            <h2 class="text-center">
+                Edit {{ hp_type|title }}
+                <small class="text-muted">({{ unit_names.weight }})</small>
+            </h2>
         {% else %}
-            <h2 class="text-center">Add/Edit Health Point</h2>
+            <h2 class="text-center">
+                Add/Edit {{ hp_type|title }}
+                <small class="text-muted">({{ unit_names.weight }})</small>
+            </h2>
         {% endif %}
     </div>
 

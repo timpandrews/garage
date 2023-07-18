@@ -23,31 +23,6 @@ class GenericHPForm(forms.ModelForm):
         }
 
 
-class WeightHPForm(forms.ModelForm):
-    type = forms.CharField(
-        widget=forms.HiddenInput(),
-        initial="weight",
-    )
-    weight = forms.IntegerField(
-        label="Weight",
-        min_value=0,
-    )
-
-    class Meta:
-        model = Doc
-        exclude = (
-            "user",
-            "doc_type",
-            "doc_date",
-            "data",
-            "detail",
-            "fit_data",
-            "gpx_data",
-            "active",
-            "kudosed",
-        )
-
-
 class BPHPForm(forms.ModelForm):
     type = forms.CharField(
         widget=forms.HiddenInput(),
@@ -75,3 +50,58 @@ class BPHPForm(forms.ModelForm):
             "active",
             "kudosed",
         )
+
+
+class BaseWeightForm(forms.ModelForm):
+    """The root form for weight forms.  Contains fields to both metric and
+    imperial forms.
+
+    Args:
+        forms.ModelForm
+    """
+    type = forms.CharField(
+        widget=forms.HiddenInput(),
+        initial="weight",
+    )
+
+    class Meta:
+        model = Doc
+        exclude = (
+            "user",
+            "doc_type",
+            "doc_date",
+            "data",
+            "detail",
+            "fit_data",
+            "gpx_data",
+            "active",
+            "kudosed",
+        )
+
+
+class MetricWeightForm(BaseWeightForm):
+    """Child weight form for metric weights.  Inherits from BaseWeightForm.
+    Adds fields that will be unique to metric weights.  Also can be used
+    to add fields that are similar but are labeled with different units.
+
+    Args:
+        BaseWeightForm (class): Base class for weight forms.
+    """
+    weight = forms.IntegerField(
+        label="Weight (kg)",
+        min_value=0,
+    )
+
+
+class ImperialWeightForm(BaseWeightForm):
+    """Child weight form for imperial weights.  Inherits from BaseWeightForm.
+    Adds fields that will be unique to imperial weights.  Also can be used
+    to add fields that are similar but are labeled with different units.
+
+    Args:
+        BaseWeightForm (class): Base class for weight forms.
+    """
+    weight = forms.IntegerField(
+        label="Weight (lbs)",
+        min_value=0,
+    )
