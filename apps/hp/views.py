@@ -7,7 +7,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView, View)
 
 from apps.garage.models import Doc
-from common.tools import get_unit_names
+from common.tools import get_unit_names, convert_to_metric
 
 from .forms import (BPHPForm, GenericHPForm, ImperialWeightForm,
                     MetricWeightForm)
@@ -42,8 +42,14 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+
         user = self.request.user
+        unit_display_preference = user.profile.units_display_preference
+
         data = build_data_value(form.cleaned_data)
+        if unit_display_preference == "imperial":
+            data = convert_to_metric(data, 'weight')
+
         doc_date = datetime.now()
         self.object = Doc(doc_type="hp", doc_date=doc_date, user=user, data=data)
         self.object.save()

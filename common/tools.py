@@ -312,13 +312,8 @@ def convert_to_imperial(data, type):
 
     if type == "dashboard_data":
         # convert each item in the data list
-        print(data)
         for i, item in enumerate(data):
             data[i] = round(item * 0.621371 )
-        print(data)
-
-        pass
-
 
     return data
 
@@ -339,7 +334,6 @@ def convert_to_metric(data, type):
     Returns:
         dict: The input dictionary converted to metric units.
     """
-
     # convert ride distance units imperial to metric
     if type == "ride":
         if "distance" in data.keys() and data["distance"] != "None":
@@ -350,6 +344,10 @@ def convert_to_metric(data, type):
             data["speed_max"] = round(data["speed_max"] * 1.60934, 1)
         if "speed_avg" in data.keys() and data["speed_avg"] is not None:
             data["speed_avg"] = round(data["speed_avg"] * 1.60934, 1)
+
+    # convert HP weight from lbs to kg
+    if type == "weight":
+        data["weight"] = round(data["weight"] / 2.20462, 2)
 
     return data
 
