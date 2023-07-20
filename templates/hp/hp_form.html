@@ -6,6 +6,7 @@
 <div class="container justify-content-center mt-2" style="width: 25%;">
     <div class="row">
         {% if "create" in request.path %}
+            <!-- TODO: Account for hp_types like BP that are all caps -->
             <h2 class="text-center">
                 Add {{ hp_type|title }}
                 <small class="text-muted">({{ unit_names.weight }})</small>

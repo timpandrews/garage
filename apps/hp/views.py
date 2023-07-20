@@ -7,7 +7,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView, View)
 
 from apps.garage.models import Doc
-from common.tools import get_unit_names, convert_to_metric
+from common.tools import convert_to_imperial, convert_to_metric, get_unit_names
 
 from .forms import (BPHPForm, GenericHPForm, ImperialWeightForm,
                     MetricWeightForm)
@@ -87,19 +87,29 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
 class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
     form_class = GenericHPForm
     template_name = "hp/hp_form.html"
+    print("HPUpdateView")
 
     def get_initial(self):
         hp = self.get_object()
+        units_display_preference = self.request.user.profile.units_display_preference
+        if units_display_preference == "imperial":
+            hp.data = convert_to_imperial(hp.data, 'weight')
         return hp.data
 
     def get_form_class(self):
-        form_class = set_form_class(self.kwargs)
+        units_display_preference = self.request.user.profile.units_display_preference
+        form_class = set_form_class(self.kwargs, units_display_preference)
         return form_class
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         user = self.request.user
+        unit_display_preference = user.profile.units_display_preference
+
         data = build_data_value(form.cleaned_data)
+        if unit_display_preference == "imperial":
+            data = convert_to_metric(data, 'weight')
+
         doc_date = self.object.doc_date
         self.object.data = data
         self.object.save()
@@ -110,9 +120,38 @@ class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
         else:
             return redirect(self.get_success_url())
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        units_display_preference = user.profile.units_display_preference
+
+        if 'hp_type' in self.kwargs:
+            hp_type = self.kwargs['hp_type']
+        else:
+            hp_type = 'generic'
+
+        context["unit_names"] = get_unit_names(units_display_preference)
+        context["hp_type"] = hp_type
+        context["display_pref"] = units_display_preference
+
+        return context
 
 class HPDeleteView(LoginRequiredMixin, HPBaseView, DeleteView):
     template_name = "hp/hp_confirm_delete.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        hp = self.get_object()
+        print(self.kwargs)
+        print(hp.data["type"])
+        if hp.data["type"]:
+            hp_type = hp.data["type"]
+        else:
+            hp_type = 'generic'
+
+        context["hp_type"] = hp_type
+
+        return context
 
 
 def set_form_class(kwargs, units_display_preference):

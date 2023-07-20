@@ -288,9 +288,10 @@ def convert_to_imperial(data, type):
     Returns:
         _dict_: The input dictionary converted to imperial units.
     """
-
     # convert HP weight from kg to lbs
     if type == "hp" and data["type"] == "weight":
+        data["weight"] = round(data["weight"] * 2.20462)
+    if type == "weight":
         data["weight"] = round(data["weight"] * 2.20462)
 
     # convert ride distance units metric to imperial
