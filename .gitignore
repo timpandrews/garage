@@ -24,3 +24,4 @@ prod_settings.py
 data
 htmlcov
 .coverage
+stash
