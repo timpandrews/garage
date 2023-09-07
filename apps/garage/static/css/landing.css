@@ -1,58 +1,73 @@
 body, html {
-    height: 100%;
-    margin: 0;
-  }
+  height: 100%;
+  margin: 0;
+}
 
-  .bg {
-    /* The image used */
-    background-image: url("/static/img/garage.png");
+.bg {
+  /* The image used */
+  background-image: url("/static/img/garage.png");
 
-    /* Full height */
-    height: 50%;
+  /* Full height */
+  height: 50%;
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-  .bg-small {
-    /* The image used */
-    background-image: url("/static/img/garage.png");
+.bg-small {
+  /* The image used */
+  background-image: url("/static/img/garage.png");
 
-    /* Full height */
-    height: 15%;
+  /* Full height */
+  height: 15%;
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-  h1 {
-    text-align: center;
-    color: #7e77c9;
-  }
+h1 {
+  text-align: center;
+  color: #7e77c9;
+}
 
-  .links {
-    text-align: center;
-    color:cornflowerblue;
-  }
+.links {
+  text-align: center;
+  color:cornflowerblue;
+}
 
-  .btn-primary {
-    background-color: #7e77c9!important;
-    border-color: #716bb5!important;
-  }
 
-  .btn-primary:active{
-    /*formatting goes here*/
-  }
-  btn-primary:hover{
-    background-color: #58538d!important;
-    border-color: #655fa1!important;
-  }
-  }
-  btn-primary:focus{
-    background-color: #58538d!important;
-    border-color: #655fa1!important;
-  }
+/* btn Primary */
+.btn-primary {
+  background-color: #7e77c9!important;
+  border-color: #716bb5!important;
+}
+.btn-primary:active{
+  /*formatting goes here*/
+}
+.btn-primary:hover{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+.btn-primary:focus{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+
+
+/* btn outline primary */
+.btn-outline-primary:{
+  color: #7e77c9!important;
+  border-color: #7e77c9!important;
+}
+.btn-outline-primary:hover{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+.btn-outline-primary:focus{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
