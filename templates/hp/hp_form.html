@@ -3,6 +3,25 @@
 
 {% block content %}
 
+<div class="container justify-content-center mt-2" style="width: 50%;">
+    <div class="row">
+        <h5 class="text-center text-muted">
+            {% if display_pref == "imperial" %}
+                Weight is displayed in imperial units (lb) as specified in your
+            {% elif display_pref == "metric" %}
+                Weight is displayed in metric units (kg) as specified in your
+            {% else %}
+                Units Display Preference is not set. Please set your preference in your
+            {% endif %}
+            <a class="link-secondary" href="{% url 'profile' %}">profile</a>.
+
+            <a class="btn btn-link btn-sm" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                <i class="fa fa-exchange" aria-hidden="true"></i>
+            </a>
+        </h5>
+
+    </div>
+</div>
 <div class="container justify-content-center mt-2" style="width: 25%;">
     <div class="row">
         {% if "create" in request.path %}
@@ -55,4 +74,7 @@
     </div>
 </div>
 
+{% include "include/_unit_conv.html" %}
+
 {% endblock %}
+
