@@ -56,7 +56,7 @@
         data: {
             labels: {{ context.labels|safe }},
             datasets: [{
-                label: "Distence(km) by Month",
+                label: '{{ context.chart_title|safe }}',
                 data: {{ context.data|safe }},
                 backgroundColor: {{ context.bgColor|safe }},
                 borderWidth: 2

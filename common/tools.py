@@ -6,6 +6,7 @@ import folium
 import geopy.distance
 
 
+# File Import Functions #
 def import_fit_file(file_path):
     """
     Import a FIT file and return a dictionary of the data
@@ -91,6 +92,70 @@ def get_detail_from_input_data(format, input_data):
         print("Unknown file format")
 
     return detail
+
+
+def get_weighted_average_power(power_data, interval_data):
+    """
+    Given a list of recorded power and a list of the duration of each interval
+    return a single value for the weighted average power of the ride.
+
+    Args:
+        power_data (list): A list of power data points from a given interval
+                           for the ride.
+        interval_data (list): A list of intervals between power data points
+                              (in seconds).
+
+    Returns:
+        float: Returns a single value for the weighted average power of the ride.
+    """
+    # FIXME: This solution does not assign a weight to each interval.  All power readigns
+    #       are weighted equally.  This is not ideal.  Need to find a way to assign
+    #       a weight to each interval based on power readings and power-duration curve
+    #       for the rider.  Higher power readings are normally weighted more heavily
+    #       than lower power readings.  https://github.com/timpandrews/garage/wiki/Calculate-Weighted-Power-Average
+
+    if len(power_data) != len(interval_data):
+        raise ValueError("Both lists must have the same length.")
+
+    weighted_average_power = 0
+    total_duration = 0
+
+    for i, power in enumerate(power_data):
+        weighted_average_power += power * interval_data[i]
+        total_duration += interval_data[i]
+
+    weighted_average_power = weighted_average_power / total_duration
+    weighted_average_power = round(weighted_average_power)
+
+    return weighted_average_power
+
+
+def get_total_work(power_data, interval_data):
+    """
+    Given a list of recorded power and a list of the duration of each interval
+    return a single value for the total work done during the ride in kilojoules.
+
+    Args:
+        power_data (list): A list of power data points from a given interval
+                           for the ride.
+        interval_data (list): A list of intervals between power data points
+                              (in seconds).
+
+    Returns:
+        float: Returns a single value for the total work of the ride in kilojoules.
+    """
+    if len(power_data) != len(interval_data):
+        raise ValueError("Both lists must have the same length.")
+
+    total_work = 0
+
+    for i, power in enumerate(power_data):
+        total_work += power * interval_data[i]
+
+    total_work = total_work / 1000
+    total_work = round(total_work)
+
+    return total_work
 
 
 # Data Cleaning & Converting Functions #
@@ -186,7 +251,7 @@ def get_unit_names(units_display_preference):
     if units_display_preference == "imperial":
         unit_names["distance"] = "miles"
         unit_names["speed"] = "mph"
-        unit_names["weight"] = "lbs"
+        unit_names["weight"] = "lb"
         unit_names["elevation"] = "ft"
         unit_names["temperature"] = "F"
 
@@ -215,7 +280,7 @@ def convert_to_imperial(data, type):
     their profile settings (units_display_preference).
 
     Args:
-        data (dict): A dictionary of data points from each activity.  Data is
+        data (dict/list): A dictionary/list of data points from each activity.  Data is
                      stored in the database in metric units.
         type (str): A string indicating the type of activity.  Used to determine
 
@@ -223,9 +288,10 @@ def convert_to_imperial(data, type):
     Returns:
         _dict_: The input dictionary converted to imperial units.
     """
-
-    # convert HP weight from kg to lbs
+    # convert HP weight from kg to lb
     if type == "hp" and data["type"] == "weight":
+        data["weight"] = round(data["weight"] * 2.20462)
+    if type == "weight":
         data["weight"] = round(data["weight"] * 2.20462)
 
     # convert ride distance units metric to imperial
@@ -239,12 +305,53 @@ def convert_to_imperial(data, type):
         if "speed_avg" in data.keys() and data["speed_avg"] is not None:
             data["speed_avg"] = round(data["speed_avg"] * 0.621371, 1)
 
+    if type == "dashboard_week":
+        if "distance" in data.keys() and data["distance"] != "None":
+            data["distance"] = round(data["distance"] * 0.621371, 2)
+        if "elevation" in data.keys() and data["elevation"] is not None:
+            data["elevation"] = round(data["elevation"] * 3.28084, 2)
 
-
-
-
+    if type == "dashboard_data":
+        # convert each item in the data list
+        for i, item in enumerate(data):
+            data[i] = round(item * 0.621371 )
 
     return data
+
+
+def convert_to_metric(data, type):
+    """
+    Converts data from imperial to metric units.  Data is always stored in the
+    database in metric units.  This function is used to convert the data to
+    metric units for storage if required by the user as defined in their profile
+    settings (units_display_preference).
+
+
+    Args:
+        data (dict): A dictionary of data points from each activity.  Data is
+                     stored in the database in metric units.
+        type (str): A string indicating the type of activity.
+
+    Returns:
+        dict: The input dictionary converted to metric units.
+    """
+    # convert ride distance units imperial to metric
+    if type == "ride":
+        if "distance" in data.keys() and data["distance"] != "None":
+            data["distance"] = round(data["distance"] * 1.60934, 1)
+        if "elevation" in data.keys() and data["elevation"] is not None:
+            data["elevation"] = round(data["elevation"] / 3.28084)
+        if "speed_max" in data.keys() and data["speed_max"] is not None:
+            data["speed_max"] = round(data["speed_max"] * 1.60934, 1)
+        if "speed_avg" in data.keys() and data["speed_avg"] is not None:
+            data["speed_avg"] = round(data["speed_avg"] * 1.60934, 1)
+
+    # convert HP weight from lb to kg
+    if type == "weight":
+        data["weight"] = round(data["weight"] / 2.20462, 2)
+
+    return data
+
 
 # Maping & Charting Functions #
 def find_centroid(coordinates):

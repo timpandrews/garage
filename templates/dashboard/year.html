@@ -42,7 +42,7 @@
         data: {
             labels: {{ labels|safe }},
             datasets: [{
-                label: "Distence(km) by Year",
+                label: '{{ chart_title|safe }}',
                 data: {{ data|safe }},
                 backgroundColor: {{ bgColor|safe }},
                 borderWidth: 2

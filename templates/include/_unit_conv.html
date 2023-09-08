@@ -1,0 +1,58 @@
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+            Unit Converstion Calculator<br>
+            <small class="text-muted">
+                (Metric <i class="fa fa-exchange" aria-hidden="true"></i> Imperial)
+            </small>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="card">
+            <div class="card-header">
+                Kilograms <i class="fa fa-exchange" aria-hidden="true"></i> Pounds
+            </div>
+            <div class="card-body text-center">
+                <div class="grid gap-3">
+                    <div class="g-col-5">
+                        <div class="input-group mb-3">
+                            <input name="kg" id="kg" type="text" class="form-control" placeholder="kilograms" aria-label="kg" aria-describedby="kg-addon">
+                            <span class="input-group-text">kg</span>
+                            <button class="btn btn-outline-secondary" type="button" onclick="conv_kg_to_lb()">
+                                <i class="fa fa-exchange" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="g-col-4">
+                        <div class="input-group mb-3">
+                            <input name="lb" id="lb" type="text" class="form-control" placeholder="pounds" aria-label="lb" aria-describedby="lb-addon">
+                            <span class="input-group-text">lb</span>
+                            <button class="btn btn-outline-secondary" type="button" onclick="conv_lb_to_kg()">
+                                <i class="fa fa-exchange" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type = "text/javascript">
+    function conv_kg_to_lb() {
+        var input = document.getElementById("kg");
+        var output = document.getElementById("lb");
+        output.value = Math.round(input.value * 2.20462);
+    }
+</script>
+<script type = "text/javascript">
+    function conv_lb_to_kg() {
+        var input = document.getElementById("lb");
+        var output = document.getElementById("kg");
+        output.value = Math.round(input.value / 2.205);
+    }
+</script>
+

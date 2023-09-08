@@ -4,8 +4,7 @@ from django.forms import ModelForm
 
 from apps.garage.models import Doc
 
-
-class RideForm(ModelForm):
+class RideFormBase(ModelForm):
     start = forms.DateTimeField(
         required=True,
         widget=DateTimePickerInput(attrs={"class": "form-control"}),
@@ -118,3 +117,51 @@ class RideForm(ModelForm):
             "fit_data",
             "gpx_data",
         )
+
+
+# Ride form for metric units
+class RideFormMetric(RideFormBase):
+    distance = forms.FloatField(
+        label="Distance (km)",
+        min_value=0,
+        required=True,
+    )
+    elevation = forms.IntegerField(
+        label="Elevation Gained (m)",
+        min_value=0,
+        required=False,
+    )
+    speed_avg = forms.FloatField(
+        label="Average Speed (km/h)",
+        min_value=0,
+        required=False,
+    )
+    speed_max = forms.FloatField(
+        label="Max Speed (km/h)",
+        min_value=0,
+        required=False,
+    )
+
+
+# Ride form for imperial units
+class RideFormImperial(RideFormBase):
+    distance = forms.FloatField(
+        label="Distance (mi)",
+        min_value=0,
+        required=True,
+    )
+    elevation = forms.IntegerField(
+        label="Elevation Gained (ft)",
+        min_value=0,
+        required=False,
+    )
+    speed_avg = forms.FloatField(
+        label="Average Speed (mph)",
+        min_value=0,
+        required=False,
+    )
+    speed_max = forms.FloatField(
+        label="Max Speed (mph)",
+        min_value=0,
+        required=False,
+    )

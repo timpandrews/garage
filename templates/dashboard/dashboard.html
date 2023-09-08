@@ -25,16 +25,22 @@
             <thead>
                 <tr>
                     <th scope="col">Rides</th>
-                    <th scope="col">Distance</th>
+                    <th scope="col">
+                        Distance
+                        <small class="text-muted">({{ context.unit_names.distance }})</small>
+                    </th>
                     <th scope="col">Time</th>
-                    <th scope="col">Elevation</th>
+                    <th scope="col">
+                        Elevation
+                        <small class="text-muted">({{ context.unit_names.elevation }})</small>
+                    </th>
                     <th scope="col">Calories</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ context.week.rides }}</td>
-                    <td>{{ context.week.distance }} kms</td>
+                    <td>{{ context.week.distance }}</td>
                     <td>{{ context.week.time }}</td>
                     <td>{{ context.week.elevation }}</td>
                     <td>{{ context.week.calories }}</td>
@@ -59,7 +65,7 @@
         data: {
             labels: {{ context.labels|safe }},
             datasets: [{
-                label: 'Distence(km) by week',
+                label: '{{ context.chart_title|safe }}',
                 data: {{ context.data|safe }},
                 borderWidth: 1
             }]

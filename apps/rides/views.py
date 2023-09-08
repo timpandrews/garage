@@ -19,10 +19,12 @@ from django.views.generic.list import ListView
 
 from apps.garage.models import Doc, ZwiftRouteList
 from common.tools import (clean_data_for_db, clean_data_for_display,
-                          clean_data_for_edit, get_detail_from_input_data,
+                          clean_data_for_edit, convert_to_imperial,
+                          convert_to_metric, get_detail_from_input_data,
+                          get_total_work, get_weighted_average_power,
                           import_fit_file)
 
-from .forms import RideForm
+from .forms import RideFormImperial, RideFormMetric
 
 
 class RideBaseView(View):
@@ -78,16 +80,28 @@ class RideDetailView(LoginRequiredMixin, RideBaseView, DetailView):
 
 class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, CreateView):
     template_name = "rides/ride_form.html"
-    form_class = RideForm
     # TODO: check if success message is working
     # BUG: Require distance, elevation, and maybe some other fileds to be completed
     success_message = "Ride was created successfully"
+
+    def get_form_class(self):
+        if self.request.user.profile.units_display_preference == "metric":
+            return RideFormMetric
+        elif self.request.user.profile.units_display_preference == "imperial":
+            return RideFormImperial
+        else: # default to Metric
+            return RideFormMetric
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         user = self.request.user
         data = form.cleaned_data
         data = clean_data_for_db(data)
+
+        # TODO - This is where i left off #
+        units_display_preference = user.profile.units_display_preference
+        if units_display_preference == "imperial":
+            data = convert_to_metric(data, "ride")
 
         doc_date = data["start"]
         doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
@@ -104,20 +118,36 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
 
 
 class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, UpdateView):
-    form_class = RideForm
     template_name = "rides/ride_form.html"
     # TODO: check if success message is working
     success_message = "Ride was updated successfully"
 
+    def get_form_class(self):
+        if self.request.user.profile.units_display_preference == "metric":
+            return RideFormMetric
+        elif self.request.user.profile.units_display_preference == "imperial":
+            return RideFormImperial
+        else: # default to Metric
+            return RideFormMetric
+
     def get_initial(self):
         ride = self.get_object()
         ride.data = clean_data_for_edit(ride.data)
+
+        if self.request.user.profile.units_display_preference == "imperial":
+            # data is stored as metric, convert to imperial for display
+            ride.data = convert_to_imperial(ride.data, "ride")
+
         return ride.data
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         data = form.cleaned_data
         data = clean_data_for_db(data)
+
+        if self.request.user.profile.units_display_preference == "imperial":
+            # convert data to metric before saving to DB if user has selected imperial units
+            data = convert_to_metric(data, "ride")
 
         doc_date = data["start"]
         doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
@@ -139,7 +169,12 @@ class RideDeleteView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Dele
 def ride_import_fit(request):
     return_to = request.GET.get('return_to', '')
     context = {}
-    form = RideForm(request.POST or None)
+    units_display_preference = request.user.profile.units_display_preference
+    if units_display_preference == "imperial":
+        form = RideFormImperial(request.POST or None)
+    else: # default to Metric
+        form = RideFormMetric(request.POST or None)
+
 
     if request.method == "POST":
         # COMMENT - Import Fit File Form
@@ -167,7 +202,10 @@ def ride_import_fit(request):
                     )
 
                     # create form with pre populated data
-                    form = RideForm(initial=pre_pop_form_data)
+                    if units_display_preference == "imperial":
+                        form = RideFormImperial(initial=pre_pop_form_data)
+                    else: # default to Metric
+                        form = RideFormMetric(initial=pre_pop_form_data)
                     context["form"] = form
 
                 else:
@@ -203,6 +241,11 @@ def ride_import_fit(request):
                 doc_date = data["start"]
                 doc_date = datetime.strptime(doc_date, "%m/%d/%Y %H:%M:%S")
                 doc_date = doc_date.replace(tzinfo=timezone.utc)
+
+                # if user has selected imperial units, convert data to metric before
+                # saving the data to the database
+                if units_display_preference == "imperial":
+                    data = convert_to_metric(data, "ride")
 
                 object = Doc(
                     doc_type = "ride",
@@ -281,6 +324,26 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
 
     calories = fit_file_data["session"][0]["total_calories"]
 
+    # get power data from fit file
+    power_data = list()
+    interval_data = list()
+    for i, record in enumerate(fit_file_data["record"]):
+        timestamp = datetime.strptime(record["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
+        # get timestamp from previous record and determine interval (in seconds)
+        # between records
+        if i > 0:
+            prev_timestamp = datetime.strptime(fit_file_data["record"][i-1]["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
+            time_between_records = timestamp - prev_timestamp
+            time_between_records = time_between_records.total_seconds()
+        else:
+            time_between_records = 1.0
+
+        power_data.append(record["power"])
+        interval_data.append(time_between_records)
+
+    weighted_power_avg = get_weighted_average_power(power_data, interval_data)
+    total_work = get_total_work(power_data, interval_data)
+
     prepend_form_data = {
         "ride_title": ride_title,
         "route": route,
@@ -297,6 +360,8 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
         "power_avg": power_avg,
         "power_max": power_max,
         "calories": calories,
+        "weighted_power_avg": weighted_power_avg,
+        "total_work": total_work,
         # pass fit file name to form so the fit file can be read when
         # the form is posted and then save the data to the DB
         "fitfile": file_name,

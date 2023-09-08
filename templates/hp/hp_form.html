@@ -3,14 +3,43 @@
 
 {% block content %}
 
+<div class="container justify-content-center mt-2" style="width: 50%;">
+    <div class="row">
+        <h5 class="text-center text-muted">
+            {% if display_pref == "imperial" %}
+                Weight is displayed in imperial units (lb) as specified in your
+            {% elif display_pref == "metric" %}
+                Weight is displayed in metric units (kg) as specified in your
+            {% else %}
+                Units Display Preference is not set. Please set your preference in your
+            {% endif %}
+            <a class="link-secondary" href="{% url 'profile' %}">profile</a>.
+
+            <a class="btn btn-link btn-sm" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                <i class="fa fa-exchange" aria-hidden="true"></i>
+            </a>
+        </h5>
+
+    </div>
+</div>
 <div class="container justify-content-center mt-2" style="width: 25%;">
     <div class="row">
         {% if "create" in request.path %}
-            <h2 class="text-center">Add Health Point</h2>
+            <!-- TODO: Account for hp_types like BP that are all caps -->
+            <h2 class="text-center">
+                Add {{ hp_type|title }}
+                <small class="text-muted">({{ unit_names.weight }})</small>
+            </h2>
         {% elif "update" in request.path%}
-            <h2 class="text-center">Edit Health Point</h2>
+            <h2 class="text-center">
+                Edit {{ hp_type|title }}
+                <small class="text-muted">({{ unit_names.weight }})</small>
+            </h2>
         {% else %}
-            <h2 class="text-center">Add/Edit Health Point</h2>
+            <h2 class="text-center">
+                Add/Edit {{ hp_type|title }}
+                <small class="text-muted">({{ unit_names.weight }})</small>
+            </h2>
         {% endif %}
     </div>
 
@@ -45,4 +74,7 @@
     </div>
 </div>
 
+{% include "include/_unit_conv.html" %}
+
 {% endblock %}
+

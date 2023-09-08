@@ -4,9 +4,11 @@
 
 <div class="container d-flex justify-content-center mt-2" style="width: 50%;">
     <div class="col mt-2 text-center">
-        <h2>Delete HP</h2>
+        <h2>Delete {{ hp_type|title }}</h2>
 
-        <p class="h5">Are you sure you want to delete the HP:</p>
+        <p class="h5">
+            Are you sure you want to delete your {{ hp_type }} record:
+        </p>
         {{ object.data }}
         <form action="" method="POST">
             {% csrf_token %}
