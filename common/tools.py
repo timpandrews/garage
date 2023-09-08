@@ -251,7 +251,7 @@ def get_unit_names(units_display_preference):
     if units_display_preference == "imperial":
         unit_names["distance"] = "miles"
         unit_names["speed"] = "mph"
-        unit_names["weight"] = "lbs"
+        unit_names["weight"] = "lb"
         unit_names["elevation"] = "ft"
         unit_names["temperature"] = "F"
 
@@ -288,7 +288,7 @@ def convert_to_imperial(data, type):
     Returns:
         _dict_: The input dictionary converted to imperial units.
     """
-    # convert HP weight from kg to lbs
+    # convert HP weight from kg to lb
     if type == "hp" and data["type"] == "weight":
         data["weight"] = round(data["weight"] * 2.20462)
     if type == "weight":
@@ -346,7 +346,7 @@ def convert_to_metric(data, type):
         if "speed_avg" in data.keys() and data["speed_avg"] is not None:
             data["speed_avg"] = round(data["speed_avg"] * 1.60934, 1)
 
-    # convert HP weight from lbs to kg
+    # convert HP weight from lb to kg
     if type == "weight":
         data["weight"] = round(data["weight"] / 2.20462, 2)
 

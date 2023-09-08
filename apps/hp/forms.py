@@ -102,6 +102,6 @@ class ImperialWeightForm(BaseWeightForm):
         BaseWeightForm (class): Base class for weight forms.
     """
     weight = forms.IntegerField(
-        label="Weight (lbs)",
+        label="Weight (lb)",
         min_value=0,
     )
