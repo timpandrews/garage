@@ -87,7 +87,6 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
 class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
     form_class = GenericHPForm
     template_name = "hp/hp_form.html"
-    print("HPUpdateView")
 
     def get_initial(self):
         hp = self.get_object()
