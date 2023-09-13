@@ -25,3 +25,4 @@ data
 htmlcov
 .coverage
 stash
+static
