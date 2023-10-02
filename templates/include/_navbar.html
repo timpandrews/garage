@@ -18,26 +18,6 @@
                             <a class="nav-link" href="{% url 'feed:feed' %}">Feed</a>
                         </li>
                     {% endif %}
-                    <!-- Rides -->
-                    {% if "rides" in request.path %}
-                        <li class="nav-item active fw-bolder" id="Rides">
-                            <a class="nav-link w3-text-light-blue" href="{% url 'rides:list' %}">Rides</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item" id="Rides">
-                            <a class="nav-link" href="{% url 'rides:list' %}">Rides</a>
-                        </li>
-                    {% endif %}
-                    <!-- HP -->
-                    {% if "hp" in request.path %}
-                        <li class="nav-item active fw-bolder" id="hp">
-                            <a class="nav-link w3-text-light-blue" href="{% url 'hp:list' %}">HP</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item" id="hp">
-                            <a class="nav-link" href="{% url 'hp:list' %}">HP</a>
-                        </li>
-                    {% endif %}
                     <!-- Dashboard -->
                     {% if "dashboard" in request.path %}
                         <li class="nav-item active fw-bolder" id="dashboard">
@@ -89,10 +69,16 @@
                     {% endif %}
                     <!-- Admin Page -->
                     {% if user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:index' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Django Admin">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-fill-gear me-2"></i>Admin
                             </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Django Admin</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'rides:list' %}">Rides</a></li>
+                                <li><a class="dropdown-item" href="{% url 'hp:list' %}">HP</a></li>
+                            </ul>
                         </li>
                     {% endif %}
                 </ul>
