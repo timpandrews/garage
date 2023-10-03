@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "apps.trophies",
     "apps.hp",
     "apps.feed",
+    "apps.pages",
     # 3rd party apps
     "admin_honeypot",
     "django_bootstrap5",
