@@ -11,6 +11,7 @@ urlpatterns = [
     # NOTE: Change accounts/* to user_stuff/*
     # NOTE: Is there a better name then user_stuff?
     path("user_stuff/", include("django.contrib.auth.urls")),
+    path('', include('apps.habits.urls')),
     path('', include('apps.pages.urls')),
     path('', include('apps.feed.urls')),
     path('', include('apps.hp.urls')),
