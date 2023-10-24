@@ -59,6 +59,7 @@ class Profile(models.Model):
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pics')
     strava_url = models.CharField(max_length=200, blank=True, null=True)
     units_display_preference = models.CharField(max_length=20, blank=True, null=True)
+    habits = models.JSONField(blank=True, default=dict)
 
     def __str__(self):
         return f'{self.user.username} Profile'
