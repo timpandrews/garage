@@ -87,6 +87,7 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'rides:list' %}">Rides</a></li>
                                 <li><a class="dropdown-item" href="{% url 'hp:list' %}">HP</a></li>
+                                <li><a class="dropdown-item" href="{% url 'habits:list' %}">Habits</a></li>
                             </ul>
                         </li>
 
@@ -94,7 +95,7 @@
                         <!-- TODO: This should be removed at some point -->
                         <span class="nav-item">
                             <span class="nav-link" style="background-color:{{ENVIRONMENT_COLOR}}">
-                                <i class="bi bi-info-circle me-2"></i><small>{{ ENVIRONMENT_NAME }}</small>
+                                <i class="bi bi-server me-2"></i><small>{{ ENVIRONMENT_NAME }}</small>
                             </span>
                         </span>
                     {% endif %}
