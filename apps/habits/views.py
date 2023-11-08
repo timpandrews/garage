@@ -1,4 +1,9 @@
+import json
+from datetime import datetime
+
+from common.tools import clean_data_for_db
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView, View)
@@ -60,13 +65,27 @@ class HabitCreateView(LoginRequiredMixin, HabitBaseView, CreateView):
         kwargs['user'] = self.request.user  # Pass the current user to the form
         return kwargs
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["choices"] = Profile.objects.filter(user=self.request.user).values("habits").first()["habits"]
-    #     print("context: ", context)
-    #     return context
+    def form_valid(self, form):
+        print("*** form_valid ***")
+        self.object = form.save(commit=False)
 
+        user = self.request.user
 
+        data = clean_data_for_db(form.cleaned_data)
+        data_value = {}
+        for key, value in data.items():
+           data_value[key] = value
+        print("data_value", data_value)
+
+        doc_date = datetime.now()
+        self.object = Doc(doc_type="habit", doc_date=doc_date, user=user, data=data_value)
+        self.object.save()
+
+        return_to = self.request.GET.get('return_to', '')
+        if return_to == "feed":
+            return redirect("/feed/")
+        else:
+            return redirect(self.get_success_url())
 
 class HabitUpdateView(LoginRequiredMixin, HabitBaseView, UpdateView):
     form_class = HabitForm

@@ -182,6 +182,10 @@ def clean_data_for_db(data):
         data["start"] = data["start"].strftime("%m/%d/%Y %H:%M:%S")
     except:
         pass
+    try:
+        data["date"] = data["date"].strftime("%m/%d/%Y")
+    except:
+        pass
 
     return data
 
