@@ -52,7 +52,7 @@ class HabitListView(LoginRequiredMixin, HabitBaseView, ListView):
 
 class HabitDetailView(LoginRequiredMixin, HabitBaseView, DetailView):
     fields = "__all__"
-    template_name = "habits/hp_detail.html"
+    template_name = "habits/habits_detail.html"
 
 
 class HabitCreateView(LoginRequiredMixin, HabitBaseView, CreateView):
