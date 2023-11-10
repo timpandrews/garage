@@ -2,16 +2,50 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-    <h1>Record your Good Habits</h1>
+<div class="container justify-content-center mt-2" style="width: 50%;">
+    <div class="row">
+        <h5 class="text-center text-muted">
+            Good habits are defined in your
+            <a class="link-secondary" href="{% url 'habits:manage' %}">here</a>.
+        </h5>
+    </div>
 
-    {% for key, habit in choices.items %}
-        {{ habit }},
-    {% endfor %}
+    <div class="row">
+        <h2 class="text-center">
+            Record your Good Habits
+            <small class="text-muted">({{ unit_names.weight }})</small>
+        </h2>
+    </div>
 
-    {{ form.media }}
-    <form id="data_form" action="" method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button type="submit">Save</button>
-    </form>
+    <div class="row">
+        {{ form.media }}
+        <form id="data_form" action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="container d-flex justify-content-center" style="width: 10%;">
+                <button type="submit" class="btn btn-primary me-2 text-nowrap">
+                    <i class="bi bi-save me-2"></i>
+                    {% if "create" in request.path %}
+                        Save
+                    {% elif "update" in request.path %}
+                        Update
+                    {% else %}
+                        Submit
+                    {% endif %}
+                </button>
+                {% if request.GET.return_to == "feed" %}
+                    <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'feed:feed' %}'; return false;">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn btn-secondary text-nowrap" onclick="window.location='{% url 'habits:list' %}'; return false;">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                {% endif %}
+
+            </div>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
