@@ -93,7 +93,8 @@ class HabitUpdateView(LoginRequiredMixin, HabitBaseView, UpdateView):
 
 
 class HabitDeleteView(LoginRequiredMixin, HabitBaseView, DeleteView):
-    template_name = 'habits/task_confirm_delete.html'
+    template_name = 'habits/habits_confirm_delete.html'
+    success_message = "Habits entry was deleted successfully"
 
 
 class HabitUpdateView(LoginRequiredMixin, HabitBaseView, UpdateView):

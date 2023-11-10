@@ -4,21 +4,6 @@ from datetime import datetime
 
 from apps.garage.models import Doc, Profile
 
-CHOICES = (
-    ("1", "First"),
-    ("2", "Second"),
-    ("3", "Third"),
-)
-
-# class HabitForm(forms.ModelForm):
-#     class Meta:
-#         model = Doc
-#         exclude = "__all__"
-#         fields = []
-
-#     options = forms.MultipleChoiceField(
-#         choices=CHOICES)
-
 
 class HabitForm(forms.ModelForm):
     def __init__(self, *args, user=None, **kwargs):
@@ -32,13 +17,15 @@ class HabitForm(forms.ModelForm):
         )
 
         habits = Profile.objects.filter(user=user).values("habits").first()["habits"]
-        HABITS = []
+        HABITS = [('','Please select one of your good habits')]
         for key, habit in habits.items():
             habit_tuple = (habit, habit)
             HABITS.append(habit_tuple)
-        self.fields["good_habits"] = forms.MultipleChoiceField(
+        print("HABITS", HABITS)
+        self.fields["good_habits"] = forms.ChoiceField(
             choices=HABITS,
-            widget=forms.CheckboxSelectMultiple,
+            help_text="""Please select one of your good habits that you have
+                        performed.  These habits are defined in your profile.""",
         )
 
 
