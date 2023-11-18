@@ -1,9 +1,32 @@
 from django.contrib import admin
+from import_export import resources
+from import_export.admin import ImportExportActionModelAdmin
 
 from .models import Doc, Kudos, Profile, ZwiftRouteList
 
 
-class DocAdmin(admin.ModelAdmin):
+class DocResource(resources.ModelResource):
+    """
+    Resource class for the Doc model.  Used with django-import-export 
+    library.
+    """
+    class Meta:
+        model = Doc
+
+
+class DocAdmin(ImportExportActionModelAdmin):
+    """
+    Admin class for managing Doc objects.
+
+    This class defines the configuration options for the admin interface
+    for the Doc model. It specifies the fieldsets, readonly fields,
+    list display options, list editable fields, and list filter options.
+
+    It uses the ImportExportActionModelAdmin class from the django-import-export
+    library to add import and export functionality to the admin interface.
+    """
+    resource_classes = [DocResource]
+
     fieldsets = [
         ("Fieldset", {
             "fields": [
@@ -19,9 +42,8 @@ class DocAdmin(admin.ModelAdmin):
                 "updated",
                 "active",
                 "kudosed",
-                ]
-            }
-        ),
+            ]
+        }),
     ]
     readonly_fields = ("id", "created", "updated")
     list_display = (
@@ -37,6 +59,7 @@ class DocAdmin(admin.ModelAdmin):
     list_display_links = ("id", "user", "doc_type")
     list_editable = ("active", "kudosed",)
     list_filter = ("doc_type", "kudosed", "user")
+    
 admin.site.register(Doc, DocAdmin)
 
 
