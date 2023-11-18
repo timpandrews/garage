@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_seed",
     "django_htmx",
+    "import_export",
 ]
 
 MIDDLEWARE = [
