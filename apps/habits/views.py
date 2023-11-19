@@ -1,12 +1,18 @@
-import json
 from datetime import datetime
 
 from common.tools import clean_data_for_db
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView, View)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+    View,
+)
 
 from apps.garage.models import Doc, Profile
 
@@ -21,6 +27,8 @@ It will eventually allow the user to add, delete, and modify habits.
 Returns:
     _type_: _description_
 """
+
+
 class ManageHabits(LoginRequiredMixin, TemplateView):
     template_name = "habits/manage.html"
 
@@ -34,12 +42,12 @@ class ManageHabits(LoginRequiredMixin, TemplateView):
 
 class HabitBaseView(View):
     model = Doc
-    success_url = reverse_lazy('habits:list')
+    success_url = reverse_lazy("habits:list")
 
 
 class HabitListView(LoginRequiredMixin, HabitBaseView, ListView):
-    template_name = 'habits/habits_list.html'
-    context_object_name = 'habits'
+    template_name = "habits/habits_list.html"
+    context_object_name = "habits"
     paginate_by = 20
 
     def get_queryset(self):
@@ -57,12 +65,13 @@ class HabitDetailView(LoginRequiredMixin, HabitBaseView, DetailView):
 
 class HabitCreateView(LoginRequiredMixin, HabitBaseView, CreateView):
     form_class = HabitForm
-    template_name = 'habits/habits_form.html'
+    template_name = "habits/habits_form.html"
 
     """ Used to pass the current user to the form """
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user  # Pass the current user to the form
+        kwargs["user"] = self.request.user  # Pass the current user to the form
         return kwargs
 
     def form_valid(self, form):
@@ -74,26 +83,29 @@ class HabitCreateView(LoginRequiredMixin, HabitBaseView, CreateView):
         data = clean_data_for_db(form.cleaned_data)
         data_value = {}
         for key, value in data.items():
-           data_value[key] = value
+            data_value[key] = value
         print("data_value", data_value)
 
         doc_date = datetime.now()
-        self.object = Doc(doc_type="habit", doc_date=doc_date, user=user, data=data_value)
+        self.object = Doc(
+            doc_type="habit", doc_date=doc_date, user=user, data=data_value
+        )
         self.object.save()
 
-        return_to = self.request.GET.get('return_to', '')
+        return_to = self.request.GET.get("return_to", "")
         if return_to == "feed":
             return redirect("/feed/")
         else:
             return redirect(self.get_success_url())
 
+
 class HabitUpdateView(LoginRequiredMixin, HabitBaseView, UpdateView):
     form_class = HabitForm
-    template_name = 'habits/habits_form.html'
+    template_name = "habits/habits_form.html"
 
 
 class HabitDeleteView(LoginRequiredMixin, HabitBaseView, DeleteView):
-    template_name = 'habits/habits_confirm_delete.html'
+    template_name = "habits/habits_confirm_delete.html"
     success_message = "Habits entry was deleted successfully"
 
 

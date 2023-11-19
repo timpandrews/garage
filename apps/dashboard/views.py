@@ -1,21 +1,26 @@
 import datetime
-from datetime import timedelta, timezone
+from datetime import timezone
 
-import pytz
 from dateutil import rrule
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import FormView, TemplateView
+from django.views.generic import TemplateView
 from tzlocal import get_localzone
 
 from apps.garage.models import Doc
 from common.tools import convert_to_imperial, get_unit_names
 
 from .forms import DBMonthForm
-from .helper import (convert_ranges_to_str, get_color, get_distance_history,
-                     get_last_day_of_month, get_week_range, get_weekly_rides,
-                     get_weekly_sums)
+from .helper import (
+    convert_ranges_to_str,
+    get_color,
+    get_distance_history,
+    get_last_day_of_month,
+    get_week_range,
+    get_weekly_rides,
+    get_weekly_sums,
+)
 
 
 @login_required
@@ -47,8 +52,8 @@ def dashboard(request):
     # build chart_title
     if units_display_preference == "imperial":
         chart_title = "Distance (miles) by week"
-    else: # metric
-        chart_title= "Distance (km) by week"
+    else:  # metric
+        chart_title = "Distance (km) by week"
 
     context = {
         "week": week,
@@ -153,8 +158,8 @@ def db_month(request):
     if units_display_preference == "imperial":
         chart_title = "Distance (miles) by month"
         milage = convert_to_imperial(milage, "dashboard_data")
-    else: # metric
-        chart_title= "Distance (km) by month"
+    else:  # metric
+        chart_title = "Distance (km) by month"
 
     context = {
         "form": form,
@@ -213,8 +218,8 @@ class db_year(LoginRequiredMixin, TemplateView):
         if units_display_preference == "imperial":
             chart_title = "Distance (miles) by Year"
             milage = convert_to_imperial(milage, "dashboard_data")
-        else: # metric
-            chart_title= "Distance (km) by Year"
+        else:  # metric
+            chart_title = "Distance (km) by Year"
 
         context["labels"] = years
         context["data"] = milage
@@ -230,9 +235,9 @@ class dbnew(LoginRequiredMixin, TemplateView):
     context_object_name = "chart"
 
     def get_template_names(self):
-        chart_type = self.request.GET.get('chart_type')
+        chart_type = self.request.GET.get("chart_type")
         print("*****gtn: chart_type: ", chart_type, type(chart_type))
-        if self.request.htmx: # get partial while using htmx get request
+        if self.request.htmx:  # get partial while using htmx get request
             print("_chart.html")
             return "dashboard/_chart.html"
         else:
@@ -241,7 +246,7 @@ class dbnew(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
-        chart_type = self.request.GET.get('chart_type')
+        chart_type = self.request.GET.get("chart_type")
         context["chart_type"] = chart_type
         print("chart_type: ", chart_type, type(chart_type))
 
@@ -288,4 +293,3 @@ class dbnew(LoginRequiredMixin, TemplateView):
         print("context: ", context)
 
         return context
-

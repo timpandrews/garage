@@ -57,8 +57,11 @@ def get_kudos_rtbp(user):
     """
     Get Kudos Ready To Be Placed (rtbp)
     """
-    kudos = Kudos.objects.filter(
-        user=user, active=True, placed=False).order_by("created").values()
+    kudos = (
+        Kudos.objects.filter(user=user, active=True, placed=False)
+        .order_by("created")
+        .values()
+    )
 
     return kudos
 
@@ -69,16 +72,20 @@ def update_kudos(user):
     # TODO add other types of activities
     el_act = Doc.objects.filter(
         user=user, doc_type="ride", kudosed=False, doc_date__lt=this_week_start
-        ).order_by("doc_date")
+    ).order_by("doc_date")
 
-    if not el_act: # empty
+    if not el_act:  # empty
         eligible_activities = False
-    else: # at least one eligible activitie
+    else:  # at least one eligible activitie
         eligible_activities = True
         first_act_date = el_act[0].doc_date
         # get date range for first week group of eligable activities
-        week_start = get_date_ranges(first_act_date, user)["week_start"].replace(hour=0, minute=0, second=0)
-        week_end = get_date_ranges(first_act_date, user)["week_end"].replace(hour=23, minute=59, second=59)
+        week_start = get_date_ranges(first_act_date, user)["week_start"].replace(
+            hour=0, minute=0, second=0
+        )
+        week_end = get_date_ranges(first_act_date, user)["week_end"].replace(
+            hour=23, minute=59, second=59
+        )
 
     while eligible_activities:
         # Rides
@@ -87,8 +94,8 @@ def update_kudos(user):
             user=user,
             doc_type="ride",
             kudosed=False,
-            doc_date__range=(week_start, week_end)
-            ).order_by("doc_date")
+            doc_date__range=(week_start, week_end),
+        ).order_by("doc_date")
         print("len week rides:", len(week_rides))
 
         for act in week_rides:
@@ -96,12 +103,9 @@ def update_kudos(user):
             kudos_data = {
                 "ride_id": act.id,
                 "desc": "simple ride kudos",
-                "type": "ride"
+                "type": "ride",
             }
-            Kudos.objects.create(
-                user=user,
-                data=kudos_data,
-                type="Rides")
+            Kudos.objects.create(user=user, data=kudos_data, type="Rides")
 
             # one ride has been evaluated marked it as "kudosed"
             Doc.objects.filter(id=act.id).update(kudosed=True)
@@ -110,39 +114,36 @@ def update_kudos(user):
         if len(week_rides) >= 3:
             kudos_data = {
                 "desc": "extra ride kudos for 3+ rides",
-                "type": "rides_bonus"
+                "type": "rides_bonus",
             }
-            Kudos.objects.create(
-                user=user,
-                data=kudos_data,
-                type="Rides")
+            Kudos.objects.create(user=user, data=kudos_data, type="Rides")
 
         # give two extra kudos for weeks with 5+ rides
         if len(week_rides) >= 5:
             kudos_data = {
                 "desc": "extra ride kudos for 5+ rides",
-                "type": "rides_bonus"
+                "type": "rides_bonus",
             }
             for x in range(2):
-                Kudos.objects.create(
-                    user=user,
-                    data=kudos_data,
-                    type="Rides")
+                Kudos.objects.create(user=user, data=kudos_data, type="Rides")
 
         # find any remaing eligable activities
         print("find any remaing eligable activities")
         el_act = Doc.objects.filter(
             user=user, doc_type="ride", kudosed=False, doc_date__lt=this_week_start
-            ).order_by("doc_date")
+        ).order_by("doc_date")
         print("this week start:", this_week_start)
         print(len(el_act))
 
-        if not el_act: # empty
+        if not el_act:  # empty
             eligible_activities = False
-        else: # at least one eligible activitie
+        else:  # at least one eligible activitie
             eligible_activities = True
             first_act_date = el_act[0].doc_date
             # get date range for next week group of eligable activities
-            week_start = get_date_ranges(first_act_date, user)["week_start"].replace(hour=0, minute=0, second=0)
-            week_end = get_date_ranges(first_act_date, user)["week_end"].replace(hour=23, minute=59, second=59)
-
+            week_start = get_date_ranges(first_act_date, user)["week_start"].replace(
+                hour=0, minute=0, second=0
+            )
+            week_end = get_date_ranges(first_act_date, user)["week_end"].replace(
+                hour=23, minute=59, second=59
+            )

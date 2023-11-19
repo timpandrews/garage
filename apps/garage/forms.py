@@ -6,52 +6,67 @@ from django.contrib.auth.models import User
 from .models import Profile
 
 UNITS_DISPLAY_PREFERENCE_CHOICES = [
-    ('metric', 'Metric (Kilometers and Kilograms)'),
-    ('imperial', 'Imperial (Miles and Pounds)'),
+    ("metric", "Metric (Kilometers and Kilograms)"),
+    ("imperial", "Imperial (Miles and Pounds)"),
 ]
 
 
 # Sign Up Form
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional')
-    email = forms.EmailField(max_length=254, help_text='Enter a valid email address')
+    first_name = forms.CharField(max_length=30, required=False, help_text="Optional")
+    last_name = forms.CharField(max_length=30, required=False, help_text="Optional")
+    email = forms.EmailField(max_length=254, help_text="Enter a valid email address")
 
     class Meta:
         model = User
         fields = [
-            'username',
-            'first_name',
-            'last_name',
-            'email',
-            'password1',
-            'password2',
-            ]
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "password1",
+            "password2",
+        ]
 
 
 class UpdateUserForm(forms.ModelForm):
     first_name = forms.CharField(
-        max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
+        max_length=50,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
     last_name = forms.CharField(
-        max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
+        max_length=50,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
     email = forms.CharField(
-        required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
+        required=True, widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email',]
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+        ]
 
 
 class UpdateProfileForm(forms.ModelForm):
     bio = forms.CharField(
-        required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-    location = forms.CharField(
-        max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
-    birth_date = forms.DateField(
-        required=False, widget=DatePickerInput(attrs={"class": "form-control"}))
-    profile_pic = forms.ImageField(
-        label="Profile Picture",
-        required=False
+        required=False,
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 5}),
     )
+    location = forms.CharField(
+        max_length=50,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    birth_date = forms.DateField(
+        required=False, widget=DatePickerInput(attrs={"class": "form-control"})
+    )
+    profile_pic = forms.ImageField(label="Profile Picture", required=False)
     strava_url = forms.CharField(
         label="Strava Profile URL",
         max_length=200,
@@ -65,10 +80,10 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = [
-            'bio',
-            'location',
-            'birth_date',
-            'profile_pic',
-            'strava_url',
-            'units_display_preference'
+            "bio",
+            "location",
+            "birth_date",
+            "profile_pic",
+            "strava_url",
+            "units_display_preference",
         ]

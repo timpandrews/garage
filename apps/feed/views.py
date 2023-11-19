@@ -1,6 +1,10 @@
-from common.tools import (build_elevation_chart, build_map,
-                          clean_data_for_display, convert_to_imperial,
-                          get_unit_names)
+from common.tools import (
+    build_elevation_chart,
+    build_map,
+    clean_data_for_display,
+    convert_to_imperial,
+    get_unit_names,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView
 
@@ -48,7 +52,9 @@ class FeedView(LoginRequiredMixin, ListView):
         context = super(FeedView, self).get_context_data(**kwargs)
         user = self.request.user
 
-        member_joined_date = Doc.objects.filter(user=user, doc_type="joined").values("doc_date")
+        member_joined_date = Doc.objects.filter(user=user, doc_type="joined").values(
+            "doc_date"
+        )
         member_joined_date = member_joined_date[0]["doc_date"]
         member_joined_date = member_joined_date.strftime("%B %d, %Y")
         context["member_joined_date"] = member_joined_date

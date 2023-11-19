@@ -1,9 +1,6 @@
-import json
 import os
 from datetime import datetime, timedelta, timezone
 
-import fitdecode
-from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -18,11 +15,17 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from apps.garage.models import Doc, ZwiftRouteList
-from common.tools import (clean_data_for_db, clean_data_for_display,
-                          clean_data_for_edit, convert_to_imperial,
-                          convert_to_metric, get_detail_from_input_data,
-                          get_total_work, get_weighted_average_power,
-                          import_fit_file)
+from common.tools import (
+    clean_data_for_db,
+    clean_data_for_display,
+    clean_data_for_edit,
+    convert_to_imperial,
+    convert_to_metric,
+    get_detail_from_input_data,
+    get_total_work,
+    get_weighted_average_power,
+    import_fit_file,
+)
 
 from .forms import RideFormImperial, RideFormMetric
 
@@ -89,7 +92,7 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
             return RideFormMetric
         elif self.request.user.profile.units_display_preference == "imperial":
             return RideFormImperial
-        else: # default to Metric
+        else:  # default to Metric
             return RideFormMetric
 
     def form_valid(self, form):
@@ -110,7 +113,7 @@ class RideCreateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Crea
         self.object = Doc(doc_type="ride", doc_date=doc_date, user=user, data=data)
         self.object.save()
 
-        return_to = self.request.GET.get('return_to', '')
+        return_to = self.request.GET.get("return_to", "")
         if return_to == "feed":
             return redirect("/feed/")
         else:
@@ -127,7 +130,7 @@ class RideUpdateView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Upda
             return RideFormMetric
         elif self.request.user.profile.units_display_preference == "imperial":
             return RideFormImperial
-        else: # default to Metric
+        else:  # default to Metric
             return RideFormMetric
 
     def get_initial(self):
@@ -167,29 +170,32 @@ class RideDeleteView(LoginRequiredMixin, SuccessMessageMixin, RideBaseView, Dele
 
 @login_required
 def ride_import_fit(request):
-    return_to = request.GET.get('return_to', '')
+    return_to = request.GET.get("return_to", "")
     context = {}
     units_display_preference = request.user.profile.units_display_preference
     if units_display_preference == "imperial":
         form = RideFormImperial(request.POST or None)
-    else: # default to Metric
+    else:  # default to Metric
         form = RideFormMetric(request.POST or None)
-
 
     if request.method == "POST":
         # COMMENT - Import Fit File Form
         if "import_fit" in request.POST:
             # TODO - Do I need to check who created the file? ie Zwift, Garmin, etc
             # TODO - If so, Do I need to handle files from each source differently?
-            uploaded_file = request.FILES['fit_file'] if 'fit_file' in request.FILES else None
+            uploaded_file = (
+                request.FILES["fit_file"] if "fit_file" in request.FILES else None
+            )
 
-            if uploaded_file: # check if file was uploaded
+            if uploaded_file:  # check if file was uploaded
                 # check file extension to make sure it's a FIT file
                 if uploaded_file.name[-4:] == ".fit":
                     fs = FileSystemStorage()
                     fit_file = fs.save(uploaded_file.name, uploaded_file)
                     fit_file_path = fs.path(fit_file)
-                    messages.success(request, "You have upload the file: " + uploaded_file.name)
+                    messages.success(
+                        request, "You have upload the file: " + uploaded_file.name
+                    )
                     context["uploaded_file_name"] = uploaded_file.name
 
                     # read FIT file
@@ -197,14 +203,13 @@ def ride_import_fit(request):
 
                     # pre populate ride form with data from FIT file
                     pre_pop_form_data = get_data_from_fit_to_pre_pop_form(
-                        uploaded_file.name,
-                        fit_file_data
+                        uploaded_file.name, fit_file_data
                     )
 
                     # create form with pre populated data
                     if units_display_preference == "imperial":
                         form = RideFormImperial(initial=pre_pop_form_data)
-                    else: # default to Metric
+                    else:  # default to Metric
                         form = RideFormMetric(initial=pre_pop_form_data)
                     context["form"] = form
 
@@ -212,15 +217,16 @@ def ride_import_fit(request):
                     messages.error(
                         request,
                         "Sorry we couldn't upload that file.  The file must be a .fit file.  "
-                        "Please select a .fit file and try again."
+                        "Please select a .fit file and try again.",
                     )
-            else: # no file uploaded
-                messages.error(request, "No file uploaded, please select a file to upload")
+            else:  # no file uploaded
+                messages.error(
+                    request, "No file uploaded, please select a file to upload"
+                )
 
         # COMMENT - Create Ride from form w/ extra fit_file_data
         elif "create_ride" in request.POST:
             if form.is_valid():
-
                 object = form.save(commit=False)
                 user = request.user
                 data = form.cleaned_data
@@ -230,10 +236,12 @@ def ride_import_fit(request):
                 fit_file_name = data["fitfile"]
                 fit_file_path = settings.MEDIA_ROOT + "/" + fit_file_name
                 input_data = import_fit_file(fit_file_path)
-                os.remove(fit_file_path) # delete file from media directory after reading
-                del data["fitfile"] # remove fit_file_name from dict
+                os.remove(
+                    fit_file_path
+                )  # delete file from media directory after reading
+                del data["fitfile"]  # remove fit_file_name from dict
 
-                format =  "fit"
+                format = "fit"
                 detail = get_detail_from_input_data(format, input_data)
 
                 data = clean_data_for_db(data)
@@ -248,11 +256,12 @@ def ride_import_fit(request):
                     data = convert_to_metric(data, "ride")
 
                 object = Doc(
-                    doc_type = "ride",
-                    doc_date = doc_date,
-                    user = user,
-                    data = data,
-                    detail = detail)
+                    doc_type="ride",
+                    doc_date=doc_date,
+                    user=user,
+                    data=data,
+                    detail=detail,
+                )
                 object.save()
                 messages.success(request, "Ride was created successfully")
 
@@ -262,10 +271,9 @@ def ride_import_fit(request):
                     return redirect("/rides/")
             else:
                 messages.error(
-                        request,
-                        "Sorry we couldn't process this ride.  Please check the form and try again."
-                    )
-
+                    request,
+                    "Sorry we couldn't process this ride.  Please check the form and try again.",
+                )
 
     return render(request, "rides/ride_import_fit.html", context)
 
@@ -281,30 +289,35 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
     ride_title = ride_title.replace("Watopia s Waistband", "Watopia's Waistband")
 
     # TODO - It would be better to user regex to find route name and world name in ride title
-    list_of_route_names = ZwiftRouteList.objects.all().values_list("route_name", flat=True)
+    list_of_route_names = ZwiftRouteList.objects.all().values_list(
+        "route_name", flat=True
+    )
     # loop through list of route names and check if route name is in ride title
     route_name = "Unknown"
     for route in list_of_route_names:
         if route in ride_title:
-             route_name = route
+            route_name = route
 
-
-    list_of_worlds_names = ZwiftRouteList.objects.values_list("world_name", flat=True).distinct()
+    list_of_worlds_names = ZwiftRouteList.objects.values_list(
+        "world_name", flat=True
+    ).distinct()
     # loop through list of world names and check if world name is in ride title
     world_name = "Unknown"
     for world in list_of_worlds_names:
         if world in ride_title:
-             world_name = world
+            world_name = world
 
     route = f"{route_name} in {world_name}"
 
-    start = fit_file_data["session"][0]["start_time"].replace(" UTC", "") # FIXME - This is a hack to get the time to work
+    start = fit_file_data["session"][0]["start_time"].replace(
+        " UTC", ""
+    )  # FIXME - This is a hack to get the time to work
 
     distance = round(fit_file_data["session"][0]["total_distance"] / 1000, 2)
 
     duration = timedelta(seconds=fit_file_data["session"][0]["total_elapsed_time"])
 
-    elevation = (fit_file_data["session"][0]["total_ascent"])
+    elevation = fit_file_data["session"][0]["total_ascent"]
 
     # NOTE - speed is in m/s, so multiply by 3.6 to get km/h
     speed_avg = round(fit_file_data["session"][0]["avg_speed"] * 3.6, 1)
@@ -328,11 +341,13 @@ def get_data_from_fit_to_pre_pop_form(file_name, fit_file_data):
     power_data = list()
     interval_data = list()
     for i, record in enumerate(fit_file_data["record"]):
-        timestamp = datetime.strptime(record["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
+        timestamp = datetime.strptime(record["timestamp"], "%Y-%m-%d %H:%M:%S %Z")
         # get timestamp from previous record and determine interval (in seconds)
         # between records
         if i > 0:
-            prev_timestamp = datetime.strptime(fit_file_data["record"][i-1]["timestamp"], '%Y-%m-%d %H:%M:%S %Z')
+            prev_timestamp = datetime.strptime(
+                fit_file_data["record"][i - 1]["timestamp"], "%Y-%m-%d %H:%M:%S %Z"
+            )
             time_between_records = timestamp - prev_timestamp
             time_between_records = time_between_records.total_seconds()
         else:

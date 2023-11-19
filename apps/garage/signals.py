@@ -20,10 +20,7 @@ def update_user_profile(sender, instance, created, **kwargs):
     print("update_user_profile")
     # Create a profile for a user when the user is created
     if created:
-        Profile.objects.create(
-            user=instance,
-            habits={"habit1":"Be Kind"}
-        )
+        Profile.objects.create(user=instance, habits={"habit1": "Be Kind"})
         instance.profile.save()
 
 
@@ -40,9 +37,5 @@ def create_first_activity(sender, instance, created, **kwargs):
         )
 
 
-
-
-
 # TODO: create signal to create a trophy for joining the site, cause everyone gets a trophy!
 # def create_welcome_to_the_site_trophy...
-

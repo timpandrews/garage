@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,9 +8,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import HttpResponseRedirect, render
 from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
-from collections import defaultdict
 
-from apps.garage.models import Profile, Kudos
+from apps.garage.models import Kudos, Profile
 
 from .forms import TrophiesForm
 
@@ -17,22 +17,18 @@ from .forms import TrophiesForm
 class TrophiesRedirectView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         user_id = self.request.user.id
-        url = f'/trophies/view/{user_id}'
+        url = f"/trophies/view/{user_id}"
         return url
-
 
 
 @login_required
 def trophies_view(request, user_id):
     user = User.objects.get(id=user_id)
-    profile = Profile.objects.get(user = user)
+    profile = Profile.objects.get(user=user)
     trophies_edit = profile.trophies_edit
     trophies_view = profile.trophies_view
 
-    context = {
-        "trophies_edit": trophies_edit,
-        "trophies_view": trophies_view
-    }
+    context = {"trophies_edit": trophies_edit, "trophies_view": trophies_view}
 
     return render(request, "trophies/trophies_view.html", context)
 
@@ -40,8 +36,8 @@ def trophies_view(request, user_id):
 @login_required
 def trophies_edit(request, user_id):
     user = User.objects.get(id=user_id)
-    user_profile = Profile.objects.get(user = user)
-    form = TrophiesForm(instance = user_profile)
+    user_profile = Profile.objects.get(user=user)
+    form = TrophiesForm(instance=user_profile)
 
     if request.method == "POST":
         form = TrophiesForm(request.POST, instance=user_profile)
@@ -51,7 +47,7 @@ def trophies_edit(request, user_id):
             messages.success(request, "You have updated The Trophies Page")
             return HttpResponseRedirect(request.path_info)
 
-    context ={
+    context = {
         "form": form,
     }
 
@@ -62,13 +58,10 @@ def trophies_share(request, username):
     # TODO: this is a hack, fix it
     try:
         user = User.objects.get(username=username)
-        profile = Profile.objects.get(user = user)
+        profile = Profile.objects.get(user=user)
         trophies_view = profile.trophies_view
 
-        context = {
-            "username": username,
-            "trophies_view": trophies_view
-        }
+        context = {"username": username, "trophies_view": trophies_view}
 
         return render(request, "trophies/trophies_share.html", context)
     except:
@@ -88,7 +81,7 @@ def sub_for_codes(profile_id, user):
     if len(codes) == 0:
         Profile.objects.filter(id=profile_id).update(trophies_view=trophies_edit)
 
-    else: # if there are matches
+    else:  # if there are matches
         trophies_work = trophies_edit
         for code in codes:
             match = r"&lt;" + code + r"&gt;"
@@ -146,9 +139,9 @@ def remove_duplicate_codes(codes):
     # find dups and create a dictionary with duplicate codes and their
     # indicies
     Dups = defaultdict(list)
-    for i,code in enumerate(codes):
+    for i, code in enumerate(codes):
         Dups[code].append(i)
-    Dups = {k:v for k,v in Dups.items() if len(v)>1}
+    Dups = {k: v for k, v in Dups.items() if len(v) > 1}
 
     # loop through dups & then loop through codes and remove 2nd and
     # subsiquent occurences of dups.

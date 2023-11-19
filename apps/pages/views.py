@@ -19,4 +19,3 @@ class TermsView(TemplateView):
 
 class FAQView(TemplateView):
     template_name = "pages/faq.html"
-

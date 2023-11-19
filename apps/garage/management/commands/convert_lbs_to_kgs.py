@@ -21,5 +21,3 @@ class Command(BaseCommand):
                     print("Converted:", doc.data)
         else:
             print("Try another ID, no hp docs found")
-
-

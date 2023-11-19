@@ -17,7 +17,7 @@ class HabitForm(forms.ModelForm):
         )
 
         habits = Profile.objects.filter(user=user).values("habits").first()["habits"]
-        HABITS = [('','Please select one of your good habits')]
+        HABITS = [("", "Please select one of your good habits")]
         for key, habit in habits.items():
             habit_tuple = (habit, habit)
             HABITS.append(habit_tuple)
@@ -27,7 +27,6 @@ class HabitForm(forms.ModelForm):
             help_text="""Please select one of your good habits that you have
                         performed.  These habits are defined in your profile.""",
         )
-
 
     class Meta:
         model = Doc

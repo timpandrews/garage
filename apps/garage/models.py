@@ -1,12 +1,11 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse
 
 
 class Doc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    doc_type = models.CharField(max_length = 200)
+    doc_type = models.CharField(max_length=200)
     doc_date = models.DateTimeField()
     data = models.JSONField(blank=True, default=dict)
     detail = models.JSONField(blank=True, default=dict)
@@ -25,16 +24,24 @@ class Doc(models.Model):
 
 
 KUDOS_TYPES = (
-    ("App", "app"), # Application Kudos
+    ("App", "app"),  # Application Kudos
     ("Rides", "rides"),
-    ("HP", "hp"), # health points
+    ("HP", "hp"),  # health points
 )
 
+
 class Kudos(models.Model):
-    hex = models.CharField(max_length=8, blank=True) # value set in signals.create_hexkey()
-    key = models.CharField(max_length=20, blank=True) # value set in signals.create_hexkey()
+    hex = models.CharField(
+        max_length=8, blank=True
+    )  # value set in signals.create_hexkey()
+    key = models.CharField(
+        max_length=20, blank=True
+    )  # value set in signals.create_hexkey()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    type = models.CharField(max_length=20, choices=KUDOS_TYPES,)
+    type = models.CharField(
+        max_length=20,
+        choices=KUDOS_TYPES,
+    )
     data = models.JSONField(blank=True, default=dict)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -56,13 +63,13 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     trophies_edit = RichTextField(blank=True, null=True)
     trophies_view = models.TextField(blank=True, null=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pics')
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="profile_pics")
     strava_url = models.CharField(max_length=200, blank=True, null=True)
     units_display_preference = models.CharField(max_length=20, blank=True, null=True)
     habits = models.JSONField(blank=True, default=dict)
 
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return f"{self.user.username} Profile"
 
 
 Zwift_worlds = (
@@ -80,6 +87,7 @@ Zwift_worlds = (
     ("Scotland", "Scotland"),
     ("Gravel Mountain", "Gravel Mountain"),
 )
+
 
 class ZwiftRouteList(models.Model):
     route_name = models.CharField(max_length=200)

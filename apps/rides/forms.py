@@ -4,6 +4,7 @@ from django.forms import ModelForm
 
 from apps.garage.models import Doc
 
+
 class RideFormBase(ModelForm):
     start = forms.DateTimeField(
         required=True,
@@ -14,11 +15,7 @@ class RideFormBase(ModelForm):
         max_length=200,
         required=False,
     )
-    route = forms.CharField(
-        label="Route",
-        max_length=200,
-        required=False
-    )
+    route = forms.CharField(label="Route", max_length=200, required=False)
     equipment = forms.CharField(
         label="Equipment",
         max_length=200,

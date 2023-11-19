@@ -1,4 +1,3 @@
-import json
 from datetime import datetime, timedelta
 
 import fitdecode
@@ -27,12 +26,17 @@ def import_fit_file(file_path):
         data = []
         with fitdecode.FitReader(file_path) as fit:
             for frame in fit:
-                if frame.frame_type == fitdecode.FIT_FRAME_DATA and frame.name == data_type:
+                if (
+                    frame.frame_type == fitdecode.FIT_FRAME_DATA
+                    and frame.name == data_type
+                ):
                     row = {}
                     for field in frame:
                         # TODO do I need to convert datatime to string if I don't convert to JSON?
                         if type(field.value) == datetime:
-                            row[field.name] = field.value.strftime('%Y-%m-%d %H:%M:%S %Z')
+                            row[field.name] = field.value.strftime(
+                                "%Y-%m-%d %H:%M:%S %Z"
+                            )
                         else:
                             row[field.name] = field.value
                     data.append(row)
@@ -65,8 +69,8 @@ def get_detail_from_input_data(format, input_data):
             point = {key: value for key, value in point.items() if value is not None}
 
             # Convert semicircles to degrees
-            point["position_lat"] = point["position_lat"] * 180 / 2 ** 31
-            point["position_long"] = point["position_long"] * 180 / 2 ** 31
+            point["position_lat"] = point["position_lat"] * 180 / 2**31
+            point["position_long"] = point["position_long"] * 180 / 2**31
 
             # Conver speed from m/s to km/h so multiply by 3.6 to get km/h
             point["speed"] = round(point["speed"] * 3.6, 1)
@@ -259,7 +263,7 @@ def get_unit_names(units_display_preference):
         unit_names["elevation"] = "ft"
         unit_names["temperature"] = "F"
 
-    else: # metric is the default setting
+    else:  # metric is the default setting
         unit_names["distance"] = "km"
         unit_names["speed"] = "km/h"
         unit_names["weight"] = "kg"
@@ -318,7 +322,7 @@ def convert_to_imperial(data, type):
     if type == "dashboard_data":
         # convert each item in the data list
         for i, item in enumerate(data):
-            data[i] = round(item * 0.621371 )
+            data[i] = round(item * 0.621371)
 
     return data
 
@@ -411,7 +415,7 @@ def build_map(activity):
         m = folium.Map(
             location=[centroid[0], centroid[1]],
             zoom_start=13,
-            tiles='OpenStreetMap',
+            tiles="OpenStreetMap",
         )
         folium.PolyLine(route).add_to(m)
         return m._repr_html_()

@@ -96,7 +96,7 @@ def get_weekly_sums(weekly_rides):
     time_str = time_parts[0] + "h " + time_parts[1] + "m " + time_parts[2] + "s "
     sums["time"] = time_str
     # BUG: elevation & calories are not required fields these sums will fail if
-    # a ride has null values for these fields.  See issue #42 
+    # a ride has null values for these fields.  See issue #42
     # (https://github.com/timpandrews/garage/issues/42)
     sums["elevation"] = elevation
     sums["calories"] = calories
@@ -128,7 +128,7 @@ def convert_ranges_to_str(input_ranges):
 def get_color(colors, index):
     """
     loops through list of colors if in returning next color, when you
-    reach the end it will then start back at the begining.  Unlike
+    reach the end it will then start back at the beginning.  Unlike
     the itertools.cycle() function this function always starts with
     colors[0]
 

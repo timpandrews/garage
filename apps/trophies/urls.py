@@ -1,9 +1,8 @@
 from django.urls import path
 
-from .views import (TrophiesRedirectView, trophies_edit, trophies_share,
-                    trophies_view)
+from .views import TrophiesRedirectView, trophies_edit, trophies_share, trophies_view
 
-app_name = 'trophies'
+app_name = "trophies"
 
 urlpatterns = [
     path("trophies/", TrophiesRedirectView.as_view(), name="trophies"),

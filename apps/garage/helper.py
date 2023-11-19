@@ -1,5 +1,4 @@
 import calendar
-import time
 from datetime import date, datetime, timedelta
 
 from apps.garage.models import Doc
@@ -10,10 +9,10 @@ def get_date_ranges(input_date, user):
     week_end = week_start + timedelta(days=6)
 
     month_start = date(input_date.year, input_date.month, 1)
-    month_end =date(
+    month_end = date(
         input_date.year,
         input_date.month,
-        calendar.monthrange(input_date.year, input_date.month)[1]
+        calendar.monthrange(input_date.year, input_date.month)[1],
     )
 
     year_start = date(input_date.year, 1, 1)
@@ -26,10 +25,8 @@ def get_date_ranges(input_date, user):
         earliest_ride = "N/A"
         start_date = date.today()
 
-
     lifetime_start = date(start_date.year, start_date.month, start_date.day)
     lifetime_end = year_end
-
 
     date_ranges = {}
     date_ranges["week_start"] = week_start
@@ -45,7 +42,7 @@ def get_date_ranges(input_date, user):
 
 
 def rides_serializer(rides_qs):
-    """ Takes queryset obj of rides with normal sql fields & sql jsonb field
+    """Takes queryset obj of rides with normal sql fields & sql jsonb field
         Will create a dictionary of each ride & pull individual values from the
         jsonb field
         Will then create and return a list of dictionaries
@@ -73,15 +70,17 @@ def rides_serializer(rides_qs):
                 ride_dict[k] = v
         rides.append(ride_dict)
 
-    return(rides)
+    return rides
 
 
 def get_rides_in_range(user, start, end):
-    rides = rides_serializer(Doc.objects.filter(
-        user = user,
-        doc_type = "ride",
-        doc_date__range=[start, end],
-        active = True,
-        ))
+    rides = rides_serializer(
+        Doc.objects.filter(
+            user=user,
+            doc_type="ride",
+            doc_date__range=[start, end],
+            active=True,
+        )
+    )
 
     return rides

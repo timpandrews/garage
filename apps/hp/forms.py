@@ -8,6 +8,7 @@ class GenericHPForm(forms.ModelForm):
         widget=forms.HiddenInput(),
         initial="other",
     )
+
     class Meta:
         model = Doc
         fields = ["type", "data"]
@@ -38,7 +39,7 @@ class BPHPForm(forms.ModelForm):
     )
 
     class Meta:
-        model=Doc
+        model = Doc
         exclude = (
             "user",
             "doc_type",
@@ -59,6 +60,7 @@ class BaseWeightForm(forms.ModelForm):
     Args:
         forms.ModelForm
     """
+
     type = forms.CharField(
         widget=forms.HiddenInput(),
         initial="weight",
@@ -87,6 +89,7 @@ class MetricWeightForm(BaseWeightForm):
     Args:
         BaseWeightForm (class): Base class for weight forms.
     """
+
     weight = forms.IntegerField(
         label="Weight (kg)",
         min_value=0,
@@ -101,6 +104,7 @@ class ImperialWeightForm(BaseWeightForm):
     Args:
         BaseWeightForm (class): Base class for weight forms.
     """
+
     weight = forms.IntegerField(
         label="Weight (lb)",
         min_value=0,

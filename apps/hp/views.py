@@ -3,23 +3,28 @@ from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView, View)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+    View,
+)
 
 from apps.garage.models import Doc
 from common.tools import convert_to_imperial, convert_to_metric, get_unit_names
 
-from .forms import (BPHPForm, GenericHPForm, ImperialWeightForm,
-                    MetricWeightForm)
+from .forms import BPHPForm, GenericHPForm, ImperialWeightForm, MetricWeightForm
 
 
 class HPBaseView(View):
     model = Doc
-    success_url = reverse_lazy('hp:list')
+    success_url = reverse_lazy("hp:list")
 
 
 class HPListView(LoginRequiredMixin, HPBaseView, ListView):
-    template_name = 'hp/hp_list.html'
+    template_name = "hp/hp_list.html"
     context_object_name = "hps"
     paginate_by = 20
 
@@ -48,13 +53,13 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
 
         data = build_data_value(form.cleaned_data)
         if unit_display_preference == "imperial":
-            data = convert_to_metric(data, 'weight')
+            data = convert_to_metric(data, "weight")
 
         doc_date = datetime.now()
         self.object = Doc(doc_type="hp", doc_date=doc_date, user=user, data=data)
         self.object.save()
 
-        return_to = self.request.GET.get('return_to', '')
+        return_to = self.request.GET.get("return_to", "")
         if return_to == "feed":
             return redirect("/feed/")
         else:
@@ -62,8 +67,7 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
 
     def get_form_class(self):
         form_class = set_form_class(
-            self.kwargs,
-            self.request.user.profile.units_display_preference
+            self.kwargs, self.request.user.profile.units_display_preference
         )
         return form_class
 
@@ -72,10 +76,10 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
         user = self.request.user
         units_display_preference = user.profile.units_display_preference
 
-        if 'hp_type' in self.kwargs:
-            hp_type = self.kwargs['hp_type']
+        if "hp_type" in self.kwargs:
+            hp_type = self.kwargs["hp_type"]
         else:
-            hp_type = 'generic'
+            hp_type = "generic"
 
         context["unit_names"] = get_unit_names(units_display_preference)
         context["hp_type"] = hp_type
@@ -92,7 +96,7 @@ class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
         hp = self.get_object()
         units_display_preference = self.request.user.profile.units_display_preference
         if units_display_preference == "imperial":
-            hp.data = convert_to_imperial(hp.data, 'weight')
+            hp.data = convert_to_imperial(hp.data, "weight")
         return hp.data
 
     def get_form_class(self):
@@ -107,13 +111,13 @@ class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
 
         data = build_data_value(form.cleaned_data)
         if unit_display_preference == "imperial":
-            data = convert_to_metric(data, 'weight')
+            data = convert_to_metric(data, "weight")
 
         doc_date = self.object.doc_date
         self.object.data = data
         self.object.save()
 
-        return_to = self.request.GET.get('return_to', '')
+        return_to = self.request.GET.get("return_to", "")
         if return_to == "feed":
             return redirect("/feed/")
         else:
@@ -124,16 +128,17 @@ class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
         user = self.request.user
         units_display_preference = user.profile.units_display_preference
 
-        if 'hp_type' in self.kwargs:
-            hp_type = self.kwargs['hp_type']
+        if "hp_type" in self.kwargs:
+            hp_type = self.kwargs["hp_type"]
         else:
-            hp_type = 'generic'
+            hp_type = "generic"
 
         context["unit_names"] = get_unit_names(units_display_preference)
         context["hp_type"] = hp_type
         context["display_pref"] = units_display_preference
 
         return context
+
 
 class HPDeleteView(LoginRequiredMixin, HPBaseView, DeleteView):
     template_name = "hp/hp_confirm_delete.html"
@@ -144,7 +149,7 @@ class HPDeleteView(LoginRequiredMixin, HPBaseView, DeleteView):
         if hp.data["type"]:
             hp_type = hp.data["type"]
         else:
-            hp_type = 'generic'
+            hp_type = "generic"
 
         context["hp_type"] = hp_type
 
@@ -161,21 +166,21 @@ def set_form_class(kwargs, units_display_preference):
     Returns:
         _type_: the form class to be used
     """
-    if 'hp_type' in kwargs:
-        hp_type = kwargs['hp_type']
+    if "hp_type" in kwargs:
+        hp_type = kwargs["hp_type"]
     else:
-        hp_type = 'generic'
+        hp_type = "generic"
 
-    if hp_type == 'generic':
+    if hp_type == "generic":
         form_class = GenericHPForm
-    elif hp_type == 'weight':
-        if units_display_preference == 'imperial':
+    elif hp_type == "weight":
+        if units_display_preference == "imperial":
             form_class = ImperialWeightForm
-        else: # metric by default
+        else:  # metric by default
             form_class = MetricWeightForm
-    elif hp_type == 'bp':
+    elif hp_type == "bp":
         form_class = BPHPForm
-    elif hp_type == 'other':
+    elif hp_type == "other":
         form_class = GenericHPForm
 
     return form_class
@@ -194,7 +199,7 @@ def build_data_value(data):
     for key, value in data.items():
         # if value is a dict called data then update the data_value dict
         # this accounts for the "other" type and the GenericHPForm
-        if key == 'data':
+        if key == "data":
             data_value.update(value)
         # else if value a single value then append that key/value pair to the data_value dict
         else:
