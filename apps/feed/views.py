@@ -84,6 +84,7 @@ class DetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
         user = self.request.user
+        user_display_pref = user.profile.units_display_preference
 
         chart = {}
 
@@ -94,7 +95,7 @@ class DetailView(LoginRequiredMixin, DetailView):
 
         activity_type = doc.doc_type
 
-        if user.profile.units_display_preference == "imperial":
+        if user_display_pref == "imperial":
             activity = convert_to_imperial(activity, activity_type)
 
         if activity_type == "ride":
@@ -118,4 +119,33 @@ class DetailView(LoginRequiredMixin, DetailView):
         context["display_pref"] = user.profile.units_display_preference
         context["unit_names"] = get_unit_names(user.profile.units_display_preference)
 
+        context["kudos"] = getKudos(doc, user_display_pref)
+        print(context)
+
         return context
+
+
+def getKudos(doc, user_display_pref):
+    """
+    Calculate the kudos based on the distance and user display preference.  Other
+    kudos may be added in the future.
+
+    Args:
+        doc (dict): The document containing the data.
+        user_display_pref (str): The user's display preference ("imperial" or "metric").
+
+    Returns:
+        dict: A dictionary containing the calculated kudos.
+    """
+    kudos = dict()
+
+    if user_display_pref == "imperial":
+        beats = doc.data["distance"] * 20
+    else: # if metric of no preference (metric is default)
+        user_display_pref == "metric"
+        beats = round(doc.data["distance"] * 32.1869)
+
+    kudos["beats"] = beats
+
+    return kudos
+        

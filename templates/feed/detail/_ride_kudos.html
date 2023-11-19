@@ -1,6 +1,7 @@
+{% load humanize %}
 <div class="card m-2">
-    <h5 class="card-title mt-2 ms-2">Trophies, Badges & Kudos</h5>
+    <h5 class="card-title mt-2 ms-2">Congratulation on Your Ride!</h5>
     <div class="card-body">
-        <p class="card-text">More to come...</p>
+        You earned <strong><em><i class="bi bi-activity"></i>{{ kudos.beats|intcomma }} beats</em></strong> for this ride. Well done!
     </div>
 </div>
