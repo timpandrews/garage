@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -19,7 +20,6 @@ def update_user_profile(sender, instance, created, **kwargs):
     print("update_user_profile")
     # Create a profile for a user when the user is created
     if created:
-        print("created")
         Profile.objects.create(
             user=instance,
             habits={"habit1":"Be Kind"}
