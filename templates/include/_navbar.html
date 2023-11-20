@@ -52,12 +52,20 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                     <!-- Profile & Login/Logout Pages-->
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            {% comment %} <a class="nav-link w3-text-black w3-large" href="{% url 'profile' user.id %}"> {% endcomment %}
-                            <a class="nav-link w3-text-black w3-large" href="{% url 'profile' %}">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link w3-text-black w3-large dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-bounding-box"></i>
-                                {{ user }}({{ user.id}})
+                                {{ user }}
                             </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">Manage User Profile</a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'habits:manage' %}">Manage Good Habits</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-box-arrow-in-left me-1"></i>Logout</a>
@@ -67,6 +75,7 @@
                             <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
                         </li>
                     {% endif %}
+
                     <!-- Admin Page -->
                     {% if user.is_superuser %}
                         <li class="nav-item dropdown">
@@ -78,9 +87,21 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'rides:list' %}">Rides</a></li>
                                 <li><a class="dropdown-item" href="{% url 'hp:list' %}">HP</a></li>
+                                <li><a class="dropdown-item" href="{% url 'habits:list' %}">Habits</a></li>
                             </ul>
                         </li>
+
+                        <!--Show Envirnonment-->
+                        <!-- TODO: This should be removed at some point -->
+                        <span class="nav-item">
+                            <span class="nav-link" style="background-color:{{ENVIRONMENT_COLOR}}">
+                                <i class="bi bi-server me-2"></i><small>{{ ENVIRONMENT_NAME }}</small>
+                            </span>
+                        </span>
                     {% endif %}
+
+
+
                 </ul>
             </div>
         </div>
