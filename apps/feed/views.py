@@ -120,7 +120,6 @@ class DetailView(LoginRequiredMixin, DetailView):
         context["unit_names"] = get_unit_names(user.profile.units_display_preference)
 
         context["kudos"] = getKudos(doc, user_display_pref)
-        print(context)
 
         return context
 
