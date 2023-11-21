@@ -8,6 +8,7 @@ urlpatterns = [
     path("jsil8n/", JavaScriptCatalog.as_view(), name="js-catalog"),
     path("admin/", include("admin_honeypot.urls")),  # admin_honeypot
     path("delta/", admin.site.urls, name="admin"),  # actual admin page
+    path("__debug__/", include("debug_toolbar.urls")),  # django-debug-toolbar
     # NOTE: Change accounts/* to user_stuff/*
     # NOTE: Is there a better name then user_stuff?
     path("user_stuff/", include("django.contrib.auth.urls")),
@@ -20,6 +21,7 @@ urlpatterns = [
     path("", include("apps.dashboard.urls")),
     path("", include("apps.kudos.urls")),
     path("", include("apps.trophies.urls")),
+
 ]
 
 handler404 = "apps.garage.views.error_404_view"

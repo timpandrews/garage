@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django_seed",
     "django_htmx",
     "import_export",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     # third-party additions
     "django_auto_logout.middleware.auto_logout",  # django-auto-logout
     "django_htmx.middleware.HtmxMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware", # django-debug-toolbar
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -171,6 +173,15 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 
 ADMIN_EMAIL = "admin@justtim.com"
+
+
+# django-debug-toolbar settings
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    "198.211.107.160"
+    # ...
+]
 
 
 # Configure CKEditor Toolbars
