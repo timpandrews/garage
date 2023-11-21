@@ -1,0 +1,72 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+/* Background image for home page */
+.bg {
+  background-image: url("/static/img/garage.png");
+  height: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Smaller Background image for other pages */
+.bg-small {
+  background-image: url("/static/img/garage.png");
+  height: 15%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Rounded corners for navbar & footer */
+.navbar {
+  border-radius: 6px;
+}
+
+footer {
+  border-radius: 6px 6px 0 0!important;
+}
+
+/* Add Purple color to site */
+h1 {
+  text-align: center;
+  color: #7e77c9;
+}
+
+.btn-primary {
+  background-color: #7e77c9!important;
+  border-color: #716bb5!important;
+}
+.btn-primary:active{
+  /*formatting goes here*/
+}
+.btn-primary:hover{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+.btn-primary:focus{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+
+.btn-outline-primary:{
+  color: #7e77c9!important;
+  border-color: #7e77c9!important;
+}
+.btn-outline-primary:hover{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+.btn-outline-primary:focus{
+  background-color: #58538d!important;
+  border-color: #655fa1!important;
+}
+
+/* link styling */
+.links {
+  text-align: center;
+  color:cornflowerblue;
+}

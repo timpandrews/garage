@@ -87,7 +87,6 @@ class HPCreateView(LoginRequiredMixin, HPBaseView, CreateView):
 class HPUpdateView(LoginRequiredMixin, HPBaseView, UpdateView):
     form_class = GenericHPForm
     template_name = "hp/hp_form.html"
-    print("HPUpdateView")
 
     def get_initial(self):
         hp = self.get_object()
@@ -142,8 +141,6 @@ class HPDeleteView(LoginRequiredMixin, HPBaseView, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         hp = self.get_object()
-        print(self.kwargs)
-        print(hp.data["type"])
         if hp.data["type"]:
             hp_type = hp.data["type"]
         else:

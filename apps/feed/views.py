@@ -1,12 +1,10 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView
-
-from apps.garage.models import Doc
 from common.tools import (build_elevation_chart, build_map,
                           clean_data_for_display, convert_to_imperial,
                           get_unit_names)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, ListView
+
+from apps.garage.models import Doc
 
 
 class FeedView(LoginRequiredMixin, ListView):
@@ -17,17 +15,21 @@ class FeedView(LoginRequiredMixin, ListView):
 
     # Get template for partial page when using htmx scrolling
     def get_template_names(self):
-        if self.request.htmx: # get partial while using htmx scrolling
+        if self.request.htmx:  # get partial while using htmx scrolling
             return "feed/activities/_activities.html"
 
-        return "feed/feed.html" # get full page on initial load
-
+        return "feed/feed.html"  # get full page on initial load
 
     # Get queryset for feed
     def get_queryset(self):
-        user=self.request.user
+        user = self.request.user
 
-        queryset = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp") | Doc.objects.filter(user=user, doc_type="joined")
+        queryset = (
+            Doc.objects.filter(user=user, doc_type="ride")
+            | Doc.objects.filter(user=user, doc_type="hp")
+            | Doc.objects.filter(user=user, doc_type="joined")
+            | Doc.objects.filter(user=user, doc_type="habit")
+        )
         queryset = queryset.order_by("-doc_date")
 
         for activity in queryset:
@@ -41,23 +43,27 @@ class FeedView(LoginRequiredMixin, ListView):
 
         return queryset
 
-
     # Get extra context for user info
-    def get_context_data(self,**kwargs):
-        context = super(FeedView,self).get_context_data(**kwargs)
-        user=self.request.user
+    def get_context_data(self, **kwargs):
+        context = super(FeedView, self).get_context_data(**kwargs)
+        user = self.request.user
 
-        member_joined_date = Doc.objects.filter(user=user, doc_type="joined").values('doc_date')
-        member_joined_date = member_joined_date[0]['doc_date']
+        member_joined_date = Doc.objects.filter(user=user, doc_type="joined").values("doc_date")
+        member_joined_date = member_joined_date[0]["doc_date"]
         member_joined_date = member_joined_date.strftime("%B %d, %Y")
-        context["member_joined_date"]=member_joined_date
+        context["member_joined_date"] = member_joined_date
 
-        activities_total = Doc.objects.filter(user=user, doc_type="ride") | Doc.objects.filter(user=user, doc_type="hp") | Doc.objects.filter(user=user, doc_type="joined")
+        activities_total = (
+            Doc.objects.filter(user=user, doc_type="ride")
+            | Doc.objects.filter(user=user, doc_type="hp")
+            | Doc.objects.filter(user=user, doc_type="joined")
+            | Doc.objects.filter(user=user, doc_type="habit")
+        )
         activities_total = activities_total.count()
-        context["activities_total"]=activities_total
+        context["activities_total"] = activities_total
 
         activities_ride = Doc.objects.filter(user=user, doc_type="ride").count()
-        context["activities_ride"]=activities_ride
+        context["activities_ride"] = activities_ride
 
         context["display_pref"] = user.profile.units_display_preference
         context["unit_names"] = get_unit_names(user.profile.units_display_preference)
@@ -71,7 +77,7 @@ class DetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
-        user=self.request.user
+        user = self.request.user
 
         chart = {}
 
@@ -83,7 +89,7 @@ class DetailView(LoginRequiredMixin, DetailView):
         activity_type = doc.doc_type
 
         if user.profile.units_display_preference == "imperial":
-                activity = convert_to_imperial(activity, activity_type)
+            activity = convert_to_imperial(activity, activity_type)
 
         if activity_type == "ride":
             activity["map"] = build_map(doc)
@@ -94,12 +100,11 @@ class DetailView(LoginRequiredMixin, DetailView):
         if user.profile.units_display_preference == "imperial":
             chart["y_label"] = "Distance (miles)"
             chart["x_label"] = "Elevation (ft)"
-        else: # metric
+        else:  # metric
             chart["y_label"] = "Distance (km)"
             chart["x_label"] = "Elevation (m)"
 
         context["chart"] = chart
-
 
         context["doc_type"] = doc.doc_type
         context["activity"] = activity

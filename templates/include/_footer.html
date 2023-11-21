@@ -1,17 +1,27 @@
 <div class="container my-5">
-    <section class="">
-    <!-- Footer -->
-    <footer class="text-center text-white" style="background-color: #0a4275;">
-
-      <!-- Copyright -->
-      <div class="text-center p-3" style="background-color: #7e77c9;">
-        <i class="bi bi-c-circle me-2"></i>2023 Copyright:
-        <a class="text-white" href="https://justtim.com/">justtim.com</a>
-      </div>
-      <!-- Copyright -->
-    </footer>
-    <!-- Footer -->
-  </section>
-
-  </div>
-  <!-- End of .container -->
+    <section style="border-style: solid; border-color: #7e77c9; border-radius: 6px;">
+        <!-- Footer -->
+        <footer class="text-center text-white" style="background-color: #0a4275;">
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: #7e77c9">
+                <a class="text-white" href="{% url 'pages:about' %}">About</a>
+                <i class="bi bi-bicycle mx-3"></i>
+                <a class="text-white" href="{% url 'pages:contact' %}">Contact</a>
+                <i class="bi bi-bicycle mx-3"></i>
+                <a class="text-white" href="{% url 'pages:privacy' %}">Privacy Policy</a>
+                <i class="bi bi-bicycle mx-3"></i>
+                <a class="text-white" href="{% url 'pages:faq' %}">FAQ</a>
+                <i class="bi bi-bicycle mx-3"></i>
+                <a class="text-white" href="{% url 'pages:terms' %}">Terms of Service</a>
+            </div>
+            <div class="text-center" style="background-color: #7e77c9">
+                <small>
+                    <i class="bi bi-c-circle me-2"></i>2023 Copyright:
+                    <a class="text-white" href="https://justtim.com/">
+                        justtim.com
+                    </a>
+                </small>
+            </div>
+        </footer>
+    </section>
+</div>

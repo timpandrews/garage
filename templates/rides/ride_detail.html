@@ -46,9 +46,9 @@
                         <td>active</td>
                         <td>
                             {% if object.active %}
-                                <input type="checkbox" checked>
+                                <input type="checkbox" checked onclick="return false;">
                             {% else %}
-                                <input type="checkbox">
+                                <input type="checkbox" onclick="return false;">
                             {% endif %}
                         </td>
                     </tr>
@@ -56,9 +56,9 @@
                         <td>Kudosed</td>
                         <td>
                             {% if object.kudosed %}
-                                <input type="checkbox" checked>
+                                <input type="checkbox" checked onclick="return false;">
                             {% else %}
-                                <input type="checkbox">
+                                <input type="checkbox" onclick="return false;">
                             {% endif %}
                         </td>
                     </tr>

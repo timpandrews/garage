@@ -3,44 +3,39 @@ body, html {
   margin: 0;
 }
 
+/* Background image for home page */
 .bg {
-  /* The image used */
   background-image: url("/static/img/garage.png");
-
-  /* Full height */
   height: 50%;
-
-  /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+/* Smaller Background image for other pages */
 .bg-small {
-  /* The image used */
   background-image: url("/static/img/garage.png");
-
-  /* Full height */
   height: 15%;
-
-  /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+/* Rounded corners for navbar & footer */
+.navbar {
+  border-radius: 6px;
+}
+
+footer {
+  border-radius: 6px 6px 0 0!important;
+}
+
+/* Add Purple color to site */
 h1 {
   text-align: center;
   color: #7e77c9;
 }
 
-.links {
-  text-align: center;
-  color:cornflowerblue;
-}
-
-
-/* btn Primary */
 .btn-primary {
   background-color: #7e77c9!important;
   border-color: #716bb5!important;
@@ -57,8 +52,6 @@ h1 {
   border-color: #655fa1!important;
 }
 
-
-/* btn outline primary */
 .btn-outline-primary:{
   color: #7e77c9!important;
   border-color: #7e77c9!important;
@@ -70,4 +63,10 @@ h1 {
 .btn-outline-primary:focus{
   background-color: #58538d!important;
   border-color: #655fa1!important;
+}
+
+/* link styling */
+.links {
+  text-align: center;
+  color:cornflowerblue;
 }
